@@ -2,8 +2,8 @@
 
 | Tuần | Nội dung | Trạng thái |
 | :---: | --- | :---: |
-| 1 | Cài IDE, Extensions, Git/GitHub, Tổng quan HTML/CSS/JS | [Xem](Bai1/theory.md) |
-| 2 | HTML cơ bản, Semantic HTML, HTML Form, bảng, liên kết, hình ảnh | [Xem](Bai2/theory.md) |
+| 1 | Cài IDE, Extensions, Git/GitHub, Tổng quan HTML/CSS/JS | [Xem](Lesson1/theory.md) |
+| 2 | HTML cơ bản, Semantic HTML, HTML Form, bảng, liên kết, hình ảnh | [Xem](Lesson2/theory.md) |
 | 3 | CSS cơ bản, selector, cascade, specificity, BEM | Chưa có |
 | 4 | Box model, đơn vị CSS, typography, nhúng icon và font | Chưa có |
 | 5 | Flexbox, Position, Grid, Responsive Design | Chưa có |
