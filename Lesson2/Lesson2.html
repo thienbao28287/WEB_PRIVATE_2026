@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lớp học Web dành cho người mới bắt đầu</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      th,
+      td {
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Web private 2026</h1>
+      <p>Cùng học, thực hành và xây dựng trang web đầu tiên của bạn.</p>
+      <nav aria-label="Điều hướng chính">
+        <a href="#gioi-thieu">Giới thiệu</a>
+        <a href="#noi-dung">Nội dung học</a>
+        <a href="#lich-hoc">Lịch học</a>
+        <a href="#dang-ky">Đăng ký</a>
+      </nav>
+    </header>
+    <main>
+      <section id="gioi-thieu">
+        <h2>Giới thiệu</h2>
+        <p>
+          Lớp học dành cho những bạn
+          <strong>chưa có kinh nghiệm lập trình Web</strong>.
+        </p>
+        <p>
+          Bạn sẽ <em>tự tay thực hành</em> để hiểu cách tạo một trang web, bắt
+          đầu với <mark>HTML cơ bản</mark>.
+        </p>
+        <figure>
+          <img
+            src="img/web.svg"
+            alt="Sơ đồ ba thành phần của trang web: HTML tạo cấu trúc, CSS tạo giao diện và JavaScript tạo tương tác"
+            width="360"
+          />
+          <figcaption>Ba thành phần cơ bản của một trang web.</figcaption>
+        </figure>
+        <p>
+          Tham khảo
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML"
+            >tài liệu HTML trên MDN</a
+          >.
+        </p>
+        <h3>Quan sát Block và Inline</h3>
+        <div>Đây là khối nội dung thứ nhất.</div>
+        <div>Đây là khối nội dung thứ hai.</div>
+        <p>
+          <span>Đây là nội dung inline thứ nhất.</span>
+          <span>Đây là nội dung inline thứ hai.</span>
+        </p>
+      </section>
+      <section id="noi-dung">
+        <h2>Nội dung học</h2>
+        <ul>
+          <li>HTML: Xây dựng cấu trúc và nội dung trang.</li>
+          <li>CSS: Định dạng giao diện trang.</li>
+          <li>JavaScript: Tạo tương tác trên trang.</li>
+        </ul>
+
+        <h3>Các bước tham gia</h3>
+        <ol>
+          <li>Đọc thông tin và lịch học.</li>
+          <li>Điền biểu mẫu đăng ký.</li>
+          <li>Chuẩn bị laptop và tham gia buổi học đầu tiên.</li>
+        </ol>
+
+        <article>
+          <h3>Thông báo khai giảng</h3>
+          <p>
+            Lịch khai giảng chuyển từ <del>Thứ Ba</del> sang
+            <strong>Thứ Hai</strong>.
+          </p>
+          <p>Hãy đến trước giờ học 15 phút để kiểm tra công cụ.</p>
+        </article>
+      </section>
+      <section id="lich-hoc">
+        <h2>Lịch học</h2>
+        <table>
+          <caption>
+            Lịch học ba buổi đầu tiên
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Buổi</th>
+              <th scope="col">Nội dung</th>
+              <th scope="col">Thời lượng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Cài đặt công cụ và Git</td>
+              <td>2 giờ</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>HTML cơ bản</td>
+              <td>2 giờ</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>CSS cơ bản</td>
+              <td>2 giờ</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="2">Tổng thời lượng</th>
+              <td>6 giờ</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+      <section id="dang-ky">
+        <h2>Đăng ký tham gia</h2>
+        <p>
+          Biểu mẫu thực hành, chưa có chức năng lưu đăng ký. Hãy dùng dữ liệu
+          giả để thử.
+        </p>
+        <!-- Submit dùng để thử kiểm tra dữ liệu của trình duyệt; trang không có máy chủ xử lý đăng ký. -->
+        <form action="#dang-ky" method="get">
+          <fieldset>
+            <legend>Thông tin học viên</legend>
+            <p>
+              <label for="full-name">Họ và tên (bắt buộc):</label>
+              <input type="text" id="full-name" name="fullName" required />
+            </p>
+            <p>
+              <label for="email">Email (bắt buộc):</label>
+              <input type="email" id="email" name="email" required />
+            </p>
+            <p>
+              <label for="level">Trình độ hiện tại:</label>
+              <select id="level" name="level">
+                <option value="beginner">Mới bắt đầu</option>
+                <option value="basic">Đã biết cơ bản</option>
+              </select>
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Nguyện vọng học tập</legend>
+            <p>Ca học mong muốn:</p>
+            <p>
+              <label
+                ><input type="radio" name="session" value="morning" /> Buổi
+                sáng</label
+              >
+              <label
+                ><input type="radio" name="session" value="evening" /> Buổi
+                tối</label
+              >
+            </p>
+            <p>
+              <label for="note">Mong muốn khi tham gia:</label><br />
+              <textarea id="note" name="note" rows="4" cols="35"></textarea>
+            </p>
+            <p>
+              <label
+                ><input type="checkbox" name="practice" value="yes" /> Tôi muốn
+                tham gia buổi thực hành</label
+              >
+            </p>
+          </fieldset>
+          <p><button type="submit">Đăng ký</button></p>
+        </form>
+      </section>
+
+      <aside>
+        <h2>Nhắc nhở</h2>
+        <p>Chuẩn bị laptop và cài đặt VS Code trước khi đến lớp.</p>
+      </aside>
+    </main>
+
+    <footer>
+      <p>Người thực hiện: Nguyễn Văn A<br />Email minh họa: an@example.com</p>
+      <p><small>&copy; 2026 Lớp học Web. Bài thực hành HTML cơ bản.</small></p>
+    </footer>
+  </body>
+</html>
