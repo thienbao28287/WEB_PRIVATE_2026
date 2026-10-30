@@ -30,7 +30,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Typography & spacing
 
-- Font Roboto; fallback system sans-serif. Code dùng Consolas/monospace.
+- Tiêu đề dùng Baloo Thambi 2, weight 600–700; fallback Roboto/cursive. Nội dung, sidebar, mục lục và nút vẫn dùng Roboto/system sans-serif. Code dùng Consolas/monospace.
 - Bài đọc 1rem/1.75; h1 1.875rem (mobile 1.625rem), h2 1.4375rem, h3 1.1875rem. Giới hạn nội dung bài khoảng 72ch.
 - Navigation .875rem, chú thích .75rem. Các kích thước đọc bài mở rộng từ mẫu trang đăng nhập 12px; dùng rem để hỗ trợ phóng to chữ.
 - Spacing unit 4px: 4, 8, 12, 16, 24, 32, 40px.
@@ -50,7 +50,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Layout & motion
 
-- Tổng quan khóa học là roadmap dọc một cột: tiêu đề ngắn, các buổi theo thứ tự số tăng dần, mốc tròn nối bằng đường thẳng; mỗi buổi có chủ đề và liên kết tài liệu. Mốc hoàn thành có dấu tích kèm nhãn chữ. Không dùng hero quảng bá hoặc panel tiến độ trên trang tổng quan.
+- Tổng quan khóa học là stepper dọc theo ảnh tham khảo: mốc tròn có số, đoạn nối mảnh có khoảng hở, tiêu đề ở trên và mô tả tuần/trạng thái ở dưới. Đã hoàn thành dùng dấu tích; tuần đang học có vòng kép màu cam; chưa có tài liệu dùng màu chữ phụ. Trạng thái lấy từ tiến độ thật và bài gần nhất, mặc định là tuần đầu có tài liệu chưa hoàn thành. Các tài liệu sẵn có luôn truy cập được, không khóa theo bước.
 - Header desktop 4.5rem, mobile 4rem; sidebar 16rem. Reader giới hạn 72ch, mục lục 13rem.
 - Logo dùng nguyên bản `Lesson1/img/logoHIT.png`, có kích thước ảnh khai báo sẵn. Nút ở đầu header thu gọn/mở rộng sidebar trên desktop và ghi nhớ lựa chọn; trên mobile nút mở/đóng drawer. Primary thương hiệu giữ chính xác `#F47B2A`.
 - Điều hướng bài dùng vai trò `pagination-prev`/`pagination-next`: bài trước luôn căn trái, bài sau luôn căn phải, kể cả khi chỉ còn một liên kết.
@@ -58,6 +58,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 - Chuyển bài fade/translate 200ms; drawer 220ms; hover nút dịch 2px. Respect `prefers-reduced-motion`.
 - Sticky mục lục, heading có scroll-margin tránh header; không có chuyển động lặp hoặc hiệu ứng 3D gây phân tâm.
 - Khi chọn mục lục, danh sách mobile được đóng và focus chuyển tới heading; header và control không lấy focus khi drawer đang mở.
+- Nút Ẩn/Hiện mục lục ở cạnh breadcrumb áp dụng cho cả mục lục desktop và mục lục mobile, có aria-expanded/aria-controls và ghi nhớ lựa chọn theo trình duyệt. Khi ẩn, vùng đọc vẫn giữ giới hạn độ rộng.
 - Giữ hệ thống màu/kích thước trong CSS variables, không áp dụng stylesheet bài mẫu vào app.
 
 ## Data & accessibility
