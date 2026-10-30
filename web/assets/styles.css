@@ -254,3 +254,11 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 @container (max-width:64rem) {
   .reader,.reader.toc-hidden { grid-template-columns: minmax(0,1fr); column-gap: 0; }
 }
+
+/* Match the sidebar-side gutter to the outline-side gutter. */
+.reader { max-width: none; }
+.reader:not(.toc-hidden) .reader-main { max-width: none; }
+.prose { max-width: var(--reading-width); margin-inline: auto; }
+@media(min-width:1280px) {
+  .reader { padding-inline: 2.5rem; }
+}
