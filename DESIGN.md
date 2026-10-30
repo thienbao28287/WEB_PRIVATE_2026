@@ -34,7 +34,7 @@ Theme tối thay đổi semantic tokens trong `[data-theme=dark]`; cam thương 
 ## Components
 
 - Primary button: cam, chữ tối 700, cao tối thiểu 48px. Secondary button: nền surface, viền hairline. Icon button: 44×44px.
-- Sidebar: nhóm bài học, details/summary mở đóng bằng bàn phím, bài hiện tại có viền cam và nền soft.
+- Sidebar: các mục “Tuần 1” đến tuần cuối theo thứ tự tăng dần; details/summary mở đóng bằng bàn phím, bài hiện tại có viền cam và nền soft. Tiêu đề xuất hiện nhẹ theo lượt, hover dịch 3px, mũi tên xoay và tài liệu fade/slide khi mở; chiều cao accordion chuyển động 200ms. Tôn trọng reduced-motion.
 - Tabs: liên kết thật để có thể sao chép đường dẫn; mục đang chọn có gạch cam, tài liệu chưa có hiện nhãn rõ ràng.
 - Lesson list: hàng phẳng, số buổi và trạng thái tài liệu, phân cách mỏng.
 - Search: dialog native, input có label, kết quả truy cập bằng Tab/Enter, đóng Escape và trả focus tự động.

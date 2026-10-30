@@ -9,6 +9,26 @@
 @media(max-width:767px){.sidebar{visibility:hidden;transition:transform 220ms var(--ease),visibility 220ms}.sidebar.open{visibility:visible}}
 
 /* Course overview: a chronological, single-column roadmap. */
+/* Sidebar weeks: short labels, gentle entrance and disclosure motion. */
+.side-lesson { flex-shrink: 0; }
+.side-lesson summary {
+  padding: 10px 12px;
+  transition: background 200ms var(--ease), color 200ms var(--ease), transform 200ms var(--ease);
+  animation: sidebar-week-in 220ms var(--ease) var(--side-delay,0ms) backwards;
+}
+.side-lesson summary:hover { transform: translateX(3px); color: var(--link); }
+.side-lesson.current summary { color: var(--link); font-weight: 600; }
+.side-lesson summary > svg { transition: transform 220ms var(--ease), color 200ms var(--ease); }
+.side-lesson[open] > summary { background: var(--subtle); }
+.side-lesson[open] .side-documents { animation: sidebar-documents-in 200ms var(--ease); }
+.side-documents { padding: 4px 0 8px; }
+.side-documents .side-link { margin-left: 12px; padding-left: 16px; transition: background 180ms var(--ease), color 180ms var(--ease), padding-left 180ms var(--ease); }
+.side-documents .side-link:hover { padding-left: 20px; }
+.side-documents .side-empty { padding: 8px 12px 8px 28px; }
+.sidebar.open .side-lesson > summary { animation: sidebar-week-in 220ms var(--ease) var(--side-delay,0ms) backwards; }
+@keyframes sidebar-week-in { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes sidebar-documents-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
 .roadmap-page { max-width: 960px; }
 .roadmap-header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
 .roadmap-header h1 { margin: 12px 0 8px; font-size: 30px; letter-spacing: -.6px; }

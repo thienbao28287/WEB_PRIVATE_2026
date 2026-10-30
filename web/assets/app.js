@@ -28,17 +28,18 @@ const label = type => type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }, set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} } };
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
 let completed = new Set(storage.get('hit-completed', []).filter?.(v => typeof v === 'string') || []);
-const groups = [
-  { title:'Nền tảng HTML & CSS', code:'01', accepts:n => n <= 5 },
-  { title:'Lập trình JavaScript', code:'02', accepts:n => [7,8,9,10,12].includes(n) },
-  { title:'Thực hành & tổng kết', code:'03', accepts:n => n > 5 && ![7,8,9,10,12].includes(n) },
-];
-function getGroups() { return groups.map(g => ({ ...g, lessons:data.lessons.filter(l => g.accepts(l.number)) })).filter(g => g.lessons.length); }
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
 function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
   const open = [...document.querySelectorAll('.side-lesson[open]')].map(el => +el.dataset.number);
-  $('#sidebar').innerHTML = `<a class="side-home ${!currentId?'active':''}" href="#/">${icon('home')}Tổng quan khóa học</a>` + getGroups().map(g => `<div class="side-label">${g.title}</div>${g.lessons.map(l => `<details class="side-lesson" data-number="${l.number}" ${l.pages.some(p => p.id === currentId) || open.includes(l.number)?'open':''}><summary><span class="side-number">${String(l.number).padStart(2,'0')}</span><span class="side-title" title="${esc(l.title)}">${esc(l.title)}</span>${icon('chevron')}</summary>${l.pages.length?l.pages.map(p => `<a class="side-link ${p.id===currentId?'active':''}" ${p.id===currentId?'aria-current="page"':''} href="${route(p.id)}">${icon(completed.has(p.id)?'check':p.type==='theory'?'book':'code')}${label(p.type)}</a>`).join(''):'<div class="side-empty">Sắp cập nhật tài liệu</div>'}</details>`).join('')}`).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
+  const lessons = [...data.lessons].sort((a,b) => a.number-b.number);
+  $('#sidebar').innerHTML = `<a class="side-home ${!currentId?'active':''}" href="#/">${icon('home')}Tổng quan khóa học</a><div class="side-label">Nội dung khóa học</div>` + lessons.map((lesson,index) => {
+    const current = lesson.pages.some(page => page.id === currentId);
+    return `<details class="side-lesson ${current?'current':''}" data-number="${lesson.number}" style="--side-delay:${Math.min(index*18,180)}ms" ${current || open.includes(lesson.number)?'open':''}>
+      <summary><span class="side-title">Tuần ${lesson.number}</span>${icon('chevron')}</summary>
+      <div class="side-documents">${lesson.pages.length ? lesson.pages.map(page => `<a class="side-link ${page.id===currentId?'active':''}" ${page.id===currentId?'aria-current="page"':''} href="${route(page.id)}">${icon(completed.has(page.id)?'check':page.type==='theory'?'book':'code')}${label(page.type)}</a>`).join('') : '<div class="side-empty">Sắp cập nhật tài liệu</div>'}</div>
+    </details>`;
+  }).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
 }
 function home() {
   document.title = 'Lộ trình khóa học · HIT';
