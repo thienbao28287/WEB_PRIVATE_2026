@@ -52,7 +52,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 - Tổng quan khóa học là stepper dọc theo ảnh tham khảo: mốc tròn có số, đoạn nối mảnh có khoảng hở, tiêu đề ở trên và mô tả tuần/trạng thái ở dưới. Đã hoàn thành dùng dấu tích; tuần đang học có vòng kép màu cam; chưa có tài liệu dùng màu chữ phụ. Trạng thái lấy từ tiến độ thật và bài gần nhất, mặc định là tuần đầu có tài liệu chưa hoàn thành. Các tài liệu sẵn có luôn truy cập được, không khóa theo bước.
 - Header desktop 4.5rem, mobile 4rem; sidebar 16rem. Reader giới hạn 72ch, mục lục 13rem.
-- Logo dùng nguyên bản `Lesson1/img/logoHIT.png`, có kích thước ảnh khai báo sẵn. Nút ở đầu header thu gọn/mở rộng sidebar trên desktop và ghi nhớ lựa chọn; trên mobile nút mở/đóng drawer. Primary thương hiệu giữ chính xác `#F47B2A`.
+- Logo dùng nguyên bản `Lesson1/img/logo-02.png`, có kích thước ảnh khai báo sẵn. Nút ở đầu header thu gọn/mở rộng sidebar trên desktop và ghi nhớ lựa chọn; trên mobile nút mở/đóng drawer. Primary thương hiệu giữ chính xác `#F47B2A`.
 - Điều hướng bài dùng vai trò `pagination-prev`/`pagination-next`: bài trước luôn căn trái, bài sau luôn căn phải, kể cả khi chỉ còn một liên kết.
 - Mục lục chuyển thành details khi viewport dưới 1280px hoặc vùng nội dung dưới 64rem. Dưới 768px, menu chuyển thành drawer tối đa 18rem với overlay, focus trap và inert khi đóng.
 - Giao diện sáng có nền trang xám nhẹ, header/sidebar trắng và vùng đọc trắng với padding linh hoạt, viền mảnh. Không thêm bóng lớn; giao diện tối giữ bề mặt và padding cũ. Cam dành cho liên kết, CTA và trạng thái chọn.

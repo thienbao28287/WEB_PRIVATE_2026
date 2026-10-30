@@ -195,7 +195,7 @@ body:has(dialog[open]) { overflow: hidden; }
 
 /* Persistent desktop sidebar control and original HIT logo. */
 .sidebar-toggle { display: inline-flex; }
-.brand-logo { display: block; width: 3rem; height: 3rem; object-fit: contain; padding: 3px; background: #fff; border-radius: 4px; flex-shrink: 0; }
+.brand-logo { display: block; width: 3rem; height: 3rem; object-fit: contain; padding: 0; background: transparent; border: 0; border-radius: 0; flex-shrink: 0; }
 .pagination a.pagination-prev { justify-content: flex-start; text-align: left; }
 .pagination a.pagination-next { justify-content: flex-end; text-align: right; }
 .pagination-prev > svg,.pagination-next > svg { align-self: center; }
