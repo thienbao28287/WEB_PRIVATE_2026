@@ -140,7 +140,7 @@ function prepareArticle(page) {
 function reader(page) {
   const lesson = data.lessons.find(l => l.pages.some(p=>p.id===page.id));
   const {article,headings} = prepareArticle(page);
-  const tocHidden = storage.get('hit-toc-hidden',false)===true;
+  const tocHidden = storage.get('hit-toc-hidden',true)===true;
   const tocLinks = headings.map(h => `<a href="${route(page.id)}?section=${h.id}" class="depth-${h.depth}" data-section="${h.id}">${esc(h.title)}</a>`).join('');
   const index = pages.indexOf(page), prev = pages[index-1], next = pages[index+1];
   document.title = `${page.title} · HIT`;
