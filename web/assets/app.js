@@ -1,4 +1,5 @@
 import DOMPurify from './purify.mjs';
+import { animateElement, motionEnabled, createLatestTransition } from './motion.js';
 
 const $ = selector => document.querySelector(selector);
 const icons = {
@@ -30,12 +31,15 @@ const route = id => `#/${id}`;
 const label = type => type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }, set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} } };
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
+let hasRendered=false, tocMotion=null, tocGeneration=0, tocResizeObserver;
+const navigationMotion=createLatestTransition();
 const savedCompletions = () => { const saved=storage.get('hit-completed',[]); return new Set(Array.isArray(saved)?saved.filter(value=>typeof value==='string'):[]); };
 let completed = savedCompletions();
 document.documentElement.classList.toggle('sidebar-collapsed',storage.get('hit-sidebar-collapsed',false)===true);
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
 function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
+  $('#sidebar').classList.toggle('sidebar-intro',!$('#sidebar .side-lesson'));
   const open = [...document.querySelectorAll('.side-lesson[open]')].map(el => +el.dataset.number);
   const lessons = [...data.lessons].sort((a,b) => a.number-b.number);
   $('#sidebar').innerHTML = `<a class="side-home ${!currentId?'active':''}" href="#/">${icon('home')}Tổng quan khóa học</a><div class="side-label">Nội dung khóa học</div>` + lessons.map((lesson,index) => {
@@ -141,9 +145,20 @@ function reader(page) {
   const index = pages.indexOf(page), prev = pages[index-1], next = pages[index+1];
   document.title = `${page.title} · HIT`;
   storage.set('hit-last',page.id);
-  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><div class="reader-toolbar"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav>${headings.length?`<button id="toc-toggle" class="toc-toggle" aria-controls="article-toc article-toc-mobile" aria-expanded="${!tocHidden}"></button>`:''}</div><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc" id="article-toc-mobile"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" id="article-toc" aria-label="Mục lục bài học"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></aside></div>`;
+  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><div class="reader-toolbar"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav>${headings.length?`<button id="toc-toggle" class="toc-toggle" aria-controls="article-toc article-toc-mobile" aria-expanded="${!tocHidden}"></button>`:''}</div><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc" id="article-toc-mobile"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" id="article-toc" aria-label="Mục lục bài học"><div class="toc-inner"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></div></aside></div>`;
   $('#article-slot').replaceWith(article);
   syncToc(tocHidden);
+  tocResizeObserver?.disconnect();
+  if(typeof ResizeObserver==='function'){
+    const readerElement=document.querySelector('.reader');
+    let width;
+    tocResizeObserver=new ResizeObserver(entries=>{
+      const next=entries[0].contentRect.width;
+      if(width!==undefined && Math.abs(next-width)>1 && tocMotion)cancelTocMotion();
+      width=next;
+    });
+    tocResizeObserver.observe(readerElement);
+  }
   observer?.disconnect();
   observer = new IntersectionObserver(entries => {
     const visible = entries.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
@@ -152,12 +167,70 @@ function reader(page) {
   }, { rootMargin:'-100px 0px -55% 0px', threshold:0 });
   article.querySelectorAll('h2,h3').forEach(h=>observer.observe(h));
 }
-function syncToc(hidden) {
+function cancelTocMotion(settle=true) {
+  tocGeneration++;
+  const previous=tocMotion; tocMotion=null;
+  if(!previous)return;
+  previous.animations.forEach(animation=>{try{animation.cancel();}catch{}});
+  previous.compact.style.overflow='';
+  previous.reader.removeAttribute('data-toc-animating');
+  if(settle)previous.panels.forEach(panel=>{panel.hidden=previous.hidden;});
+}
+function syncToc(hidden,{animate=false}={}) {
   const reader=document.querySelector('.reader'); if(!reader)return;
-  reader.classList.toggle('toc-hidden',hidden);
-  reader.querySelectorAll('.toc,.mobile-toc').forEach(element=>{element.hidden=hidden;});
+  const desktop=reader.querySelector('.toc'), compact=reader.querySelector('.mobile-toc');
+  // Settle an in-flight native details disclosure before measuring its full height.
+  if(compact && !tocMotion && typeof compact.getAnimations==='function')compact.getAnimations().forEach(animation=>{try{animation.finish();}catch{}});
+  const panels=[desktop,compact].filter(Boolean);
+  const allowed=animate && motionEnabled(reader);
+  const compactProperties=['paddingTop','paddingBottom','marginBottom','borderTopWidth','borderBottomWidth'];
+  const start=allowed?{
+    columns:getComputedStyle(reader).gridTemplateColumns,
+    gap:getComputedStyle(reader).columnGap,
+    desktopOpacity:desktop.hidden?'0':getComputedStyle(desktop).opacity,
+    desktopTransform:desktop.hidden?'translateX(8px)':getComputedStyle(desktop).transform,
+    compactHeight:compact?.hidden?0:compact?.getBoundingClientRect().height || 0,
+    compactOpacity:!compact || compact.hidden?'0':getComputedStyle(compact).opacity,
+    compactBox:compact?Object.fromEntries(compactProperties.map(property=>[property,compact.hidden?'0px':getComputedStyle(compact)[property]])):null,
+  }:null;
+  cancelTocMotion(false);
+  const request=++tocGeneration;
   const button=$('#toc-toggle');
+  if(hidden && panels.some(panel=>panel.contains(document.activeElement)))button?.focus({preventScroll:true});
+  panels.forEach(panel=>{panel.hidden=false;panel.inert=hidden;panel.setAttribute('aria-hidden',String(hidden));});
+  reader.classList.toggle('toc-hidden',hidden);
   if(button){button.setAttribute('aria-expanded',String(!hidden));button.innerHTML=`${icon('list')}<span>${hidden?'Hiện mục lục':'Ẩn mục lục'}</span>`;}
+  const finish=()=>{
+    if(request!==tocGeneration)return;
+    panels.forEach(panel=>{panel.hidden=hidden;});
+    if(compact)compact.style.overflow='';
+    reader.removeAttribute('data-toc-animating');tocMotion=null;
+  };
+  if(!allowed || !compact){finish();return;}
+  const animations=[];
+  const add=animation=>{if(animation)animations.push(animation);};
+  if(getComputedStyle(desktop).display!=='none'){
+    add(animateElement(reader,{
+      gridTemplateColumns:[start.columns,getComputedStyle(reader).gridTemplateColumns],
+      columnGap:[start.gap,getComputedStyle(reader).columnGap],
+    },{duration:220}));
+    add(animateElement(desktop,{
+      opacity:[start.desktopOpacity,hidden?0:1],
+      transform:[start.desktopTransform,hidden?'translateX(8px)':'translateX(0)'],
+    },{duration:220}));
+  } else {
+    const height=hidden?0:compact.getBoundingClientRect().height;
+    const box=Object.fromEntries(compactProperties.map(property=>[property,[start.compactBox[property],hidden?'0px':getComputedStyle(compact)[property]]]));
+    compact.style.overflow='hidden';
+    add(animateElement(compact,{...box,height:[`${start.compactHeight}px`,`${height}px`],opacity:[start.compactOpacity,hidden?0:1]},{duration:200}));
+  }
+  if(!animations.length){finish();return;}
+  reader.setAttribute('data-toc-animating','true');
+  tocMotion={reader,compact,panels,hidden,animations};
+  Promise.all(animations.map(animation=>animation.finished.catch(()=>{}))).then(()=>{
+    if(request!==tocGeneration)return;
+    finish();animations.forEach(animation=>{try{animation.cancel();}catch{}});
+  });
 }
 function parseRoute() { const [path,query=''] = location.hash.slice(1).split('?'); return { id:decodeURIComponent((path || '/').replace(/^\//,'')), section:new URLSearchParams(query).get('section') }; }
 function scrollSection(section) {
@@ -175,18 +248,38 @@ function errorPage(message) {
 function render({ force=false, preserve=false }={}) {
   if (!data) return;
   let parsed;
-  try { parsed = parseRoute(); } catch { errorPage('Đường dẫn không hợp lệ.'); return; }
+  try { parsed = parseRoute(); } catch { navigationMotion.cancel();cancelTocMotion();errorPage('Đường dẫn không hợp lệ.');$('#main').setAttribute('aria-busy','false');return; }
   const {id,section} = parsed;
-  if (id===currentId && section && !force) { scrollSection(section); return; }
-  const y=window.scrollY; currentId=id; observer?.disconnect();
-  try {
-    if (!id || id==='README') home();
-    else { const page=pages.find(p=>p.id===id); if(page)reader(page);else errorPage('Bài học chưa tồn tại hoặc chưa có nội dung.'); }
-  } catch(error) { console.error(error); errorPage('Nội dung chưa thể hiển thị. Vui lòng thử lại.'); }
-  sidebar(); closeMenu(false);
-  if (!preserve) { window.scrollTo(0,0); $('#main').focus({preventScroll:true}); }
-  else window.scrollTo(0,y);
-  requestAnimationFrame(()=>scrollSection(section));
+  if (hasRendered && id===currentId && !force) {
+    navigationMotion.cancel();$('#main').setAttribute('aria-busy','false');
+    if(section)scrollSection(section);else window.scrollTo(0,0);
+    return;
+  }
+  const y=window.scrollY;
+  const commit=()=>{
+    cancelTocMotion();tocResizeObserver?.disconnect();currentId=id;observer?.disconnect();
+    try {
+      if (!id || id==='README') home();
+      else { const page=pages.find(p=>p.id===id); if(page)reader(page);else errorPage('Bài học chưa tồn tại hoặc chưa có nội dung.'); }
+    } catch(error) { console.error(error); errorPage('Nội dung chưa thể hiển thị. Vui lòng thử lại.'); }
+    sidebar();closeMenu(false);hasRendered=true;
+    if(!preserve){window.scrollTo(0,0);$('#main').focus({preventScroll:true});}
+    else window.scrollTo(0,y);
+    requestAnimationFrame(()=>{
+      try { const latest=parseRoute();if(latest.id===id && latest.section===section)scrollSection(section); }
+      catch { /* The next route handler renders malformed URL errors. */ }
+    });
+  };
+  $('#main').setAttribute('aria-busy','true');
+  const outgoingElement=$('#main > .reader .reader-main') || $('#main > .home');
+  const outgoingStyle=outgoingElement?getComputedStyle(outgoingElement):null;
+  const outgoingOpacity=outgoingStyle?.opacity || '1', outgoingTransform=outgoingStyle?.transform || 'none';
+  return navigationMotion.run({
+    leave:()=>!preserve && hasRendered?animateElement(outgoingElement,{opacity:[outgoingOpacity,0],transform:[outgoingTransform,'translateY(-4px)']},{duration:70}):null,
+    commit,
+    enter:()=>!preserve?animateElement($('#main > .reader .reader-main') || $('#main > .home') || $('#main > .error-page'),{opacity:[0,1],transform:['translateY(8px)','translateY(0)']},{duration:180}):null,
+    settled:()=>$('#main').setAttribute('aria-busy','false'),
+  });
 }
 async function loadContent(preserve=false) {
   const version=++routeVersion;
@@ -195,9 +288,9 @@ async function loadContent(preserve=false) {
     const response=await fetch(new URL('content.json',base),{cache:'no-store'});
     if(!response.ok)throw new Error('HTTP '+response.status);
     const incoming=await response.json(); if(version!==routeVersion)return;
-    data=incoming; pages=data.lessons.flatMap(l=>l.pages); render({force:true,preserve});
-  } catch(error) { console.error(error); errorPage('Không tải được tài liệu. Hãy kiểm tra kết nối rồi thử lại.'); }
-  finally { if(version===routeVersion)$('#main').setAttribute('aria-busy','false'); }
+    data=incoming; pages=data.lessons.flatMap(l=>l.pages); await render({force:true,preserve});
+  } catch(error) { if(version===routeVersion){console.error(error);navigationMotion.cancel();cancelTocMotion();hasRendered=false;errorPage('Không tải được tài liệu. Hãy kiểm tra kết nối rồi thử lại.');} }
+  finally { if(version===routeVersion && !navigationMotion.isRunning)$('#main').setAttribute('aria-busy','false'); }
 }
 function closeMenu(returnFocus=true) {
   const wasOpen=$('#sidebar').classList.contains('open');
@@ -260,7 +353,7 @@ for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener(
 $('#image-dialog button').addEventListener('click',()=>$('#image-dialog').close());
 function openImage(img){const dialog=$('#image-dialog');dialog.querySelector('img').src=img.src;dialog.querySelector('img').alt=img.alt;dialog.showModal();}
 $('#main').addEventListener('click',async e=>{
-  if(e.target.closest('#toc-toggle')){const hidden=!document.querySelector('.reader').classList.contains('toc-hidden');storage.set('hit-toc-hidden',hidden);syncToc(hidden);return;}
+  if(e.target.closest('#toc-toggle')){const hidden=!document.querySelector('.reader').classList.contains('toc-hidden');storage.set('hit-toc-hidden',hidden);syncToc(hidden,{animate:true});return;}
   if(e.target.closest('#retry')){loadContent();return;}
   if(e.target.closest('#complete')){if(completed.has(currentId))completed.delete(currentId);else completed.add(currentId);storage.set('hit-completed',[...completed]);const button=$('#complete');button.classList.toggle('done',completed.has(currentId));button.setAttribute('aria-pressed',completed.has(currentId));button.querySelector('span').textContent=completed.has(currentId)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành';sidebar();syncSidebarAccess();toast(completed.has(currentId)?'Đã lưu tiến độ học tập':'Đã bỏ đánh dấu hoàn thành');return;}
   const copy=e.target.closest('.copy-code');if(copy){try{await navigator.clipboard.writeText(copy.closest('.code-wrap').querySelector('code')?.textContent || '');toast('Đã sao chép đoạn code');}catch{toast('Chưa sao chép được. Bạn có thể chọn code để sao chép.');}return;}
@@ -293,6 +386,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 window.addEventListener('hashchange',()=>render());
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{if(event.matches){cancelTocMotion();navigationMotion.finish();}});
 window.addEventListener('storage',e=>{if(e.key==='hit-completed'){completed=savedCompletions();render({force:true,preserve:true});}if(e.key==='hit-theme'&&e.newValue){document.documentElement.dataset.theme=e.newValue;updateThemeButton();}});
 loadContent();
 if(document.querySelector('meta[name="hit-preview"]')){

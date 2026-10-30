@@ -61,6 +61,10 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await cp(path.join(projectRoot, 'web'), out, { recursive: true });
   await mkdir(path.join(out, 'assets'), { recursive: true });
   await cp(path.join(projectRoot, 'node_modules/dompurify/dist/purify.es.mjs'), path.join(out, 'assets/purify.mjs'));
+  const motion = await readFile(path.join(out, 'assets/motion.js'));
+  const motionVersion = createHash('sha256').update(motion).digest('hex').slice(0, 12);
+  const appFile = path.join(out, 'assets/app.js');
+  await writeFile(appFile,(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`));
   let index = await readFile(path.join(out, 'index.html'), 'utf8');
   for (const asset of ['app.js', 'styles.css']) {
     const content = await readFile(path.join(out, 'assets', asset));

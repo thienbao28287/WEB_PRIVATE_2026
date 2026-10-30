@@ -17,7 +17,7 @@ HTML/CSS/JavaScript thuần. Giao diện dành cho việc đọc tài liệu dà
 | `--body` | `#374151` | Nội dung |
 | `--muted` | `#5D6B7B` | Chú thích |
 | `--surface` | `#FFFFFF` | Header, panel, menu |
-| `--canvas` | `#FAFBFC` | Nền trang |
+| `--canvas` | `#F5F6F8` | Nền trang dịu, tách bề mặt đọc trắng |
 | `--hairline` | `#E5E7EB` | Viền, phân cách |
 | `--soft` | `#FFF2E8` | Nền trạng thái đang chọn |
 | `--link` | `#F47B2A` | Liên kết chữ, trạng thái active; giống nhau ở hai theme theo yêu cầu |
@@ -34,7 +34,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 - Bài đọc 1rem/1.75; h1 1.875rem (mobile 1.625rem), h2 1.4375rem, h3 1.1875rem. Giới hạn nội dung bài khoảng 72ch.
 - Navigation .875rem, chú thích .75rem. Các kích thước đọc bài mở rộng từ mẫu trang đăng nhập 12px; dùng rem để hỗ trợ phóng to chữ.
 - Spacing unit 4px: 4, 8, 12, 16, 24, 32, 40px.
-- Radius 8px input, 12px CTA/panel; shadow nhẹ. Màu chữ tiêu đề và liên kết được làm đậm hơn bản trích xuất để tăng độ tương phản.
+- Radius 8px input, 12px CTA/panel; shadow nhẹ. Tiêu đề dùng navy; liên kết giữ cam thương hiệu.
 
 ## Components
 
@@ -55,10 +55,13 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 - Logo dùng nguyên bản `Lesson1/img/logoHIT.png`, có kích thước ảnh khai báo sẵn. Nút ở đầu header thu gọn/mở rộng sidebar trên desktop và ghi nhớ lựa chọn; trên mobile nút mở/đóng drawer. Primary thương hiệu giữ chính xác `#F47B2A`.
 - Điều hướng bài dùng vai trò `pagination-prev`/`pagination-next`: bài trước luôn căn trái, bài sau luôn căn phải, kể cả khi chỉ còn một liên kết.
 - Mục lục chuyển thành details khi viewport dưới 1280px hoặc vùng nội dung dưới 64rem. Dưới 768px, menu chuyển thành drawer tối đa 18rem với overlay, focus trap và inert khi đóng.
-- Chuyển bài fade/translate 200ms; drawer 220ms; hover nút dịch 2px. Respect `prefers-reduced-motion`.
+- Giao diện sáng có nền trang xám nhẹ, header/sidebar trắng và vùng đọc trắng với padding linh hoạt, viền mảnh. Không thêm bóng lớn; giao diện tối giữ bề mặt và padding cũ. Cam dành cho liên kết, CTA và trạng thái chọn.
+- Chuyển bài: nội dung cũ fade 70ms, thay nội dung rồi fade/translate từ 8px lên trong 180ms. Header/sidebar giữ ổn định. Bấm nhanh hoặc Back/Forward hủy hiệu ứng cũ, chỉ URL mới nhất được hiển thị. Liên kết mục trong bài chỉ cuộn/focus tới heading; cập nhật Markdown local giữ vị trí, không chạy chuyển bài.
+- Drawer 220ms; hover nút dịch 2px. `prefers-reduced-motion` và trình duyệt thiếu Web Animations đổi trạng thái ngay.
 - Sticky mục lục, heading có scroll-margin tránh header; không có chuyển động lặp hoặc hiệu ứng 3D gây phân tâm.
 - Khi chọn mục lục, danh sách mobile được đóng và focus chuyển tới heading; header và control không lấy focus khi drawer đang mở.
 - Nút Ẩn/Hiện mục lục ở cạnh breadcrumb áp dụng cho cả mục lục desktop và mục lục mobile, có aria-expanded/aria-controls và ghi nhớ lựa chọn theo trình duyệt. Khi ẩn, vùng đọc vẫn giữ giới hạn độ rộng.
+- Mục lục desktop fade/dịch ngang 8px cùng cột Grid 13rem→0rem và gap trong 220ms; bên trong giữ rộng 13rem tránh bóp chữ. Mobile/tablet chuyển chiều cao thực tế và opacity trong 200ms. Nhãn, aria-expanded và lưu lựa chọn cập nhật ngay; mục lục đóng nhận inert ngay, hidden sau hiệu ứng. Mở lại hoặc chuyển bài hủy animation cũ; không cuộn về đầu bài khi ẩn/hiện.
 - Giữ hệ thống màu/kích thước trong CSS variables, không áp dụng stylesheet bài mẫu vào app.
 
 ## Data & accessibility

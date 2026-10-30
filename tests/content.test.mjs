@@ -45,6 +45,8 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
     assert.match(html,/src="\.\/assets\/app.js\?v=[a-f0-9]{12}"/);
     assert.match(html,/href="\.\/assets\/styles.css\?v=[a-f0-9]{12}"/);
     assert.doesNotMatch(html,/(?:src|href)="\/assets/);
+    assert.match(await readFile(path.join(out,'assets/app.js'),'utf8'),/from '\.\/motion\.js\?v=[a-f0-9]{12}'/);
+    assert.match(await readFile(path.join(out,'assets/motion.js'),'utf8'),/createLatestTransition/);
     const output=JSON.parse(await readFile(path.join(out,'content.json'),'utf8'));
     assert.deepEqual(output,content);
     assert.match(await readFile(path.join(out,'assets/purify.mjs'),'utf8'),/DOMPurify/);
