@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
+import { imageSize } from './image-metadata.mjs';
 
 export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -31,7 +32,20 @@ export async function collectContent(root) {
       catch (error) { if (error.code === 'ENOENT') continue; throw error; }
       if (!markdown.trim()) continue;
       const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim() || `${type === 'theory' ? 'Lý thuyết' : 'Bài tập'} buổi ${number}`;
-      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html: marked.parse(markdown),
+      const html = marked.parse(markdown);
+      const images = {};
+      await Promise.all([...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(async match => {
+        try {
+          const src = match[1].replaceAll('&amp;', '&');
+          const url = new URL(src, `https://docs.local/${source}`);
+          if (url.origin !== 'https://docs.local') return;
+          const file = path.resolve(root, '.' + decodeURIComponent(url.pathname));
+          if (!file.startsWith(path.resolve(root) + path.sep)) return;
+          const size = await imageSize(file);
+          if (size?.width > 0 && size?.height > 0) images[src] = size;
+        } catch { /* Missing/unsupported images retain a readable fallback in the UI. */ }
+      }));
+      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html, images,
         text: markdown.replace(/^```[^\n]*$/gm, ' ').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/[#*`|_>]/g, '').replace(/\s+/g, ' ').trim(),
         minutes: Math.max(1, Math.ceil(markdown.split(/\s+/).length / 220)) });
     }

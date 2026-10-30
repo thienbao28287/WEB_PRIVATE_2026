@@ -27,7 +27,8 @@ const route = id => `#/${id}`;
 const label = type => type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }, set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} } };
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
-let completed = new Set(storage.get('hit-completed', []).filter?.(v => typeof v === 'string') || []);
+const savedCompletions = () => { const saved=storage.get('hit-completed',[]); return new Set(Array.isArray(saved)?saved.filter(value=>typeof value==='string'):[]); };
+let completed = savedCompletions();
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
 function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
@@ -50,6 +51,7 @@ function home() {
       <h1>Lộ trình khóa học</h1>
       <p>${lessons.length} buổi học · HTML, CSS và JavaScript</p>
     </header>
+    ${!lessons.length?'<section class="empty-state"><h2>Chưa có buổi học</h2><p>Tài liệu đang được chuẩn bị. Bạn có thể quay lại sau.</p></section>':''}
     <ol class="roadmap" aria-label="Lộ trình các buổi học">
       ${lessons.map(lesson => {
         const done = lesson.pages.length > 0 && lesson.pages.every(page => completed.has(page.id));
@@ -93,8 +95,24 @@ function prepareArticle(page) {
     } else if (/^https?:$/.test(resolved.protocol)) { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
   }
   for (const img of article.querySelectorAll('img')) {
-    const src = img.getAttribute('src'); if (src) img.src = new URL(src, new URL(page.source,base)).href;
-    img.loading = 'lazy'; img.tabIndex = 0; img.setAttribute('role','button'); img.setAttribute('aria-label', `Xem ảnh lớn: ${img.alt || 'Ảnh minh họa'}`);
+    const src = img.getAttribute('src');
+    const size = page.images?.[src];
+    if (size) { img.width=size.width; img.height=size.height; }
+    const paragraph=img.parentElement;
+    const standalone=paragraph.tagName==='P' && paragraph.children.length===1 && !paragraph.textContent.trim();
+    const frame=document.createElement(standalone?'figure':'span'); frame.className='image-frame';
+    const button=document.createElement('button'); button.type='button'; button.className='image-open';
+    button.setAttribute('aria-label',`Phóng lớn ảnh: ${img.alt || 'Ảnh minh họa'}`); button.setAttribute('aria-haspopup','dialog');
+    const fallback=document.createElement(standalone?'figcaption':'span'); fallback.className='image-error'; fallback.hidden=true;
+    const message=document.createElement('span'); message.textContent=`Không tải được ảnh${img.alt?`: ${img.alt}`:'.'}`;
+    const retry=document.createElement('button'); retry.type='button'; retry.className='image-retry'; retry.textContent='Thử tải lại ảnh';
+    retry.addEventListener('click',()=>{fallback.hidden=true;button.hidden=false;img.src=new URL(src,new URL(page.source,base)).href;});
+    fallback.append(message,retry);
+    img.addEventListener('error',()=>{button.hidden=true;fallback.hidden=false;});
+    if(standalone)paragraph.replaceWith(frame);else img.replaceWith(frame);
+    button.append(img); frame.append(button,fallback);
+    img.loading='lazy'; img.decoding='async';
+    if(src)img.src=new URL(src,new URL(page.source,base)).href;
   }
   for (const table of article.querySelectorAll('table')) {
     const wrap = document.createElement('div'); wrap.className='table-scroll'; wrap.tabIndex=0; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Bảng nội dung, có thể cuộn ngang'); table.replaceWith(wrap); wrap.append(table);
@@ -127,10 +145,14 @@ function parseRoute() { const [path,query=''] = location.hash.slice(1).split('?'
 function scrollSection(section) {
   if (!section) return;
   const heading = document.getElementById(section) || document.getElementById(slug(section));
+  const mobileToc=document.querySelector('.mobile-toc');
+  if(heading && mobileToc?.open)mobileToc.open=false;
+  if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
   heading?.scrollIntoView({ behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth', block:'start' });
 }
 function errorPage(message) {
-  $('#main').innerHTML = `<section class="error-page"><div class="eyebrow" style="justify-content:center">HIT · Tài liệu</div><h1>Chưa thể mở bài học</h1><p>${esc(message)}</p><button id="retry" class="button primary">Thử lại</button><a class="button" href="#/">Về trang chủ</a></section>`;
+  $('#main').innerHTML = `<section class="error-page"><div class="eyebrow">HIT · Tài liệu</div><h1>${data?'Chưa thể mở bài học':'Không tải được tài liệu'}</h1><p role="alert">${esc(message)}</p><button id="retry" class="button primary">Thử lại</button>${data?'<a class="button" href="#/">Về trang chủ</a>':''}</section>`;
+  $('#main').focus({preventScroll:true});
 }
 function render({ force=false, preserve=false }={}) {
   if (!data) return;
@@ -150,12 +172,14 @@ function render({ force=false, preserve=false }={}) {
 }
 async function loadContent(preserve=false) {
   const version=++routeVersion;
+  $('#main').setAttribute('aria-busy','true');
   try {
     const response=await fetch(new URL('content.json',base),{cache:'no-store'});
     if(!response.ok)throw new Error('HTTP '+response.status);
     const incoming=await response.json(); if(version!==routeVersion)return;
     data=incoming; pages=data.lessons.flatMap(l=>l.pages); render({force:true,preserve});
   } catch(error) { console.error(error); errorPage('Không tải được tài liệu. Hãy kiểm tra kết nối rồi thử lại.'); }
+  finally { if(version===routeVersion)$('#main').setAttribute('aria-busy','false'); }
 }
 function closeMenu(returnFocus=true) {
   const wasOpen=$('#sidebar').classList.contains('open');
@@ -170,6 +194,7 @@ function syncSidebarAccess(){
   $('#sidebar').inert=mobile&&!open;
   $('#sidebar').setAttribute('aria-hidden',String(mobile&&!open));
   $('#main').inert=mobile&&open;
+  document.querySelectorAll('.header > :not(#menu-toggle)').forEach(element=>{element.inert=mobile&&open;});
   if(mobile&&open)$('#main').setAttribute('aria-hidden','true');else $('#main').removeAttribute('aria-hidden');
 }
 function toggleMenu() {
@@ -178,6 +203,11 @@ function toggleMenu() {
   document.body.style.overflow='hidden'; syncSidebarAccess(); $('#sidebar a')?.focus();
 }
 function search() {
+  if(!pages.length){
+    $('#search-summary').textContent='Chưa có tài liệu để tìm kiếm';
+    $('#search-results').innerHTML='<p class="search-summary">Tài liệu đang được chuẩn bị. Bạn có thể quay lại sau.</p>';
+    return;
+  }
   const q=normalize($('#search-input').value.trim());
   const terms=q.split(/\s+/).filter(Boolean);
   const results=pages.filter(p=>{const hay=normalize(`${p.title} ${p.text}`);return terms.every(t=>hay.includes(t));});
@@ -206,15 +236,14 @@ $('#main').addEventListener('click',async e=>{
   if(e.target.closest('#retry')){loadContent();return;}
   if(e.target.closest('#complete')){if(completed.has(currentId))completed.delete(currentId);else completed.add(currentId);storage.set('hit-completed',[...completed]);const button=$('#complete');button.classList.toggle('done',completed.has(currentId));button.setAttribute('aria-pressed',completed.has(currentId));button.querySelector('span').textContent=completed.has(currentId)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành';sidebar();syncSidebarAccess();toast(completed.has(currentId)?'Đã lưu tiến độ học tập':'Đã bỏ đánh dấu hoàn thành');return;}
   const copy=e.target.closest('.copy-code');if(copy){try{await navigator.clipboard.writeText(copy.closest('.code-wrap').querySelector('code')?.textContent || '');toast('Đã sao chép đoạn code');}catch{toast('Chưa sao chép được. Bạn có thể chọn code để sao chép.');}return;}
-  if(e.target.matches('.prose img'))openImage(e.target);
+  const imageButton=e.target.closest('.image-open');if(imageButton)openImage(imageButton.querySelector('img'));
 });
-$('#main').addEventListener('keydown',e=>{if(e.target.matches('.prose img') && ['Enter',' '].includes(e.key)){e.preventDefault();openImage(e.target);}});
 document.addEventListener('click', e=>{
   const summary=e.target.closest('.side-lesson > summary,.mobile-toc > summary');
-  if(!summary || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!summary || matchMedia('(prefers-reduced-motion: reduce)').matches || typeof summary.animate!=='function')return;
   e.preventDefault();
   const details=summary.parentElement;
-  if(details.getAnimations().length)return;
+  if(typeof details.getAnimations==='function' && details.getAnimations().length)return;
   const closing=details.open, start=details.offsetHeight;
   if(!closing)details.open=true;
   const end=closing?summary.offsetHeight:details.offsetHeight;
@@ -236,7 +265,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 window.addEventListener('hashchange',()=>render());
-window.addEventListener('storage',e=>{if(e.key==='hit-completed'){completed=new Set(storage.get('hit-completed',[]));render({force:true,preserve:true});}if(e.key==='hit-theme'&&e.newValue){document.documentElement.dataset.theme=e.newValue;updateThemeButton();}});
+window.addEventListener('storage',e=>{if(e.key==='hit-completed'){completed=savedCompletions();render({force:true,preserve:true});}if(e.key==='hit-theme'&&e.newValue){document.documentElement.dataset.theme=e.newValue;updateThemeButton();}});
 loadContent();
 if(document.querySelector('meta[name="hit-preview"]')){
   const events=new EventSource(new URL('__events',base));

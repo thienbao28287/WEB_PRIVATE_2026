@@ -7,19 +7,19 @@
 ### 2. Extensions
 - HTML CSS Support 
 
-![htmlsp](img/htmlsp.png)
+![Tiện ích HTML CSS Support trong Visual Studio Code](img/htmlsp.png)
 
 - Live Server 
 
-![livesv](img/livesv.png)
+![Tiện ích Live Server trong Visual Studio Code](img/livesv.png)
 
 - Auto Close Tag
 
-![att](img/att.png)
+![Tiện ích Auto Close Tag trong Visual Studio Code](img/att.png)
 
 - Auto Rename Tag
 
-![atr](img/atr.png)
+![Tiện ích Auto Rename Tag trong Visual Studio Code](img/atr.png)
 
 - Các extension tham khảo:
 
@@ -110,33 +110,33 @@ b. Liên kết Git và GitHub
 1. Tạo tài khoản GitHub và tạo repo mới
 - Sau khi tạo tài khoản để tạo một repo mới làm được nhấn vào button `new` như hình này: 
 
-![new](img/new.png)
+![Nút New để tạo repository trên GitHub](img/new.png)
 
 - Sau khi vào trang chính của tạo repo chúng ta đặt tên cho repo chuẩn bị tạo bằng cách nhập tên vào ô `input` như hình: 
 
-![name](img/name.png)
+![Ô nhập tên repository mới trên GitHub](img/name.png)
 
 - Cuối cùng kéo xuống dưới và nhấn vào `Create repository`: 
 
-![create](img/create.png)
+![Nút Create repository để hoàn tất tạo kho mã nguồn](img/create.png)
 
 2. Kết nối folder trong máy tính với repo trên GitHub
 
 B1: Tạo một folder bất kỳ trên Laptop 
 
-![tao](img/tao.png)
+![Tạo thư mục dự án trên máy tính](img/tao.png)
 
 B2: Click chuột phải vào folder vừa tạo chọn `Show more options` sau đó chọn `Git Bash`:
 
 B3: Sau khi hiển thị bảng như hình 
 
-![table](img/table.png)
+![Cửa sổ Git Bash mở tại thư mục dự án](img/table.png)
 
 thì chúng ta copy code ở GitHub vào đó 
 
-![copy](img/copy.png) 
+![Các lệnh GitHub hướng dẫn kết nối repository với thư mục dự án](img/copy.png)
 
-![run](img/run.png) 
+![Chạy các lệnh kết nối repository trong Git Bash](img/run.png)
 
 B4: Sau khi code chạy xong load lại trang ở GitHub
 
@@ -162,19 +162,19 @@ B3: Copy đoạn code sau vào file vừa tạo.
 
 B4: Mở lại Git Bash và gõ lệnh `git add .` và Enter
 
-![git-add](img/git-add.png)
+![Chạy git add để đưa thay đổi vào vùng staging](img/git-add.png)
 
 B5: Tiếp theo gõ lệnh `git commit -m "message"` và Enter
 
-![git-commit](img/git-commit.png)
+![Chạy git commit để lưu thay đổi vào lịch sử Git](img/git-commit.png)
 
 B6: Cuối cùng gõ lệnh `git push origin main` và Enter
 
-![git-push](img/git-push.png)
+![Chạy git push để đẩy commit lên GitHub](img/git-push.png)
 
 Như vậy là đã thành công, load lại trang GitHub sẽ thấy file index.html đã được tải lên
 
-![GitHub-result](img/github-result.png)
+![File index.html xuất hiện trong repository sau khi push](img/github-result.png)
 
 B7: Tiếp tục ở trang GitHub, nhấn vào mục `Settings`
 
@@ -182,11 +182,11 @@ B7: Tiếp tục ở trang GitHub, nhấn vào mục `Settings`
 
 B8: Chọn vào phần Pages 
 
-![page](img/page.png)
+![Mục Pages trong phần Settings của repository GitHub](img/page.png)
 
 B9: Ở phần `Branch` chọn `main` như ảnh:
 
-![pg](img/pg.png)
+![Chọn nhánh main làm nguồn xuất bản GitHub Pages](img/pg.png)
 
 B10: Nhấn vào button `Save` bên cạnh
 
@@ -194,11 +194,11 @@ B10: Nhấn vào button `Save` bên cạnh
 
 B11: Đợi 1 lúc sau đó nhấn vào `Visit site`
 
-![visit](img/visit.png)
+![Nút Visit site để mở website đã xuất bản](img/visit.png)
 
 B12: Nếu cần, thêm `index.html` (tên file vừa tạo ở bước 2) vào cuối địa chỉ. Với file `index.html` ở thư mục gốc, trang web thường mở trực tiếp tại đường dẫn GitHub Pages.
 
-![add](img/add.png)
+![Địa chỉ website ví dụ được xuất bản bằng GitHub Pages](img/add.png)
 
 ## III. HTML, CSS, JavaScript
 ---

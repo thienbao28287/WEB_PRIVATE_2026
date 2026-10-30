@@ -18,7 +18,7 @@
   <a class="skip" href="#main">Đi đến nội dung</a>
   <header class="header">
     <button id="menu-toggle" class="icon-button mobile-menu" aria-label="Mở danh sách buổi học" aria-expanded="false" aria-controls="sidebar"></button>
-    <a class="brand" href="#/" aria-label="HIT Web Private 2026 — Trang chủ"><span class="brand-mark">HIT<span>.</span></span><span class="brand-name">WEB PRIVATE <small>LEARN. BUILD. GROW.</small></span></a>
+    <a class="brand" href="#/" aria-label="HIT Web Private 2026 — Trang chủ"><span class="brand-mark">HIT<span>.</span></span><span class="brand-name">WEB PRIVATE <small>Tài liệu lớp Web</small></span></a>
     <span class="edition">2026</span>
     <button id="search-open" class="search-open" aria-label="Tìm kiếm tài liệu"><span class="search-label">Tìm trong tài liệu...</span><kbd>Ctrl K</kbd></button>
     <button id="theme-toggle" class="icon-button" aria-label="Đổi giao diện sáng tối"></button>
@@ -26,7 +26,7 @@
   </header>
   <button id="backdrop" class="backdrop" aria-label="Đóng danh sách buổi học" hidden></button>
   <aside id="sidebar" class="sidebar" aria-label="Điều hướng khóa học"></aside>
-  <main id="main" tabindex="-1"><div class="loading">Đang chuẩn bị tài liệu…</div></main>
+  <main id="main" tabindex="-1" aria-busy="true"><div class="loading" role="status"><span>Đang tải tài liệu khóa học…</span><div class="loading-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></main>
   <dialog id="search-dialog" class="search-dialog" aria-label="Tìm kiếm tài liệu">
     <form method="dialog" class="search-head"><label class="sr-only" for="search-input">Tìm kiếm nội dung</label><input id="search-input" placeholder="Tìm bài học, kiến thức, đoạn code…" autocomplete="off"><button class="icon-button" aria-label="Đóng tìm kiếm">✕</button></form>
     <p id="search-summary" class="search-summary" role="status"></p><div id="search-results" class="search-results"></div>

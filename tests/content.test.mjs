@@ -22,6 +22,7 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
   try {
     await writeFile(path.join(root,'README.md'),'| 1 | Introduction | — | — |\n| 4 | Box model | — | — |');
     await mkdir(path.join(root,'Lesson4','img'),{recursive:true});
+    await writeFile(path.join(root,'Lesson4/img/box.png'),Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64'));
     await writeFile(path.join(root,'Lesson4/theory.md'),'# Buổi 4: Hộp CSS\n\n![Ảnh](img/box.svg)\n\n[Other](../Lesson1/theory.md)\n\n```html\n<script>alert(1)</script>\n```');
     await writeFile(path.join(root,'Lesson4/homework.md'),'   ');
     let content=await collectContent(root);
@@ -29,13 +30,14 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
     assert.equal(content.lessons[1].pages[0].id,'Lesson4/theory');
     assert.equal(content.lessons[1].pages[0].title,'Buổi 4: Hộp CSS');
     assert.doesNotMatch(content.lessons[1].pages[0].html,/<script>/);
-    await writeFile(path.join(root,'Lesson4/homework.md'),'# Thực hành box model');
+    await writeFile(path.join(root,'Lesson4/homework.md'),'# Thực hành box model\n\n![Box](img/box.png)');
     await mkdir(path.join(root,'Lesson15'));
     await writeFile(path.join(root,'Lesson15/theory.md'),'# Buổi 15: Nội dung mới');
     await writeFile(path.join(root,'Lesson4/theory.md'),'# Đã sửa bài\n\nNội dung cập nhật');
     const out=path.join(root,'export');
     content=await build(root,out);
     assert.equal(content.lessons[1].pages.length,2);
+    assert.deepEqual(content.lessons[1].pages[1].images['img/box.png'],{width:1,height:1});
     assert.match(content.lessons[1].pages[0].html,/Nội dung cập nhật/);
     assert.equal(content.lessons[2].number,15);
     assert.equal(content.lessons[2].title,'Nội dung mới');

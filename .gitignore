@@ -1,3 +1,5 @@
 node_modules/
 dist/
 .preview/
+docs/agent-design-guide.md
+docs/layout-review.md
