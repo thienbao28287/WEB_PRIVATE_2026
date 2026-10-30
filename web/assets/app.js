@@ -41,11 +41,31 @@ function sidebar() {
   $('#sidebar').innerHTML = `<a class="side-home ${!currentId?'active':''}" href="#/">${icon('home')}Tổng quan khóa học</a>` + getGroups().map(g => `<div class="side-label">${g.title}</div>${g.lessons.map(l => `<details class="side-lesson" data-number="${l.number}" ${l.pages.some(p => p.id === currentId) || open.includes(l.number)?'open':''}><summary><span class="side-number">${String(l.number).padStart(2,'0')}</span><span class="side-title" title="${esc(l.title)}">${esc(l.title)}</span>${icon('chevron')}</summary>${l.pages.length?l.pages.map(p => `<a class="side-link ${p.id===currentId?'active':''}" ${p.id===currentId?'aria-current="page"':''} href="${route(p.id)}">${icon(completed.has(p.id)?'check':p.type==='theory'?'book':'code')}${label(p.type)}</a>`).join(''):'<div class="side-empty">Sắp cập nhật tài liệu</div>'}</details>`).join('')}`).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
 }
 function home() {
-  const done = pages.filter(p => completed.has(p.id)).length;
-  const last = pages.find(p => p.id === storage.get('hit-last', '')) || pages[0];
-  const percent = pages.length ? Math.round(done/pages.length*100) : 0;
-  document.title = 'Web Private 2026 · HIT';
-  $('#main').innerHTML = `<div class="home"><section class="hero"><div><div class="eyebrow">HIT Learning Space · 2026</div><h1>Từng dòng code.<br>Một bước <span>tiến xa.</span></h1><p>Chào mừng đến với Web Private 2026. Cùng xây nền tảng HTML, CSS và JavaScript, từ những kiến thức đầu tiên đến sản phẩm của riêng bạn.</p>${last?`<a class="button primary" href="${route(last.id)}">${storage.get('hit-last','')?'Tiếp tục học':'Bắt đầu học'}${icon('arrow')}</a>`:''}<div class="hero-meta"><span>${icon('book')}${data.lessons.length} buổi học</span><span>${icon('code')}HTML · CSS · JavaScript</span></div></div><div class="hero-art" aria-hidden="true"><div class="art-window"><div class="art-bar"><i></i><i></i><i></i><span>hello-web.html</span></div><div class="art-code">&lt;<b>body</b>&gt;<br>&nbsp; &lt;<b>h1</b>&gt;<em>Hello, HIT!</em>&lt;/<b>h1</b>&gt;<br>&nbsp; &lt;<b>p</b>&gt;<em>Let's build.</em>&lt;/<b>p</b>&gt;<br>&lt;/<b>body</b>&gt;</div></div><div class="art-tag">&lt;/&gt; made by you</div></div></section><section class="progress-panel" aria-label="Tiến độ học tập"><div class="progress-symbol">${icon('circle')}</div><div class="progress-copy"><strong>Hành trình của bạn</strong><p>${done?`Bạn đã hoàn thành ${done} tài liệu. Tiếp tục giữ nhịp nhé!`:'Mọi hành trình đều bắt đầu từ buổi học đầu tiên.'}</p></div><div class="progress-right">${done}/${pages.length} tài liệu · ${percent}%<div class="progress-track" role="progressbar" aria-label="Tài liệu đã hoàn thành" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"><span style="width:${percent}%"></span></div></div></section><div class="section-head"><div><h2>Lộ trình học tập</h2><p>Từ nền tảng đến thực hành, từng bước vững chắc.</p></div><span>${pages.length} tài liệu sẵn sàng</span></div>${getGroups().map(g => `<section class="course-group"><div class="group-heading"><span>${g.code}</span><h3>${g.title}</h3><small>${g.lessons.length} buổi học</small></div><div class="lesson-list">${g.lessons.map(l => `<div class="lesson-row ${l.pages.length?'available':''}"><span class="lesson-no">${String(l.number).padStart(2,'0')}</span><div class="lesson-info"><h4>${esc(l.title)}</h4><p>Buổi ${l.number}${l.pages.length?` · ${l.pages.length} tài liệu${l.pages.every(p=>completed.has(p.id))?' · Đã hoàn thành':''}`:''}</p></div>${l.pages.length?`<div class="lesson-links">${l.pages.map(p => `<a href="${route(p.id)}" aria-label="${label(p.type)} buổi ${l.number}">${icon(completed.has(p.id)?'check':p.type==='theory'?'book':'code')}${label(p.type)}</a>`).join('')}</div>`:'<span class="pending">Sắp cập nhật</span>'}</div>`).join('')}</div></section>`).join('')}${footer()}</div>`;
+  document.title = 'Lộ trình khóa học · HIT';
+  const lessons = [...data.lessons].sort((a,b) => a.number-b.number);
+  $('#main').innerHTML = `<div class="home roadmap-page">
+    <header class="roadmap-header">
+      <div class="eyebrow">Web Private 2026</div>
+      <h1>Lộ trình khóa học</h1>
+      <p>${lessons.length} buổi học · HTML, CSS và JavaScript</p>
+    </header>
+    <ol class="roadmap" aria-label="Lộ trình các buổi học">
+      ${lessons.map(lesson => {
+        const done = lesson.pages.length > 0 && lesson.pages.every(page => completed.has(page.id));
+        return `<li class="roadmap-step ${lesson.pages.length ? 'available' : ''} ${done ? 'done' : ''}">
+          <span class="roadmap-marker" aria-hidden="true">${done ? icon('check') : String(lesson.number).padStart(2,'0')}</span>
+          <article class="roadmap-content">
+            <div class="roadmap-meta">Buổi ${lesson.number}${done ? '<span>Đã hoàn thành</span>' : ''}</div>
+            <h2>${esc(lesson.title)}</h2>
+            ${lesson.pages.length ? `<nav class="roadmap-links" aria-label="Tài liệu buổi ${lesson.number}">
+              ${lesson.pages.map(page => `<a href="${route(page.id)}" aria-label="${label(page.type)} buổi ${lesson.number}">${icon(page.type === 'theory' ? 'book' : 'code')}${label(page.type)}${icon('arrow')}</a>`).join('')}
+            </nav>` : '<p class="roadmap-pending">Sắp cập nhật tài liệu</p>'}
+          </article>
+        </li>`;
+      }).join('')}
+    </ol>
+    ${footer()}
+  </div>`;
 }
 
 function prepareArticle(page) {

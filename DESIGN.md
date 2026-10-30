@@ -45,6 +45,7 @@ Theme tối thay đổi semantic tokens trong `[data-theme=dark]`; cam thương 
 
 ## Layout & motion
 
+- Tổng quan khóa học là roadmap dọc một cột: tiêu đề ngắn, các buổi theo thứ tự số tăng dần, mốc tròn nối bằng đường thẳng; mỗi buổi có chủ đề và liên kết tài liệu. Mốc hoàn thành có dấu tích kèm nhãn chữ. Không dùng hero quảng bá hoặc panel tiến độ trên trang tổng quan.
 - Header desktop 76px, mobile 64px; sidebar 264px. Reader tối đa 800px, mục lục 220px.
 - Dưới 1200px, mục lục chuyển thành details ở đầu bài. Dưới 768px, menu chuyển thành drawer 280px với overlay, focus trap và inert khi đóng.
 - Chuyển bài fade/translate 200ms; drawer 220ms; hover nút dịch 2px. Respect `prefers-reduced-motion`.

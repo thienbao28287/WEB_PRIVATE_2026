@@ -7,3 +7,35 @@
 @media(max-width:767px){:root{--header:64px}.header{padding:0 12px;gap:8px}.mobile-menu{display:inline-flex}.brand{gap:8px}.brand-mark{font-size:30px}.brand-name{font-size:10px}.brand-name small{font-size:6px;letter-spacing:1px}.edition{display:none}.search-open{width:44px;min-width:44px;padding:10px;justify-content:center;border:0;background:transparent}.search-label,.search-open kbd{display:none}.sidebar{transform:translateX(-100%);transition:transform 220ms var(--ease);width:280px}.sidebar.open{transform:translateX(0)}#main{margin-left:0}.home{padding:28px 20px 0}.hero{padding-bottom:28px}.hero h1{font-size:36px;letter-spacing:-1.2px}.hero p{font-size:14px}.hero-meta{gap:16px;flex-wrap:wrap;font-size:11px}.progress-panel{padding:16px;gap:12px;flex-wrap:wrap}.progress-symbol{width:36px;height:36px}.progress-right{width:100%;text-align:left;margin-left:48px}.section-head{margin-top:28px}.section-head h2{font-size:20px}.section-head>span{font-size:10px}.group-heading small{font-size:10px}.lesson-row{padding:16px}.lesson-info h4{font-size:13px}.lesson-links a{font-size:11px}.page-footer{font-size:10px;flex-wrap:wrap}.reader{padding:24px 20px 0}.prose h1{font-size:26px}.prose h2{font-size:21px}.prose h3{font-size:18px}.pagination{gap:8px}.pagination a{padding:12px;font-size:11px;gap:6px}.pagination svg{width:16px}.search-foot{font-size:9px;padding:12px}.toast{width:max-content;max-width:calc(100vw - 32px);text-align:center}.toc-links a{min-height:40px}.side-link{min-height:44px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(max-width:767px){.sidebar{visibility:hidden;transition:transform 220ms var(--ease),visibility 220ms}.sidebar.open{visibility:visible}}
+
+/* Course overview: a chronological, single-column roadmap. */
+.roadmap-page { max-width: 960px; }
+.roadmap-header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
+.roadmap-header h1 { margin: 12px 0 8px; font-size: 30px; letter-spacing: -.6px; }
+.roadmap-header p { margin: 0; color: var(--muted); font-size: 14px; }
+.roadmap { list-style: none; margin: 0; padding: 0; }
+.roadmap-step { position: relative; display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 24px; padding-bottom: 32px; }
+.roadmap-step:not(:last-child)::before { content: ''; position: absolute; top: 40px; bottom: 0; left: 19px; width: 2px; background: var(--hairline); }
+.roadmap-marker { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--hairline); border-radius: 50%; background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 700; }
+.roadmap-step.available .roadmap-marker { background: var(--soft); color: var(--link); border-color: var(--primary); }
+.roadmap-step.done .roadmap-marker { background: var(--primary); color: var(--on-primary); }
+.roadmap-content { min-width: 0; padding-top: 1px; }
+.roadmap-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; color: var(--muted); font-size: 11px; }
+.roadmap-meta span { color: var(--link); }
+.roadmap-content h2 { font-size: 16px; font-weight: 600; line-height: 1.6; margin: 4px 0 8px; overflow-wrap: anywhere; }
+.roadmap-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.roadmap-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--link); font-size: 12px; border-radius: 4px; }
+.roadmap-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.roadmap-links svg { width: 15px; height: 15px; }
+.roadmap-links a svg:last-child { width: 13px; transition: transform var(--duration); }
+.roadmap-links a:hover svg:last-child { transform: translateX(3px); }
+.roadmap-pending { margin: 0; color: var(--muted); font-size: 12px; }
+@media(max-width:767px) {
+  .roadmap-header { margin-bottom: 28px; padding-bottom: 24px; }
+  .roadmap-header h1 { font-size: 26px; }
+  .roadmap-header p { font-size: 12px; }
+  .roadmap-step { grid-template-columns: 32px minmax(0,1fr); gap: 16px; padding-bottom: 28px; }
+  .roadmap-marker { width: 32px; height: 32px; font-size: 11px; }
+  .roadmap-step:not(:last-child)::before { top: 32px; left: 15px; }
+  .roadmap-content h2 { font-size: 14px; }
+}
