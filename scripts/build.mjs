@@ -1,6 +1,7 @@
 import { readFile, readdir, mkdir, cp, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 
@@ -46,6 +47,13 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await cp(path.join(projectRoot, 'web'), out, { recursive: true });
   await mkdir(path.join(out, 'assets'), { recursive: true });
   await cp(path.join(projectRoot, 'node_modules/dompurify/dist/purify.es.mjs'), path.join(out, 'assets/purify.mjs'));
+  let index = await readFile(path.join(out, 'index.html'), 'utf8');
+  for (const asset of ['app.js', 'styles.css']) {
+    const content = await readFile(path.join(out, 'assets', asset));
+    const version = createHash('sha256').update(content).digest('hex').slice(0, 12);
+    index = index.replace(`./assets/${asset}`, `./assets/${asset}?v=${version}`);
+  }
+  await writeFile(path.join(out, 'index.html'), index);
   await writeFile(path.join(out, 'content.json'), JSON.stringify(data));
   // Keep existing demonstrations, images and relative asset paths intact.
   for (const item of await readdir(root, { withFileTypes: true })) {

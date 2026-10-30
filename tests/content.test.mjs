@@ -40,7 +40,8 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
     assert.equal(content.lessons[2].number,15);
     assert.equal(content.lessons[2].title,'Nội dung mới');
     const html=await readFile(path.join(out,'index.html'),'utf8');
-    assert.match(html,/src="\.\/assets\/app.js"/);
+    assert.match(html,/src="\.\/assets\/app.js\?v=[a-f0-9]{12}"/);
+    assert.match(html,/href="\.\/assets\/styles.css\?v=[a-f0-9]{12}"/);
     assert.doesNotMatch(html,/(?:src|href)="\/assets/);
     const output=JSON.parse(await readFile(path.join(out,'content.json'),'utf8'));
     assert.deepEqual(output,content);
