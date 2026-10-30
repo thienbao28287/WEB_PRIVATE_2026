@@ -1,7 +1,5 @@
 # WEB_PRIVATE_2026
 
-Khung chương trình học Web cơ bản gồm 14 buổi, từ HTML/CSS đến JavaScript và làm việc với API.
-
 ## Khung chương trình
 
 | Buổi | Nội dung | Tài liệu | Bài tập |
@@ -24,6 +22,3 @@ Khung chương trình học Web cơ bản gồm 14 buổi, từ HTML/CSS đến 
 ## Cách sử dụng
 
 - Đọc lý thuyết và làm bài tập theo từng buổi.
-- Mở file HTML bằng trình duyệt hoặc Live Server trong VS Code để xem kết quả.
-- Tham khảo [bài mẫu HTML Buổi 2](Lesson2/Lesson2.html).
-- Đẩy bài làm lên GitHub và gửi liên kết theo yêu cầu của bài tập.
