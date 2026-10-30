@@ -20,11 +20,13 @@ HTML/CSS/JavaScript thuần. Giao diện dành cho việc đọc tài liệu dà
 | `--canvas` | `#FAFBFC` | Nền trang |
 | `--hairline` | `#E5E7EB` | Viền, phân cách |
 | `--soft` | `#FFF2E8` | Nền trạng thái đang chọn |
-| `--link` | `#AD4C0C` | Liên kết chữ, trạng thái active |
+| `--link` | `#F47B2A` | Liên kết chữ, trạng thái active; giống nhau ở hai theme theo yêu cầu |
 | `--focus` | `#A84608` | Focus bàn phím |
 | `--control-border` | `#8290A1` | Ranh giới ô tìm kiếm/điều khiển |
 
 Theme tối thay đổi semantic tokens trong `[data-theme=dark]`; cam thương hiệu giữ nguyên. Mặc định theo hệ điều hành, lựa chọn thủ công lưu ở `hit-theme`.
+
+Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền trắng, cặp màu này có tương phản khoảng 2,72:1; không được tính là đạt kiểm tra chữ thường 4,5:1. Kiểm thử tương phản chữ áp dụng cho body, muted và heading; focus và viền điều khiển tiếp tục dùng token riêng.
 
 ## Typography & spacing
 
