@@ -30,7 +30,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Typography & spacing
 
-- Tiêu đề dùng Baloo Thambi 2, weight 600–700; fallback Roboto/cursive. Nội dung, sidebar, mục lục và nút vẫn dùng Roboto/system sans-serif. Code dùng Consolas/monospace.
+- Tiêu đề dùng Lora, weight 600–700; fallback Georgia/serif. Nội dung, sidebar, mục lục và nút vẫn dùng Roboto/system sans-serif. Code dùng Consolas/monospace.
 - Bài đọc 1rem/1.75; h1 1.875rem (mobile 1.625rem), h2 1.4375rem, h3 1.1875rem. Giới hạn nội dung bài khoảng 72ch.
 - Navigation .875rem, chú thích .75rem. Các kích thước đọc bài mở rộng từ mẫu trang đăng nhập 12px; dùng rem để hỗ trợ phóng to chữ.
 - Spacing unit 4px: 4, 8, 12, 16, 24, 32, 40px.
@@ -39,7 +39,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 ## Components
 
 - Primary button: cam, chữ tối 700, cao tối thiểu 48px. Secondary button: nền surface, viền hairline. Icon button: 44×44px.
-- Sidebar: các mục “Tuần 1” đến tuần cuối theo thứ tự tăng dần; details/summary mở đóng bằng bàn phím, bài hiện tại có viền cam và nền soft. Tiêu đề xuất hiện nhẹ theo lượt, hover dịch 3px, mũi tên xoay và tài liệu fade/slide khi mở; chiều cao accordion chuyển động 200ms. Tôn trọng reduced-motion.
+- Sidebar: các mục “Tuần 1” đến tuần cuối theo thứ tự tăng dần; details/summary mở đóng bằng bàn phím, bài hiện tại có viền cam và nền soft. Tiêu đề xuất hiện nhẹ theo lượt, hover dịch 3px, mũi tên xoay và tài liệu fade/slide khi mở; chiều cao accordion chuyển động 300ms. Tôn trọng reduced-motion.
 - Tabs: liên kết thật để có thể sao chép đường dẫn; mục đang chọn có gạch cam, tài liệu chưa có hiện nhãn rõ ràng.
 - Lesson list: hàng phẳng, số buổi và trạng thái tài liệu, phân cách mỏng.
 - Search: dialog native, input có label, kết quả truy cập bằng Tab/Enter, đóng Escape và trả focus tự động.
@@ -56,12 +56,12 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 - Điều hướng bài dùng vai trò `pagination-prev`/`pagination-next`: bài trước luôn căn trái, bài sau luôn căn phải, kể cả khi chỉ còn một liên kết.
 - Mục lục chuyển thành details khi viewport dưới 1280px hoặc vùng nội dung dưới 64rem. Dưới 768px, menu chuyển thành drawer tối đa 18rem với overlay, focus trap và inert khi đóng.
 - Giao diện sáng có nền trang xám nhẹ, header/sidebar trắng và vùng đọc trắng với padding linh hoạt, viền mảnh. Không thêm bóng lớn; giao diện tối giữ bề mặt và padding cũ. Cam dành cho liên kết, CTA và trạng thái chọn.
-- Chuyển bài: nội dung cũ fade 70ms, thay nội dung rồi fade/translate từ 8px lên trong 180ms. Header/sidebar giữ ổn định. Bấm nhanh hoặc Back/Forward hủy hiệu ứng cũ, chỉ URL mới nhất được hiển thị. Liên kết mục trong bài chỉ cuộn/focus tới heading; cập nhật Markdown local giữ vị trí, không chạy chuyển bài.
-- Drawer 220ms; hover nút dịch 2px. `prefers-reduced-motion` và trình duyệt thiếu Web Animations đổi trạng thái ngay.
+- Chuyển bài: nội dung cũ fade 110ms, thay nội dung rồi fade/translate từ 8px lên trong 300ms. Header/sidebar giữ ổn định. Bấm nhanh hoặc Back/Forward hủy hiệu ứng cũ, chỉ URL mới nhất được hiển thị. Liên kết mục trong bài chỉ cuộn/focus tới heading; cập nhật Markdown local giữ vị trí, không chạy chuyển bài.
+- Drawer 320ms; hover nút dịch 2px. `prefers-reduced-motion` và trình duyệt thiếu Web Animations đổi trạng thái ngay.
 - Sticky mục lục, heading có scroll-margin tránh header; không có chuyển động lặp hoặc hiệu ứng 3D gây phân tâm.
 - Khi chọn mục lục, danh sách mobile được đóng và focus chuyển tới heading; header và control không lấy focus khi drawer đang mở.
 - Nút Ẩn/Hiện mục lục ở cạnh breadcrumb áp dụng cho cả mục lục desktop và mục lục mobile, có aria-expanded/aria-controls và ghi nhớ lựa chọn theo trình duyệt. Khi ẩn, vùng đọc vẫn giữ giới hạn độ rộng.
-- Mục lục desktop fade/dịch ngang 8px cùng cột Grid 13rem→0rem và gap trong 220ms; bên trong giữ rộng 13rem tránh bóp chữ. Mobile/tablet chuyển chiều cao thực tế và opacity trong 200ms. Nhãn, aria-expanded và lưu lựa chọn cập nhật ngay; mục lục đóng nhận inert ngay, hidden sau hiệu ứng. Mở lại hoặc chuyển bài hủy animation cũ; không cuộn về đầu bài khi ẩn/hiện.
+- Mục lục desktop fade/dịch ngang 8px cùng cột Grid 13rem→0rem và gap trong 320ms; bên trong giữ rộng 13rem tránh bóp chữ. Mobile/tablet chuyển chiều cao thực tế và opacity trong 300ms. Nhãn, aria-expanded và lưu lựa chọn cập nhật ngay; mục lục đóng nhận inert ngay, hidden sau hiệu ứng. Mở lại hoặc chuyển bài hủy animation cũ; không cuộn về đầu bài khi ẩn/hiện.
 - Giữ hệ thống màu/kích thước trong CSS variables, không áp dụng stylesheet bài mẫu vào app.
 
 ## Data & accessibility

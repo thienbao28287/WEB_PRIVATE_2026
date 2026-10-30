@@ -213,16 +213,16 @@ function syncToc(hidden,{animate=false}={}) {
     add(animateElement(reader,{
       gridTemplateColumns:[start.columns,getComputedStyle(reader).gridTemplateColumns],
       columnGap:[start.gap,getComputedStyle(reader).columnGap],
-    },{duration:220}));
+    },{duration:320}));
     add(animateElement(desktop,{
       opacity:[start.desktopOpacity,hidden?0:1],
       transform:[start.desktopTransform,hidden?'translateX(8px)':'translateX(0)'],
-    },{duration:220}));
+    },{duration:320}));
   } else {
     const height=hidden?0:compact.getBoundingClientRect().height;
     const box=Object.fromEntries(compactProperties.map(property=>[property,[start.compactBox[property],hidden?'0px':getComputedStyle(compact)[property]]]));
     compact.style.overflow='hidden';
-    add(animateElement(compact,{...box,height:[`${start.compactHeight}px`,`${height}px`],opacity:[start.compactOpacity,hidden?0:1]},{duration:200}));
+    add(animateElement(compact,{...box,height:[`${start.compactHeight}px`,`${height}px`],opacity:[start.compactOpacity,hidden?0:1]},{duration:300}));
   }
   if(!animations.length){finish();return;}
   reader.setAttribute('data-toc-animating','true');
@@ -275,9 +275,9 @@ function render({ force=false, preserve=false }={}) {
   const outgoingStyle=outgoingElement?getComputedStyle(outgoingElement):null;
   const outgoingOpacity=outgoingStyle?.opacity || '1', outgoingTransform=outgoingStyle?.transform || 'none';
   return navigationMotion.run({
-    leave:()=>!preserve && hasRendered?animateElement(outgoingElement,{opacity:[outgoingOpacity,0],transform:[outgoingTransform,'translateY(-4px)']},{duration:70}):null,
+    leave:()=>!preserve && hasRendered?animateElement(outgoingElement,{opacity:[outgoingOpacity,0],transform:[outgoingTransform,'translateY(-4px)']},{duration:110}):null,
     commit,
-    enter:()=>!preserve?animateElement($('#main > .reader .reader-main') || $('#main > .home') || $('#main > .error-page'),{opacity:[0,1],transform:['translateY(8px)','translateY(0)']},{duration:180}):null,
+    enter:()=>!preserve?animateElement($('#main > .reader .reader-main') || $('#main > .home') || $('#main > .error-page'),{opacity:[0,1],transform:['translateY(8px)','translateY(0)']},{duration:300}):null,
     settled:()=>$('#main').setAttribute('aria-busy','false'),
   });
 }
@@ -369,7 +369,7 @@ document.addEventListener('click', e=>{
   if(!closing)details.open=true;
   const end=closing?summary.offsetHeight:details.offsetHeight;
   details.style.overflow='hidden';
-  const animation=details.animate({height:[`${start}px`,`${end}px`]}, {duration:200,easing:'ease-out'});
+  const animation=details.animate({height:[`${start}px`,`${end}px`]}, {duration:300,easing:'ease-out'});
   animation.onfinish=()=>{details.open=!closing;details.style.overflow='';};
   animation.oncancel=()=>{details.style.overflow='';};
 });
