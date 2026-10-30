@@ -4,6 +4,8 @@ const $ = selector => document.querySelector(selector);
 const icons = {
   search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  panel:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m7-11-3 3 3 3"/>',
+  expand:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m4-11 3 3-3 3"/>',
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>',
   moon:'<path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/>',
   book:'<path d="M12 5v15M3 4c4-1 7 0 9 2 2-2 5-3 9-2v15c-4-1-7 0-9 2-2-2-5-3-9-2Z"/>',
@@ -29,6 +31,7 @@ const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getI
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
 const savedCompletions = () => { const saved=storage.get('hit-completed',[]); return new Set(Array.isArray(saved)?saved.filter(value=>typeof value==='string'):[]); };
 let completed = savedCompletions();
+document.documentElement.classList.toggle('sidebar-collapsed',storage.get('hit-sidebar-collapsed',false)===true);
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
 function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
@@ -131,7 +134,7 @@ function reader(page) {
   const index = pages.indexOf(page), prev = pages[index-1], next = pages[index+1];
   document.title = `${page.title} · HIT`;
   storage.set('hit-last',page.id);
-  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" aria-label="Mục lục bài học"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></aside></div>`;
+  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" aria-label="Mục lục bài học"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></aside></div>`;
   $('#article-slot').replaceWith(article);
   observer?.disconnect();
   observer = new IntersectionObserver(entries => {
@@ -191,13 +194,22 @@ function closeMenu(returnFocus=true) {
 function syncSidebarAccess(){
   const mobile=matchMedia('(max-width: 767px)').matches;
   const open=$('#sidebar').classList.contains('open');
-  $('#sidebar').inert=mobile&&!open;
-  $('#sidebar').setAttribute('aria-hidden',String(mobile&&!open));
+  const collapsed=!mobile&&document.documentElement.classList.contains('sidebar-collapsed');
+  $('#sidebar').inert=mobile?!open:collapsed;
+  $('#sidebar').setAttribute('aria-hidden',String(mobile?!open:collapsed));
+  $('#menu-toggle').setAttribute('aria-expanded',String(mobile?open:!collapsed));
+  const action=mobile?(open?'Đóng danh sách buổi học':'Mở danh sách buổi học'):(collapsed?'Mở rộng sidebar':'Thu gọn sidebar');
+  $('#menu-toggle').setAttribute('aria-label',action); $('#menu-toggle').title=action;
+  $('#menu-toggle').innerHTML=icon(mobile?'menu':collapsed?'expand':'panel');
   $('#main').inert=mobile&&open;
   document.querySelectorAll('.header > :not(#menu-toggle)').forEach(element=>{element.inert=mobile&&open;});
   if(mobile&&open)$('#main').setAttribute('aria-hidden','true');else $('#main').removeAttribute('aria-hidden');
 }
 function toggleMenu() {
+  if(!matchMedia('(max-width: 767px)').matches){
+    const collapsed=document.documentElement.classList.toggle('sidebar-collapsed');
+    storage.set('hit-sidebar-collapsed',collapsed);syncSidebarAccess();return;
+  }
   if($('#sidebar').classList.contains('open')){closeMenu();return;}
   $('#sidebar').classList.add('open'); $('#backdrop').hidden=false; $('#menu-toggle').setAttribute('aria-expanded','true');
   document.body.style.overflow='hidden'; syncSidebarAccess(); $('#sidebar a')?.focus();
