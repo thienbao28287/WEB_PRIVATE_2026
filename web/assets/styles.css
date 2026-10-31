@@ -298,3 +298,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   border-left: 0;
 }
 .side-documents .side-link.active { font-weight: 700; }
+
+.roadmap .roadmap-step.current .roadmap-marker,
+.roadmap .roadmap-step.done .roadmap-marker { color: #FFFFFF; }
+.roadmap-header .eyebrow::before { content: none; display: none; }
