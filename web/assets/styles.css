@@ -631,3 +631,6 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
  .playground-code textarea{font-size:16px;line-height:26px}
  .playground-lines{font-size:16px;line-height:26px}
 }
+/* Practice controls: readable labels without oversized bold text. */
+.exercise-buttons .button{font-family:var(--font);font-size:14px;font-weight:600;line-height:1.4;letter-spacing:0;min-height:44px;padding:10px 14px;border-radius:10px;white-space:nowrap}
+@media(max-width:480px){.exercise-buttons .button{font-size:13px;padding:10px 12px;flex:1 1 auto}}
