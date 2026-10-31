@@ -376,3 +376,12 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   color: #FFFFFF;
 }
 :root[data-theme=dark] .intro-motion-toggle:hover { color: #FF984D; }
+
+/* Motivational quote cards with illustrated learners. */
+.intro-page .intro-float { padding: .65rem .9rem; gap: .5rem; max-width: 310px; }
+.intro-float img { width: 90px; height: 90px; object-fit: contain; flex-shrink: 0; }
+.intro-float p { color: var(--body); font: 600 .8125rem/1.65 var(--font); margin: 0; text-wrap: balance; }
+.intro-page .intro-float-code { left: 2%; bottom: 17%; }
+.intro-page .intro-float-progress { right: 2%; bottom: 22%; }
+.intro-page .intro-float-third { right: 4%; bottom: 6%; }
+@media(min-width:901px) and (max-width:1200px) { .intro-page .intro-float { max-width: 260px; } .intro-float img { width: 65px; height: 65px; } .intro-float p { font-size: .75rem; } }

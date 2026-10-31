@@ -74,9 +74,9 @@ function intro() {
         <a class="intro-start" href="#/overview">Học ngay${icon('arrow')}</a>
         <p class="intro-note">Mỗi dòng code là một bước tiến.</p>
       </div>
-      <div class="intro-float intro-float-code" aria-hidden="true">${icon('code')}<span>Viết dòng code đầu tiên<i></i><i></i></span></div>
-      <div class="intro-float intro-float-progress" aria-hidden="true">${icon('check')}<span>Học theo nhịp của bạn<i></i><i></i></span></div>
-    <div class="intro-float intro-float-third" aria-hidden="true">${icon('book')}<span>Thực hành mỗi tuần<i></i><i></i></span></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
+      <div class="intro-float intro-float-code"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Mỗi ngày một chút,<br>tiến xa hơn hôm qua.”</p></div>
+      <div class="intro-float intro-float-progress"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Chưa làm được hôm nay,<br>hãy thử lại ngày mai.”</p></div>
+    <div class="intro-float intro-float-third"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Học để hiểu.<br>Thực hành để nhớ.”</p></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
 </div>`;
   startIntroMotion();
 }
