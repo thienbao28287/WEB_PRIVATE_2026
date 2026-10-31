@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {parseNotebook} from '../scripts/notebook.mjs';
 import {collectContent,projectRoot} from '../scripts/build.mjs';
-import {getLessonPitfalls,renderNotebookDialog} from '../web/assets/notebook.js';
+import {getLessonPitfalls,hasTheory,renderNotebookDialog} from '../web/assets/notebook.js';
 
 test('notebook entries come from lesson Markdown and code remains escaped',async()=>{
  const content=await collectContent(projectRoot);
@@ -35,9 +35,16 @@ test('notebook Markdown reports missing required sections',()=>{
 });
 
 test('notebook selector offers every lesson and selects the current lesson',()=>{
- const lessons=[{number:1,title:'Bắt đầu',notebook:[]},{number:2,title:'Form',notebook:[{title:'Lỗi',badCode:'',goodCode:'',symptomHTML:'',explanationHTML:''}]}];
+ const lessons=[{number:1,title:'Bắt đầu',pages:[{type:'theory',html:'<h1>Start</h1>'}],notebook:[]},{number:2,title:'Form',pages:[{type:'theory',html:'<h1>Form</h1>'}],notebook:[{title:'Lỗi',badCode:'',goodCode:'',symptomHTML:'',explanationHTML:''}]}];
  const html=renderNotebookDialog(lessons[1],{},[],lessons);
  assert.match(html,/value="1"[^>]*>Tuần 1 · Bắt đầu — Chưa có ghi chú/);
  assert.match(html,/value="2" selected>Tuần 2 · Form — 1 ghi chú/);
  assert.match(html,/label for="notebook-lesson"/);
+});
+
+test('only lessons with published theory appear in notebook choices',()=>{
+ const lessons=[{number:1,pages:[{type:'theory',html:'<h1>Theory</h1>'}]},{number:2,pages:[{type:'homework',html:'Homework'}]},{number:3,pages:[],notebook:[{}]},{number:4,pages:[{type:'theory',html:'   '}]}];
+ assert.deepEqual(lessons.filter(hasTheory).map(item=>item.number),[1]);
+ const html=renderNotebookDialog(lessons[0],{},[],lessons);
+ assert.match(html,/value="1"/);assert.doesNotMatch(html,/value="[234]"/);
 });
