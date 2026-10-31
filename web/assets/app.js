@@ -56,10 +56,25 @@ function home() {
   const isDone = lesson => lesson.pages.length > 0 && lesson.pages.every(page => completed.has(page.id));
   const lastPage = storage.get('hit-last','');
   const currentLesson = lessons.find(lesson=>!isDone(lesson) && lesson.pages.some(page=>page.id===lastPage)) || lessons.find(lesson=>lesson.pages.length && !isDone(lesson));
+  const resumePage=pages.find(page=>page.id===lastPage) || currentLesson?.pages[0] || pages[0];
   $('#main').innerHTML = `<div class="home roadmap-page">
+    <section class="course-intro" aria-labelledby="intro-title">
+      <div class="intro-grid" aria-hidden="true"></div>
+      <div class="intro-orbit" aria-hidden="true"></div>
+      <div class="intro-content">
+        <p class="intro-kicker">HIT · WEB PRIVATE 2026</p>
+        <h1 id="intro-title">Sẵn sàng bắt đầu<br>hành trình <em>học web?</em></h1>
+        <p class="intro-description">Từ những dòng HTML đầu tiên đến giao diện của riêng bạn.<br>Học từng bước, thực hành mỗi tuần, cùng HIT tiến bộ.</p>
+        <ul class="intro-facts" aria-label="Thông tin khóa học"><li>${icon('book')}<span><strong>${lessons.length}</strong> buổi học</span></li><li>${icon('code')}<span>HTML · CSS · JavaScript</span></li><li>${icon('check')}<span>Lưu tiến độ cá nhân</span></li></ul>
+        ${resumePage?`<a class="intro-start" href="${route(resumePage.id)}">${lastPage?'Tiếp tục học':'Bắt đầu học'}${icon('arrow')}</a>`:''}
+        <p class="intro-note">Mỗi dòng code là một bước tiến.</p>
+      </div>
+      <div class="intro-float intro-float-code" aria-hidden="true">${icon('code')}<span>Viết dòng code đầu tiên<i></i><i></i></span></div>
+      <div class="intro-float intro-float-progress" aria-hidden="true">${icon('check')}<span>Học theo nhịp của bạn<i></i><i></i></span></div>
+    </section>
     <header class="roadmap-header">
       <div class="eyebrow">Web Private 2026</div>
-      <h1>Lộ trình khóa học</h1>
+      <h2>Lộ trình khóa học</h2>
       <p>${lessons.length} buổi học · HTML, CSS và JavaScript</p>
     </header>
     ${!lessons.length?'<section class="empty-state"><h2>Chưa có buổi học</h2><p>Tài liệu đang được chuẩn bị. Bạn có thể quay lại sau.</p></section>':''}
