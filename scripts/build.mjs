@@ -67,6 +67,8 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   const motionVersion = createHash('sha256').update(motion).digest('hex').slice(0, 12);
   const appFile = path.join(out, 'assets/app.js');
   let app=(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`);
+  const contentVersion=createHash('sha256').update(await readFile(path.join(out,'assets/content.js'))).digest('hex').slice(0,12);
+  app=app.replace("'./content.js'",`'./content.js?v=${contentVersion}'`);
   const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
   await Promise.all(illustrations.map(async name=>{
     const original=path.join(out,'assets',name+'.png');

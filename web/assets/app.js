@@ -1,4 +1,5 @@
 import DOMPurify from './purify.mjs';
+import { fetchContent } from './content.js';
 import { animateElement, motionEnabled, createLatestTransition } from './motion.js';
 
 const $ = selector => document.querySelector(selector);
@@ -31,7 +32,7 @@ const route = id => `#/${id}`;
 const label = type => type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }, set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} } };
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
-let hasRendered=false, tocMotion=null, tocGeneration=0, tocResizeObserver, selectedWeek=null;
+let hasRendered=false, tocMotion=null, tocGeneration=0, tocResizeObserver, selectedWeek=null, contentController;
 const navigationMotion=createLatestTransition();
 const savedCompletions = () => { const saved=storage.get('hit-completed',[]); return new Set(Array.isArray(saved)?saved.filter(value=>typeof value==='string'):[]); };
 let completed = savedCompletions();
@@ -39,6 +40,7 @@ document.documentElement.classList.toggle('sidebar-collapsed',storage.get('hit-s
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
 function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Tác giả website: <strong class="author-handle">@phamthienbao</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
+  settleDisclosures();
   $('#sidebar').classList.toggle('sidebar-intro',!$('#sidebar .side-lesson'));
   const open = [...document.querySelectorAll('.side-lesson[open]')].map(el => +el.dataset.number);
   const lessons = [...data.lessons].sort((a,b) => a.number-b.number);
@@ -47,7 +49,7 @@ function sidebar() {
   $('#sidebar').innerHTML = `<a class="side-home ${currentId==='overview'?'active':''}" href="#/overview">${icon('home')}Tổng quan khóa học</a><div class="side-label">Nội dung khóa học</div>` + lessons.map((lesson,index) => {
     const current = lesson.pages.some(page => page.id === currentId);
     return `<details class="side-lesson ${current?'current selected':''}" data-number="${lesson.number}" style="--side-delay:${Math.min(index*18,180)}ms" ${current || open.includes(lesson.number)?'open':''}>
-      <summary><span class="side-title">Tuần ${lesson.number}</span>${icon('chevron')}</summary>
+      <summary><span class="side-title">Tuần ${lesson.number}</span>${!lesson.pages.length?'<span class="week-pending">Sắp cập nhật</span>':''}${icon('chevron')}</summary>
       <div class="side-documents">${lesson.pages.length ? lesson.pages.map(page => `<a class="side-link ${page.id===currentId?'active':''}" ${page.id===currentId?'aria-current="page"':''} href="${route(page.id)}">${icon(completed.has(page.id)?'check':page.type==='theory'?'book':'code')}${label(page.type)}</a>`).join('') : '<div class="side-empty">Sắp cập nhật tài liệu</div>'}</div>
     </details>`;
   }).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
@@ -60,11 +62,11 @@ document.querySelector('script[src*="motion-vendor.js"]')?.addEventListener('loa
   if(document.querySelector('.intro-page'))startIntroMotion();
 },{once:true});
 function stopIntroMotion() { introReveal?.stop();introReveal=null;introAnimations.forEach(animation=>animation.stop());introAnimations=[]; }
-function startIntroMotion() {
+function startIntroMotion({reveal=true}={}) {
   stopIntroMotion();
   if(!globalThis.Motion || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const {animate,stagger}=globalThis.Motion;
-  introReveal=animate('.intro-content > *',{opacity:[0,1],y:[18,0]},{duration:.75,delay:stagger(.08),ease:'easeOut'});
+  if(reveal)introReveal=animate('.intro-content > *',{opacity:[0,1],y:[18,0]},{duration:.75,delay:stagger(.08),ease:'easeOut'});
   document.querySelectorAll('.intro-float').forEach((element,index)=>{const direction=element.matches('.intro-float-code,.intro-float-fourth')?-1:1;introAnimations.push(animate(element,{y:[0,-18,0],rotate:[8*direction,5*direction,8*direction]},{duration:6+index,repeat:Infinity,ease:'easeInOut',delay:index*.3}));});
   document.querySelectorAll('.intro-node').forEach((element,index)=>introAnimations.push(animate(element,{scale:[1,1.25,1],opacity:[.5,1,.5],x:[0,index%2?20:-20,0]},{duration:4+index,repeat:Infinity,ease:'easeInOut'})));
   document.querySelectorAll('.intro-balloon').forEach((element,index)=>{
@@ -72,6 +74,7 @@ function startIntroMotion() {
     const direction=index%2?1:-1;
     introAnimations.push(animate(element,{y:[0,-22,0],x:[0,5*direction,0],rotate:[-3*direction,3*direction,-3*direction]},{duration:6.5+index*.55,repeat:Infinity,ease:'easeInOut'}));
   });
+  if(document.hidden || $('#intro-motion-toggle')?.getAttribute('aria-pressed')==='true')introAnimations.forEach(animation=>animation.pause());
 }
 function intro() {
   document.title='Chào mừng · HIT Web Private';
@@ -102,12 +105,15 @@ function home() {
   const lastPage = storage.get('hit-last','');
   const currentLesson = lessons.find(lesson=>!isDone(lesson) && lesson.pages.some(page=>page.id===lastPage)) || lessons.find(lesson=>lesson.pages.length && !isDone(lesson));
   const resumePage=pages.find(page=>page.id===lastPage) || currentLesson?.pages[0] || pages[0];
+  const finished=pages.filter(page=>completed.has(page.id)).length;
+  const percentage=pages.length?Math.round(finished/pages.length*100):0;
   $('#main').innerHTML = `<div class="home roadmap-page">
     <header class="roadmap-header">
       <div class="eyebrow">Web Private 2026</div>
       <h1>Lộ trình khóa học</h1>
       <p>${lessons.length} buổi học · HTML, CSS và JavaScript</p>
     </header>
+    ${pages.length?`<section class="course-progress" aria-label="Tiến độ cá nhân"><div><p class="progress-caption">TIẾN ĐỘ CỦA BẠN</p><p class="progress-count"><strong>${finished}/${pages.length}</strong> tài liệu đã hoàn thành <span>· ${percentage}%</span></p><progress value="${finished}" max="${pages.length}" aria-label="Tài liệu đã hoàn thành">${percentage}%</progress><small>Lưu trên trình duyệt này · Chỉ tính tài liệu hiện có</small></div>${resumePage?`<div class="resume-study"><span>${esc(resumePage.title)}</span><a class="button primary" href="${route(resumePage.id)}">${pages.some(page=>page.id===lastPage)?'Tiếp tục bài gần nhất':'Bắt đầu học'}</a></div>`:''}</section>`:''}
     ${!lessons.length?'<section class="empty-state"><h2>Chưa có buổi học</h2><p>Tài liệu đang được chuẩn bị. Bạn có thể quay lại sau.</p></section>':''}
     <ol class="roadmap" aria-label="Lộ trình các buổi học">
       ${lessons.map(lesson => {
@@ -335,13 +341,12 @@ function render({ force=false, preserve=false }={}) {
 }
 async function loadContent(preserve=false) {
   const version=++routeVersion;
+  contentController?.abort();contentController=new AbortController();
   $('#main').setAttribute('aria-busy','true');
   try {
-    const response=await fetch(new URL('content.json',base),{cache:'no-store'});
-    if(!response.ok)throw new Error('HTTP '+response.status);
-    const incoming=await response.json(); if(version!==routeVersion)return;
+    const incoming=await fetchContent(new URL('content.json',base),{signal:contentController.signal}); if(version!==routeVersion)return;
     data=incoming; pages=data.lessons.flatMap(l=>l.pages); await render({force:true,preserve});
-  } catch(error) { if(version===routeVersion){console.error(error);navigationMotion.cancel();cancelTocMotion();hasRendered=false;errorPage('Không tải được tài liệu. Hãy kiểm tra kết nối rồi thử lại.');} }
+  } catch(error) { if(version===routeVersion){console.error(error);navigationMotion.cancel();cancelTocMotion();hasRendered=false;errorPage(error.name==='TimeoutError'?'Kết nối quá chậm, đã dừng chờ sau 12 giây. Bạn có thể thử tải lại.':'Không tải được tài liệu. Hãy kiểm tra kết nối rồi thử lại.');} }
   finally { if(version===routeVersion && !navigationMotion.isRunning)$('#main').setAttribute('aria-busy','false'); }
 }
 function closeMenu(returnFocus=true) {
@@ -412,6 +417,11 @@ $('#main').addEventListener('click',async e=>{
   const copy=e.target.closest('.copy-code');if(copy){try{await navigator.clipboard.writeText(copy.closest('.code-wrap').querySelector('code')?.textContent || '');toast('Đã sao chép đoạn code');}catch{toast('Chưa sao chép được. Bạn có thể chọn code để sao chép.');}return;}
   const imageButton=e.target.closest('.image-open');if(imageButton)openImage(imageButton.querySelector('img'));
 });
+const disclosureMotions=new Map();
+function settleDisclosures(){
+  for(const [details,state] of disclosureMotions){state.animation.onfinish=null;state.animation.oncancel=null;state.animation.cancel();details.open=state.open;details.style.overflow='';}
+  disclosureMotions.clear();
+}
 document.addEventListener('click', e=>{
   const summary=e.target.closest('.side-lesson > summary,.mobile-toc > summary');
   if(summary?.parentElement.matches('.side-lesson')){
@@ -421,14 +431,16 @@ document.addEventListener('click', e=>{
   if(!summary || matchMedia('(prefers-reduced-motion: reduce)').matches || typeof summary.animate!=='function')return;
   e.preventDefault();
   const details=summary.parentElement;
-  if(typeof details.getAnimations==='function' && details.getAnimations().length)return;
-  const closing=details.open, start=details.offsetHeight;
-  if(!closing)details.open=true;
-  const end=closing?summary.offsetHeight:details.offsetHeight;
+  const previous=disclosureMotions.get(details);
+  const open=!(previous?.open ?? details.open), start=details.getBoundingClientRect().height;
+  if(previous){previous.animation.onfinish=null;previous.animation.oncancel=null;previous.animation.cancel();}
+  details.open=true;
+  const end=open?details.offsetHeight:summary.offsetHeight;
   details.style.overflow='hidden';
   const animation=details.animate({height:[`${start}px`,`${end}px`]}, {duration:300,easing:'ease-out'});
-  animation.onfinish=()=>{details.open=!closing;details.style.overflow='';};
-  animation.oncancel=()=>{details.style.overflow='';};
+  const state={animation,open};disclosureMotions.set(details,state);
+  animation.onfinish=()=>{if(disclosureMotions.get(details)!==state)return;details.open=open;details.style.overflow='';disclosureMotions.delete(details);};
+  animation.oncancel=()=>{if(disclosureMotions.get(details)===state){details.open=open;details.style.overflow='';disclosureMotions.delete(details);}};
 });
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();if(!$('#search-dialog').open)openSearch();}
@@ -447,7 +459,12 @@ document.addEventListener('visibilitychange',()=>{
   const paused=$('#intro-motion-toggle')?.getAttribute('aria-pressed')==='true';
   introAnimations.forEach(animation=>document.hidden || paused?animation.pause():animation.play());
 });
-matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{if(event.matches){stopIntroMotion();cancelTocMotion();navigationMotion.finish();}});
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{
+  if(event.matches){
+    stopIntroMotion();settleDisclosures();cancelTocMotion();navigationMotion.finish();
+    document.querySelectorAll('.intro-content > *').forEach(element=>{element.style.opacity='1';element.style.transform='none';});
+  }else if(document.querySelector('.intro-page'))startIntroMotion({reveal:false});
+});
 window.addEventListener('storage',e=>{if(e.key==='hit-completed'){completed=savedCompletions();render({force:true,preserve:true});}if(e.key==='hit-theme'&&e.newValue){document.documentElement.dataset.theme=e.newValue;updateThemeButton();}});
 loadContent();
 if(document.querySelector('meta[name="hit-preview"]')){
