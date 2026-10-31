@@ -1,3 +1,4 @@
+import hljs from 'highlight.js';
 import {marked} from 'marked';
 const key=text=>text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase().trim();
 export function parseNotebook(markdown,source){
@@ -19,7 +20,9 @@ export function parseNotebook(markdown,source){
       if(!sections[required]?.some(token=>token.type!=='space'))throw new Error(`${source}: ${item.title} thiếu ${required}`);
     }
     const code=name=>{const blocks=sections[name].filter(token=>token.type==='code');if(!blocks.length)throw new Error(`${source}: ${item.title} cần code fence trong ${name}`);return blocks.map(token=>token.text).join('\n\n');};
-    return {id:`notebook-${index+1}`,title:item.title,tag:sections.tag?.map(token=>token.text||'').join(' ').trim()||'Lỗi thường gặp',
+    const highlighted=name=>{const block=sections[name].find(token=>token.type==='code');const declared=(block.lang||'').split(/\s/)[0];const raw=code(name);const result=declared&&declared!=='text'&&hljs.getLanguage(declared)?hljs.highlight(raw,{language:declared}):hljs.highlightAuto(raw,['xml','css','javascript','bash']);return {html:result.value,language:declared&&declared!=='text'?declared:(result.language==='xml'?'html':result.language||'text')};};
+    const bad=highlighted('badCode'),good=highlighted('goodCode');
+    return {badCodeHTML:bad.html,badLanguage:bad.language,goodCodeHTML:good.html,goodLanguage:good.language,id:`notebook-${index+1}`,title:item.title,tag:sections.tag?.map(token=>token.text||'').join(' ').trim()||'Lỗi thường gặp',
       symptomHTML:marked.parser(sections.symptom),explanationHTML:marked.parser(sections.explanation),badCode:code('badCode'),goodCode:code('goodCode')};
   });
 }
