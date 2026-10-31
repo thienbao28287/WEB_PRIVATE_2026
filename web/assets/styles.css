@@ -439,14 +439,10 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 @media(max-width:1100px) { .intro-balloons { top: 3%; width: 125px; transform: scale(.8); transform-origin: top left; } .balloons-right { transform: scale(-.8,.8); transform-origin: top right; } .balloon-2 { display: none; } }
 @media(max-width:600px) { .intro-balloons { top: 1.5rem; width: 48px; height: 130px; transform: none; } .balloons-left { left: .5rem; } .balloons-right { right: .5rem; transform: scaleX(-1); transform-origin: center; } .intro-balloon.balloon-0 { width: 44px; height: 118px; top: 0; left: 0; } .intro-balloon.balloon-1,.intro-balloon.balloon-2 { display: none; } }
 
-/* Clear two-line intro and compact end-of-lesson controls. */
+/* Clear two-line intro. */
 .intro-page .intro-content { max-width: 1200px; width: 100%; }
 .intro-page .course-intro h1 { font-size: clamp(2.25rem,4vw,4.5rem); }
 .intro-title-line { display: block; }
 @media(min-width:1000px) { .intro-title-line { white-space: nowrap; } }
 .intro-start { min-width: 240px; justify-content: center; gap: 0; }
-.reader-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: stretch; gap: 1rem; }
-.reader-actions .complete-button { width: 100%; min-height: 64px; height: auto; padding: 1rem; white-space: normal; }
-.reader-actions .pagination { margin: 0; min-width: 0; }
-.reader-actions .pagination a { min-height: 64px; padding: 1rem; }
-@media(max-width:767px) { .reader-actions { grid-template-columns: minmax(0,1fr); } .intro-start { min-width: 0; } }
+@media(max-width:767px) { .intro-start { min-width: 0; } }
