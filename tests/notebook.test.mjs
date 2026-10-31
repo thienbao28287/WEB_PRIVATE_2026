@@ -36,9 +36,10 @@ test('renderNotebookDialog produces valid markup with notebook styling and compa
   const html = renderNotebookDialog(lesson, page, pitfalls);
 
   assert.match(html, /id="notebook-dialog"/);
-  assert.match(html, /class="notebook-book"/);
-  assert.match(html, /class="notebook-spine"/);
-  assert.match(html, /class="notebook-page-surface"/);
+  assert.match(html, /notebook-book/);
+  assert.match(html, /shadcn-sheet/);
+  assert.match(html, /notebook-spine/);
+  assert.match(html, /notebook-page-surface/);
   assert.match(html, /code-box-bad/);
   assert.match(html, /code-box-good/);
   assert.match(html, /preventDefault/);
