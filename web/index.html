@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('hit-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch{}</script>
   <link rel="stylesheet" href="./assets/styles.css">
-  <script>document.documentElement.classList.toggle("intro-mode",!location.hash || location.hash==="#/")</script><script src="./assets/motion-vendor.js"></script><script type="module" src="./assets/app.js"></script>
+  <script>document.documentElement.classList.toggle("intro-mode",!location.hash || location.hash==="#/")</script><script defer src="./assets/motion-vendor.js"></script><script type="module" src="./assets/app.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Đi đến nội dung</a>
@@ -25,7 +25,7 @@
   </header>
   <button id="backdrop" class="backdrop" aria-label="Đóng danh sách buổi học" hidden></button>
   <aside id="sidebar" class="sidebar" aria-label="Điều hướng khóa học"></aside>
-  <main id="main" tabindex="-1" aria-busy="true"><div class="loading" role="status"><span>Đang tải tài liệu khóa học…</span><div class="loading-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></main>
+  <main id="main" tabindex="-1" aria-busy="true"><div class="boot-loader" role="status" aria-live="polite"><div class="boot-spinner" aria-hidden="true"><span>HIT</span></div><strong>Chuẩn bị không gian học tập</strong><p>Đang tải tài liệu khóa học…</p></div></main>
   <dialog id="search-dialog" class="search-dialog" aria-label="Tìm kiếm tài liệu">
     <form method="dialog" class="search-head"><label class="sr-only" for="search-input">Tìm kiếm nội dung</label><input id="search-input" placeholder="Tìm bài học, kiến thức, đoạn code…" autocomplete="off"><button class="icon-button" aria-label="Đóng tìm kiếm">✕</button></form>
     <p id="search-summary" class="search-summary" role="status"></p><div id="search-results" class="search-results"></div>

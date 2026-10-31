@@ -53,6 +53,9 @@ function sidebar() {
   }).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
 }
 let introAnimations=[];
+document.querySelector('script[src*="motion-vendor.js"]')?.addEventListener('load',()=>{
+  if(document.querySelector('.intro-page'))startIntroMotion();
+},{once:true});
 function stopIntroMotion() { introAnimations.forEach(animation=>animation.stop());introAnimations=[]; }
 function startIntroMotion() {
   stopIntroMotion();

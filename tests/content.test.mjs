@@ -47,6 +47,15 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
     assert.doesNotMatch(html,/(?:src|href)="\/assets/);
     assert.match(await readFile(path.join(out,'assets/app.js'),'utf8'),/from '\.\/motion\.js\?v=[a-f0-9]{12}'/);
     assert.match(await readFile(path.join(out,'assets/motion.js'),'utf8'),/createLatestTransition/);
+    // Published illustrations must use small alpha-capable WebP files, not original PNGs.
+    const app=await readFile(path.join(out,'assets/app.js'),'utf8');
+    for(const name of ['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat']){
+      const optimized=await readFile(path.join(out,'assets',name+'.webp'));
+      assert.equal(optimized.toString('ascii',8,12),'WEBP');
+      assert.ok(optimized.length<60000,`${name} exceeds the illustration budget`);
+      assert.ok(app.includes(name+'.webp?v='));
+      await assert.rejects(readFile(path.join(out,'assets',name+'.png')),{code:'ENOENT'});
+    }
     const output=JSON.parse(await readFile(path.join(out,'content.json'),'utf8'));
     assert.deepEqual(output,content);
     assert.match(await readFile(path.join(out,'assets/purify.mjs'),'utf8'),/DOMPurify/);

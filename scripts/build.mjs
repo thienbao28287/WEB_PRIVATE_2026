@@ -1,4 +1,5 @@
-import { readFile, readdir, mkdir, cp, writeFile } from 'node:fs/promises';
+import { readFile, readdir, mkdir, cp, writeFile, unlink } from 'node:fs/promises';
+import sharp from 'sharp';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -65,7 +66,17 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   const motion = await readFile(path.join(out, 'assets/motion.js'));
   const motionVersion = createHash('sha256').update(motion).digest('hex').slice(0, 12);
   const appFile = path.join(out, 'assets/app.js');
-  await writeFile(appFile,(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`));
+  let app=(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`);
+  const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
+  await Promise.all(illustrations.map(async name=>{
+    const original=path.join(out,'assets',name+'.png');
+    const buffer=await sharp(original).resize({width:name.startsWith('author')?360:240,withoutEnlargement:true}).webp({quality:82,alphaQuality:90}).toBuffer();
+    const version=createHash('sha256').update(buffer).digest('hex').slice(0,12);
+    await writeFile(path.join(out,'assets',name+'.webp'),buffer);
+    app=app.replaceAll(name+'.png',name+'.webp?v='+version);
+    await unlink(original);
+  }));
+  await writeFile(appFile,app);
   let index = await readFile(path.join(out, 'index.html'), 'utf8');
   for (const asset of ['app.js', 'styles.css', 'motion-vendor.js']) {
     const content = await readFile(path.join(out, 'assets', asset));

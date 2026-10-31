@@ -64,3 +64,7 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 ## Cách sử dụng
 
 - Đọc lý thuyết và làm bài tập theo từng buổi.
+
+### Tối ưu ảnh và tải trang
+
+Build tự thu nhỏ 5 minh họa trong `web/assets/` và xuất WebP có nền trong suốt, kèm mã phiên bản để cập nhật cache. Giữ PNG gốc để sửa thiết kế; trang xuất bản chỉ tải WebP. Ảnh tác giả ngoài màn hình dùng lazy loading. Loader HTML/CSS xuất hiện trong lúc tải dữ liệu và được thay ngay khi nội dung sẵn sàng; không cố tình trì hoãn mở trang. Motion tải bằng `defer` để không chặn phân tích HTML.
