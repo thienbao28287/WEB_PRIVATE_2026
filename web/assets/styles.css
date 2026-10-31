@@ -362,3 +362,17 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 @media(max-width:1100px) { .intro-page .intro-float { opacity: .7; bottom: 7%; } .intro-page .intro-float-third { display: none; } }
 @media(max-width:900px) { .intro-page .course-intro { padding: 2rem 1.25rem 4rem; } .intro-page .intro-float { display: none; } }
 @media(prefers-reduced-motion:reduce) { .intro-motion-toggle { display: none; } }
+
+/* Brighter button feedback on dark surfaces. */
+:root[data-theme=dark] { --primary-hover: #FF984D; }
+:root[data-theme=dark] :is(.button.primary,.intro-start,.complete-button.done):hover {
+  background: #FF984D;
+  border-color: #FF984D;
+  color: #FFFFFF;
+}
+:root[data-theme=dark] :is(.icon-button,.search-open,.toc-toggle,.complete-button:not(.done)):hover {
+  background: #F47B2A;
+  border-color: #F47B2A;
+  color: #FFFFFF;
+}
+:root[data-theme=dark] .intro-motion-toggle:hover { color: #FF984D; }
