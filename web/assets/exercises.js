@@ -1,5 +1,5 @@
 import DOMPurify from './purify.mjs';
-import {checkAnswers,escapeHTML,previewCode,restoreExercise} from './exercise-model.js';
+import {checkAnswers,escapeHTML,previewCode,restoreExercise,exerciseStorageId} from './exercise-model.js';
 
 const storageKey='hit-exercises-v1';
 let session={};
@@ -31,7 +31,7 @@ export function mountExercises(article,page){
     const states=[];
     const updateProgress=()=>{section.querySelector('.exercise-progress').textContent=`${states.filter(state=>state.completed).length}/${group.exercises.length} bài thực hành hoàn thành`;};
     for(const exercise of group.exercises){
-      const key=`${page.id}/${group.id}/${exercise.id}@${exercise.version}`;
+      const key=exerciseStorageId(page.id,group.id,exercise);
       const saved=readSaved()[key];
       const state=restoreExercise(exercise,saved),answers=state.answers;
       states.push(state);

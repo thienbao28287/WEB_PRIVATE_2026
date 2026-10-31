@@ -1,5 +1,6 @@
 export const identifier=/^[A-Za-z][A-Za-z0-9_-]{0,39}$/;
 export const escapeHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const exerciseStorageId=(pageId,groupId,exercise)=>`${pageId}/${groupId}/${exercise.id}@${exercise.version}`;
 export function checkAnswers(exercise,answers) {
   return exercise.fields.map(field=>{
     const value=String(answers[field.id]??'').trim();

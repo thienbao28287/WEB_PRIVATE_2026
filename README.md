@@ -68,3 +68,23 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 ### Tối ưu ảnh và tải trang
 
 Build tự thu nhỏ 5 minh họa trong `web/assets/` và xuất WebP có nền trong suốt, kèm mã phiên bản để cập nhật cache. Giữ PNG gốc để sửa thiết kế; trang xuất bản chỉ tải WebP. Ảnh tác giả ngoài màn hình dùng lazy loading. Loader HTML/CSS xuất hiện trong lúc tải dữ liệu và được thay ngay khi nội dung sẵn sàng; không cố tình trì hoãn mở trang. Motion tải bằng `defer` để không chặn phân tích HTML.
+
+### Bài tập tương tác trong Markdown
+
+Buổi 2 có 3 bài điền code tại phần HTML Form, với kiểm tra từng ô, xem form kết quả, 2 mức gợi ý và làm lại. Tiến độ thực hành tách riêng khỏi nút hoàn thành tài liệu.
+
+Để thêm một nhóm bài, tạo `LessonN/exercises.json` theo cấu trúc mẫu trong `Lesson2/exercises.json`, rồi đặt marker tại vị trí mong muốn trong Markdown:
+
+````md
+```exercise
+html-form
+```
+````
+
+- Root JSON có `groups`; mỗi nhóm có `id`, `title`, `exercises`.
+- Mỗi bài có `id`, `version` (số nguyên từ 1), `title`, `prompt`, `template`, `fields`, hai `hints` và `explanation`.
+- Template dùng token `{{field-id}}`; mỗi token xuất hiện một lần, phải có field tương ứng. ID dùng chữ thường, số và gạch ngang, bắt đầu bằng chữ.
+- Field gồm `id`, `label`, `rule`, `error`. `identifier` kiểm tra tên và có thể dùng `matches` để yêu cầu giống ô khác; `value` so với `expected`; `attribute` chỉ chèn thuộc tính boolean đã khai báo nếu câu trả lời khớp `expected`.
+- Khi thay đổi yêu cầu/đáp án, tăng `version` để tiến độ cũ không áp dụng nhầm. Đáp án và tiến độ lưu trong `hit-exercises-v1`; không gửi lên máy chủ. Nếu trình duyệt chặn lưu, thao tác vẫn dùng được trong phiên.
+- Preview được làm sạch và chạy trong iframe sandbox không có quyền script, gửi form hay điều hướng trang chính. Chỉ dùng template Form có sẵn; đây không phải trình chạy HTML/JS tự do.
+- Build báo lỗi nếu ID trùng, thiếu token hoặc marker không tồn tại. `npm test` kiểm tra quy tắc chấm, escape, khôi phục và phiên bản; `npm run build` tạo bản xuất bản.

@@ -83,3 +83,7 @@ Intro có hai chùm bóng bay cam–trắng bằng SVG inline (không tải ản
 ## Reading and course status updates
 
 Tổng quan hiển thị bài gần nhất hợp lệ và tiến độ theo số tài liệu có nội dung, loại bỏ ID hoàn thành không còn tồn tại khỏi phép đếm. Tiến độ lưu riêng trên trình duyệt, không tính tuần trống. Sidebar ghi Sắp cập nhật ngay trên summary của tuần thiếu tài liệu. Giữ khung đọc rộng cho code/bảng/ảnh, giới hạn riêng p/ul/ol/blockquote/dl ở 85ch. Accordion lưu trạng thái mở mong muốn và hủy animation cũ khi bấm nhanh. Khi bật reduced-motion, chốt accordion ngay và dừng hiệu ứng; tắt lại sẽ khởi động vòng lặp intro, tôn trọng nút tạm dừng thủ công. Request content.json có timeout 12 giây bao gồm đọc JSON và được hủy nếu có lần tải mới; lỗi hiện nút thử lại.
+
+## Interactive HTML Form exercises
+
+Nhóm thực hành nằm ngay sau ví dụ Form trong Buổi 2. Desktop chia code/preview hai cột; dưới 1100px xếp dọc. Ô điền code và nút có vùng bấm tối thiểu 44px; code cuộn riêng, preview có nhãn và ghi rõ không gửi dữ liệu. Kết quả có chữ và ký hiệu, không chỉ dùng màu; ô sai dùng aria-invalid/aria-describedby và focus ô sai đầu tiên khi chấm. Nhóm hiển thị tiến độ thực hành riêng, giữ theme hiện tại và cập nhật preview khi đổi theme. Không thêm animation vào bài tập. Tài liệu khai báo bằng exercises.json và marker exercise trong Markdown; dữ liệu được kiểm tra lúc build.

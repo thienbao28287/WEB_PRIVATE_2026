@@ -49,6 +49,8 @@ test('new lessons, new homework, edits, code escaping and portable output', asyn
     assert.match(await readFile(path.join(out,'assets/motion.js'),'utf8'),/createLatestTransition/);
     // Published illustrations must use small alpha-capable WebP files, not original PNGs.
     const app=await readFile(path.join(out,'assets/app.js'),'utf8');
+    assert.match(app,/from '\.\/exercises\.js\?v=[a-f0-9]{12}'/);
+    assert.match(await readFile(path.join(out,'assets/exercises.js'),'utf8'),/from '\.\/exercise-model\.js\?v=[a-f0-9]{12}'/);
     for(const name of ['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat']){
       const optimized=await readFile(path.join(out,'assets',name+'.webp'));
       assert.equal(optimized.toString('ascii',8,12),'WEBP');

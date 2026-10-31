@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import {checkAnswers,previewCode,restoreExercise,validateExercises} from '../web/assets/exercise-model.js';
+import {checkAnswers,previewCode,restoreExercise,validateExercises,exerciseStorageId} from '../web/assets/exercise-model.js';
 import {collectContent,projectRoot} from '../scripts/build.mjs';
 const data=JSON.parse(await readFile(new URL('../Lesson2/exercises.json',import.meta.url),'utf8'));
 const [label,email,required]=data.groups[0].exercises;
@@ -26,11 +26,19 @@ test('preview escapes quoted values and never injects raw boolean-position attri
   const booleanPreview=previewCode(required,{'required-attribute':'required autofocus onfocus=alert(1)'});
   assert.ok(!booleanPreview.includes('autofocus'));assert.ok(!booleanPreview.includes('onfocus'));
 });
-test('restoring state revalidates completion, ignores damaged answers and isolates versions by caller key',()=>{
+test('restoring state revalidates completion and ignores damaged answers',()=>{
   assert.equal(restoreExercise(email,{completed:true,answers:{'input-type':'text'}}).completed,false);
   assert.equal(restoreExercise(email,{completed:true,answers:{'input-type':'email'}}).completed,true);
   assert.deepEqual(restoreExercise(email,{answers:{'input-type':42},completed:true}),{answers:{'input-type':''},completed:false});
   assert.deepEqual(restoreExercise(email,undefined),{answers:{'input-type':''},completed:false});
+});
+test('a new exercise version starts fresh and does not reuse a completed old answer',()=>{
+  const v1=exerciseStorageId('Lesson2/theory','html-form',email);
+  const v2=exerciseStorageId('Lesson2/theory','html-form',{...email,version:2});
+  const saved={[v1]:{completed:true,answers:{'input-type':'email'}}};
+  assert.notEqual(v1,v2);
+  assert.equal(restoreExercise(email,saved[v1]).completed,true);
+  assert.deepEqual(restoreExercise(email,saved[v2]),{answers:{'input-type':''},completed:false});
 });
 test('exercise authoring rejects duplicate IDs, missing blanks and unknown fields',()=>{
   assert.equal(validateExercises(data,'exercises.json').length,1);
