@@ -329,13 +329,7 @@ Chỉnh sửa mã ở bên phải, chọn **Trình duyệt** hoặc bấm **Ch�
   <title>Form đăng ký học Web</title>
 </head>
 <body>
-  <h1>Chào mừng đến với lớp Web HIT!</h1>
-  <p>Hãy sửa form và thử kết quả của bạn.</p>
-  <form>
-    <label for="full-name">Họ và tên:</label>
-    <input id="full-name" name="fullName" required>
-    <button type="submit">Kiểm tra form</button>
-  </form>
+ 
 </body>
 </html>
 ```

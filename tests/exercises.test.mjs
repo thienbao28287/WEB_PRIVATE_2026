@@ -70,3 +70,12 @@ test('build reports missing and duplicate exercise markers with the Markdown pat
     await assert.rejects(collectContent(root),/Lesson2\/theory.md: marker exercise bị trùng/);
   }finally{await rm(root,{recursive:true,force:true});}
 });
+
+test('all Form exercises start from the same empty HTML document as free practice',async()=>{
+ const theory=await readFile(new URL('../Lesson2/theory.md',import.meta.url),'utf8');
+ const initial=data.groups[0].starterCode;
+ assert.match(initial,/<!DOCTYPE html>/);assert.match(initial,/<body>\s*<\/body>/);
+ assert.equal(theory.match(/```playground\r?\n([\s\S]*?)```/)[1].trim(),initial.trim());
+ const copy=structuredClone(data);delete copy.groups[0].starterCode;
+ assert.throws(()=>validateExercises(copy,'exercises.json'),/starterCode/);
+});

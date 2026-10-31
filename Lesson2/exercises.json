@@ -8,7 +8,7 @@
           "id": "form-label",
           "version": 1,
           "title": "1. Nối nhãn với ô nhập",
-          "prompt": "Sửa for của label và id của input thành cùng một tên. Dùng chữ cái đầu tiên, sau đó có thể dùng chữ, số, dấu gạch ngang hoặc gạch dưới (tối đa 40 ký tự). Bấm nhãn trong bản xem trước để thử focus ô nhập.",
+          "prompt": "Trong body, viết một form có label và input nhập họ tên. Đặt for của label trùng id của input; tên bắt đầu bằng chữ cái, tiếp theo dùng chữ, số, dấu gạch ngang hoặc gạch dưới (tối đa 40 ký tự).",
           "template": "<form>\n  <label for=\"{{label-for}}\">Họ và tên</label>\n  <input id=\"{{input-id}}\" type=\"text\" name=\"fullName\">\n</form>",
           "fields": [
             {
@@ -40,7 +40,7 @@
           "id": "form-email",
           "version": 1,
           "title": "2. Chọn kiểu nhập email",
-          "prompt": "Sửa giá trị type trong code để trình duyệt nhận biết đây là địa chỉ email. Giữ đúng cú pháp thuộc tính trong HTML.",
+          "prompt": "Trong body, viết một form có label và input nhập email. Chọn type phù hợp để trình duyệt nhận biết địa chỉ email.",
           "template": "<form>\n  <label for=\"contact-email\">Email</label>\n  <input id=\"contact-email\" name=\"email\" type=\"{{input-type}}\">\n</form>",
           "fields": [
             {
@@ -63,7 +63,7 @@
           "id": "form-required",
           "version": 1,
           "title": "3. Đánh dấu trường bắt buộc",
-          "prompt": "Thêm thuộc tính boolean vào input để ô họ tên không được bỏ trống. Thuộc tính boolean chỉ cần tên, không cần dấu bằng hay giá trị.",
+          "prompt": "Trong body, viết một form có label và input nhập họ tên. Thêm thuộc tính boolean để ô nhập không được bỏ trống.",
           "template": "<form>\n  <label for=\"required-name\">Họ và tên</label>\n  <input id=\"required-name\" name=\"fullName\" type=\"text\" {{required-attribute}}>\n</form>",
           "fields": [
             {
@@ -82,7 +82,8 @@
           ],
           "explanation": "required bật ràng buộc không được để trống trong cơ chế kiểm tra form của trình duyệt. Đây là thuộc tính boolean: chỉ cần viết tên thuộc tính."
         }
-      ]
+      ],
+      "starterCode": "<!DOCTYPE html>\n<html lang=\"vi\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Form đăng ký học Web</title>\n</head>\n<body>\n \n</body>\n</html>"
     }
   ]
 }

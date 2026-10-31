@@ -60,8 +60,9 @@ export function mountExercises(article,page){
   function progress(){section.querySelector('.exercise-progress').textContent=`${states.filter(s=>s.completed).length}/${group.exercises.length} bài thực hành hoàn thành`;}
   for(const ex of group.exercises){
    const key=exerciseStorageId(page.id,group.id,ex),saved=readSaved()[key],state=restoreExercise(ex,saved);states.push(state);
-   const initial=previewCode(ex,Object.fromEntries(ex.fields.map(f=>[f.id,''])));
-   const code=typeof saved?.code==='string'&&saved.code.length<=30000?saved.code:previewCode(ex,state.answers);
+   const initial=group.starterCode;
+   const legacy=Object.values(state.answers).some(value=>value.trim())?initial.replace(/<body>[\s\S]*?<\/body>/,'<body>\n'+previewCode(ex,state.answers)+'\n</body>'):initial;
+   const code=typeof saved?.code==='string'&&saved.code.length<=30000?saved.code:legacy;
    const prefix=`exercise-${group.id}-${ex.id}`;
    const card=document.createElement('section');card.className='exercise-card';card.setAttribute('aria-labelledby',prefix+'-title');
    card.innerHTML=`<h4 id="${prefix}-title">${escapeHTML(ex.title)}</h4>`;

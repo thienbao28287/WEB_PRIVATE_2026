@@ -28,6 +28,7 @@ export function validateExercises(document,source) {
   for(const group of document.groups){
     if(typeof group.id!=='string'||!identifier.test(group.id)||ids.has(group.id))fail(`ID nhóm không hợp lệ hoặc trùng: ${group.id}`);
     ids.add(group.id);
+    if(typeof group.starterCode!=='string'||!group.starterCode.trim())fail(`Nhóm ${group.id} thiếu starterCode HTML`);
     if(!group.title||!Array.isArray(group.exercises)||!group.exercises.length)fail(`Nhóm ${group.id} thiếu bài tập`);
     for(const ex of group.exercises){
       if(typeof ex.id!=='string'||!identifier.test(ex.id)||ids.has(ex.id))fail(`ID bài tập không hợp lệ hoặc trùng: ${ex.id}`);
