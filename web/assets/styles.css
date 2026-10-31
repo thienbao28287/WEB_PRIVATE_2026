@@ -269,3 +269,32 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   border-color: #F47B2A;
   color: #FFFFFF;
 }
+
+/* Reading position is an underline; sidebar selection uses type weight. */
+.toc-links a,
+.toc-links a:hover,
+.toc-links a.active {
+  background: transparent;
+  border-left: 0;
+}
+.toc-links a.active {
+  text-decoration: underline;
+  text-underline-offset: .3em;
+  text-decoration-thickness: 1.5px;
+}
+.side-lesson[open] > summary,
+.side-lesson.current > summary,
+.side-lesson[open] > summary:hover,
+.side-lesson.current > summary:hover {
+  background: #F47B2A;
+  color: #FFFFFF;
+}
+.side-lesson[open] > summary > svg,
+.side-lesson.current > summary > svg { color: inherit; }
+.side-documents .side-link,
+.side-documents .side-link:hover,
+.side-documents .side-link.active {
+  background: transparent;
+  border-left: 0;
+}
+.side-documents .side-link.active { font-weight: 700; }
