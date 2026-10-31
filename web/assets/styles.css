@@ -446,3 +446,8 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 @media(min-width:1000px) { .intro-title-line { white-space: nowrap; } }
 .intro-start { min-width: 240px; justify-content: center; gap: 0; }
 @media(max-width:767px) { .intro-start { min-width: 0; } }
+
+/* Reserve both navigation slots even at the first or last lesson. */
+.pagination { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+.pagination .pagination-prev { grid-column: 1; grid-row: 1; }
+.pagination .pagination-next { grid-column: 2; grid-row: 1; }
