@@ -419,7 +419,7 @@ $('#main').addEventListener('click',async e=>{
   if(notebookButton){
     const page=pages.find(p=>p.id===currentId);
     const lesson=data.lessons.find(l=>l.pages.some(p=>p.id===currentId));
-    if(page && lesson)openNotebookModal(lesson,page,DOMPurify);
+    if(page && lesson)openNotebookModal(lesson,page,DOMPurify,data.lessons);
     return;
   }
   if(e.target.closest('#intro-motion-toggle')){const button=$('#intro-motion-toggle');const paused=button.getAttribute('aria-pressed')!=='true';introAnimations.forEach(animation=>paused?animation.pause():animation.play());button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'Tiếp tục chuyển động':'Tạm dừng chuyển động';return;}
