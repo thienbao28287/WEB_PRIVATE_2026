@@ -37,7 +37,7 @@ const savedCompletions = () => { const saved=storage.get('hit-completed',[]); re
 let completed = savedCompletions();
 document.documentElement.classList.toggle('sidebar-collapsed',storage.get('hit-sidebar-collapsed',false)===true);
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.add('visible'); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2500); }
-function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Web Private · 2026</span></footer>'; }
+function footer() { return '<footer class="page-footer"><span>Được xây dựng với tinh thần <strong>HIT.</strong></span><span>Tác giả website: <strong class="author-handle">@phamthienbao</strong></span><span>Web Private · 2026</span></footer>'; }
 function sidebar() {
   $('#sidebar').classList.toggle('sidebar-intro',!$('#sidebar .side-lesson'));
   const open = [...document.querySelectorAll('.side-lesson[open]')].map(el => +el.dataset.number);
@@ -112,6 +112,10 @@ function home() {
         </li>`;
       }).join('')}
     </ol>
+    <section class="author-note" aria-labelledby="author-heading">
+      <img src="./assets/author-standing.png" alt="Minh họa tác giả đeo kính, mặc áo trắng viền cam và vẫy tay chào" width="180" height="240" loading="lazy">
+      <div><p class="author-label">Người xây dựng website</p><h2 id="author-heading">Cùng học, cùng tiến bộ.</h2><p>Mỗi buổi học là một bước gần hơn tới website đầu tiên của bạn.</p><strong class="author-handle">@phamthienbao</strong></div>
+    </section>
     ${footer()}
   </div>`;
 }
