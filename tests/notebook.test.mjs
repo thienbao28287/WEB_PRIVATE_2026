@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {parseNotebook} from '../scripts/notebook.mjs';
 import {collectContent,projectRoot} from '../scripts/build.mjs';
-import {getLessonPitfalls,renderNotebookDialog,notebookWindow} from '../web/assets/notebook.js';
+import {getLessonPitfalls,renderNotebookDialog} from '../web/assets/notebook.js';
 
 test('notebook entries come from lesson Markdown and code remains escaped',async()=>{
  const content=await collectContent(projectRoot);
@@ -14,19 +14,9 @@ test('notebook entries come from lesson Markdown and code remains escaped',async
  assert.equal(list.length,4);assert.ok(list.some(item=>item.title.includes('preventDefault')));
  assert.ok(lesson.notebookSource.endsWith('/notebook.md'));
  const html=renderNotebookDialog(lesson,lesson.pages[0],list);
- assert.match(html,/notebook-dialog/);assert.match(html,/notebook-3d-stage/);
+ assert.match(html,/notebook-dialog/);assert.match(html,/notes-content/);assert.doesNotMatch(html,/notebook-3d-stage|flip-next-btn/);
  assert.match(html,/&lt;img/);assert.doesNotMatch(html,/<img src="\/images\/banner/);
  assert.deepEqual(getLessonPitfalls({number:99}),[]);
-});
-test('single-page mobile visits all entries and desktop handles odd/empty endings',()=>{
- for(const count of [0,1,3,4,7]){
-  const visited=[];
-  for(let index=0;index<count;index++)visited.push(notebookWindow(count,index,true).start);
-  assert.deepEqual(visited,Array.from({length:count},(_,i)=>i));
- }
- assert.deepEqual(notebookWindow(3,2),{start:2,step:2,end:3,previous:true,next:false});
- assert.deepEqual(notebookWindow(0,0),{start:0,step:2,end:0,previous:false,next:false});
- assert.equal(notebookWindow(1,0,true).next,false);
 });
 test('editing Markdown changes notebook data; absent notes have no unrelated fallback',async()=>{
  const root=await mkdtemp(path.join(os.tmpdir(),'hit-notebook-'));

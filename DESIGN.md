@@ -91,3 +91,5 @@ Nhóm thực hành nằm ngay sau ví dụ Form trong Buổi 2. Desktop chia cod
 ## Markdown notebook fixes
 
 Sổ tay lấy nội dung từ LessonN/notebook.md qua build vào lesson.notebook, badge và dialog dùng chung nguồn. Không còn dữ liệu lỗi viết cứng trong JS hay fallback sang tuần không liên quan. Lưới hai trang nằm trong notebook-3d-stage; mobile một trang với bước điều hướng 1, desktop bước 2. Tờ lật chỉ xuất hiện trong animation, không phủ nội dung/sao chép khi đứng yên; đóng/chuyển bài hủy hiệu ứng và trả overflow/focus. Bấm nhanh ưu tiên chỉ số mới nhất, reduced-motion đổi trang ngay. Không lật trang khi người dùng chỉ bấm hoặc chọn văn bản trong trang.
+
+Sổ tay lỗi hiện dùng bố cục tài liệu như Lý thuyết: nội dung cuộn dọc, mục lục đầu trang, prose và code có nút sao chép. Bỏ kiểu sách lật và giấy kẻ dòng; nội dung vẫn lấy từ Markdown.
