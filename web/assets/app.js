@@ -82,10 +82,10 @@ function intro() {
       <div class="intro-orbit" aria-hidden="true"><span class="intro-node node-one"></span><span class="intro-node node-two"></span><span class="intro-node node-three"></span></div>
       <div class="intro-content"><img class="intro-logo" src="./Lesson1/img/logo-02.png" alt="CLB Tin học HIT" width="500" height="500">
         <p class="intro-kicker">HIT · WEB PRIVATE 2026</p>
-        <h1 id="intro-title">Sẵn sàng bắt đầu<br>hành trình <em>học web?</em></h1>
+        <h1 id="intro-title"><span class="intro-title-line">Sẵn sàng bắt đầu hành trình</span><em class="intro-title-line">học web?</em></h1>
         <p class="intro-description">Từ những dòng HTML đầu tiên đến giao diện của riêng bạn.<br>Học từng bước, thực hành mỗi tuần, cùng HIT tiến bộ.</p>
         <ul class="intro-facts" aria-label="Thông tin khóa học"><li>${icon('book')}<span><strong>${lessons.length}</strong> buổi học</span></li><li>${icon('code')}<span>HTML · CSS · JavaScript</span></li><li>${icon('check')}<span>Lưu tiến độ cá nhân</span></li></ul>
-        <a class="intro-start" href="#/overview">Học ngay${icon('arrow')}</a>
+        <a class="intro-start" href="#/overview">Học ngay</a>
         <p class="intro-note">Mỗi dòng code là một bước tiến.</p>
       </div>
       <div class="intro-float intro-float-code"><img src="./assets/student-daily.png" alt="" width="100" height="100"><p>“Mỗi ngày một chút,<br>tiến xa hơn hôm qua.”</p></div>
