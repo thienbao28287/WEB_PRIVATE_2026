@@ -52,24 +52,33 @@ function sidebar() {
     </details>`;
   }).join('') + '<div class="side-footer"><strong>HIT</strong> · CLB Tin học<br>Học cùng nhau. Phát triển cùng nhau.</div>';
 }
-let introAnimations=[];
+let introAnimations=[], introReveal=null;
+function balloonCluster(side) {
+  return `<div class="intro-balloons balloons-${side}" aria-hidden="true">${[0,1,2].map(index=>`<div class="intro-balloon balloon-${index} ${index===1?'balloon-white':'balloon-orange'}"><svg viewBox="0 0 90 220" focusable="false"><path class="balloon-string" d="M45 100C23 136 68 153 42 211"/><ellipse class="balloon-body" cx="45" cy="49" rx="34" ry="43"/><path class="balloon-knot" d="m45 91-6 10h12Z"/><path d="M23 39c1-10 6-17 12-21" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/></svg></div>`).join('')}</div>`;
+}
 document.querySelector('script[src*="motion-vendor.js"]')?.addEventListener('load',()=>{
   if(document.querySelector('.intro-page'))startIntroMotion();
 },{once:true});
-function stopIntroMotion() { introAnimations.forEach(animation=>animation.stop());introAnimations=[]; }
+function stopIntroMotion() { introReveal?.stop();introReveal=null;introAnimations.forEach(animation=>animation.stop());introAnimations=[]; }
 function startIntroMotion() {
   stopIntroMotion();
   if(!globalThis.Motion || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const {animate,stagger}=globalThis.Motion;
-  introAnimations.push(animate('.intro-content > *',{opacity:[0,1],y:[18,0]},{duration:.75,delay:stagger(.08),ease:'easeOut'}));
+  introReveal=animate('.intro-content > *',{opacity:[0,1],y:[18,0]},{duration:.75,delay:stagger(.08),ease:'easeOut'});
   document.querySelectorAll('.intro-float').forEach((element,index)=>{const direction=element.matches('.intro-float-code,.intro-float-fourth')?-1:1;introAnimations.push(animate(element,{y:[0,-18,0],rotate:[8*direction,5*direction,8*direction]},{duration:6+index,repeat:Infinity,ease:'easeInOut',delay:index*.3}));});
   document.querySelectorAll('.intro-node').forEach((element,index)=>introAnimations.push(animate(element,{scale:[1,1.25,1],opacity:[.5,1,.5],x:[0,index%2?20:-20,0]},{duration:4+index,repeat:Infinity,ease:'easeInOut'})));
+  document.querySelectorAll('.intro-balloon').forEach((element,index)=>{
+    if(!element.getClientRects().length)return;
+    const direction=index%2?1:-1;
+    introAnimations.push(animate(element,{y:[0,-22,0],x:[0,5*direction,0],rotate:[-3*direction,3*direction,-3*direction]},{duration:6.5+index*.55,repeat:Infinity,ease:'easeInOut'}));
+  });
 }
 function intro() {
   document.title='Chào mừng · HIT Web Private';
   const lessons=data.lessons;
   $('#main').innerHTML=`<div class="intro-page">    <section class="course-intro" aria-labelledby="intro-title">
       <div class="intro-grid" aria-hidden="true"></div>
+      ${balloonCluster('left')}${balloonCluster('right')}
       <div class="intro-orbit" aria-hidden="true"><span class="intro-node node-one"></span><span class="intro-node node-two"></span><span class="intro-node node-three"></span></div>
       <div class="intro-content"><img class="intro-logo" src="./Lesson1/img/logo-02.png" alt="CLB Tin học HIT" width="500" height="500">
         <p class="intro-kicker">HIT · WEB PRIVATE 2026</p>
@@ -434,6 +443,10 @@ document.addEventListener('keydown',e=>{
   }
 });
 window.addEventListener('hashchange',()=>render());
+document.addEventListener('visibilitychange',()=>{
+  const paused=$('#intro-motion-toggle')?.getAttribute('aria-pressed')==='true';
+  introAnimations.forEach(animation=>document.hidden || paused?animation.pause():animation.play());
+});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{if(event.matches){stopIntroMotion();cancelTocMotion();navigationMotion.finish();}});
 window.addEventListener('storage',e=>{if(e.key==='hit-completed'){completed=savedCompletions();render({force:true,preserve:true});}if(e.key==='hit-theme'&&e.newValue){document.documentElement.dataset.theme=e.newValue;updateThemeButton();}});
 loadContent();

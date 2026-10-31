@@ -77,3 +77,5 @@ Intro đặt trên roadmap, dùng Lora cho tiêu đề lớn, Roboto cho nội d
 ## Standalone intro (updated)
 
 Luồng chính: `/` hoặc `#/` là intro toàn màn hình; `#/overview` là tổng quan có header/sidebar. Nút Học ngay đi tới tổng quan; các link về khóa học cũng đi tới tổng quan. Đường dẫn bài Markdown giữ nguyên. Cấu trúc intro tham khảo `page/intro.html` và các lớp `oq-intro` trong source RAR người dùng cung cấp; chỉ dùng phần giao diện intro, không đưa archive hay dữ liệu Git của archive lên web. Motion được cài qua npm, đóng gói cùng website, điều khiển reveal, floating cards và pulse nodes lặp vô hạn. Có nút tạm dừng/tiếp tục, dừng animation khi rời intro và tôn trọng reduced-motion.
+
+Intro có hai chùm bóng bay cam–trắng bằng SVG inline (không tải ảnh mới), Motion chỉ animate transform trong 6,5–9,25 giây, lệch nhịp giữa các quả. Desktop 3 quả mỗi bên, mobile 1 quả mỗi bên; không khởi tạo animation cho bóng đang ẩn. Dùng chung nút tạm dừng, tự pause khi tab bị ẩn và tôn trọng reduced-motion. Animation xuất hiện nội dung tách riêng để nút tạm dừng không làm nội dung mắc kẹt ở opacity thấp.
