@@ -2,6 +2,7 @@ import DOMPurify from './purify.mjs';
 import { mountExercises, refreshExerciseThemes } from './exercises.js';
 import { fetchContent } from './content.js';
 import { animateElement, motionEnabled, createLatestTransition } from './motion.js';
+import { openNotebookModal, getLessonPitfalls } from './notebook.js';
 
 const $ = selector => document.querySelector(selector);
 const icons = {
@@ -13,6 +14,7 @@ const icons = {
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>',
   moon:'<path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/>',
   book:'<path d="M12 5v15M3 4c4-1 7 0 9 2 2-2 5-3 9-2v15c-4-1-7 0-9 2-2-2-5-3-9-2Z"/>',
+  notebook:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/><path d="M10 7h6M10 11h6M10 15h4"/>',
   home:'<path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/>',
   code:'<path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/>',
   arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',
@@ -202,7 +204,8 @@ function reader(page) {
   const index = pages.indexOf(page), prev = pages[index-1], next = pages[index+1];
   document.title = `${page.title} · HIT`;
   storage.set('hit-last',page.id);
-  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><div class="reader-toolbar"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/overview">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav>${headings.length?`<button id="toc-toggle" class="toc-toggle" aria-controls="article-toc article-toc-mobile" aria-expanded="${!tocHidden}"></button>`:''}</div><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc" id="article-toc-mobile"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" id="article-toc" aria-label="Mục lục bài học"><div class="toc-inner"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></div></aside></div>`;
+  const pitfalls = getLessonPitfalls(lesson.number, page.type);
+  $('#main').innerHTML = `<div class="reader"><div class="reader-main"><div class="reader-toolbar"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/overview">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav><div class="reader-toolbar-actions"><button id="notebook-toggle" class="notebook-toggle" aria-label="Sổ tay lỗi thường gặp của bài này" title="Mở Sổ tay lỗi thường gặp của bài này" aria-haspopup="dialog" aria-expanded="false"><span class="notebook-icon-wrap" aria-hidden="true">${icon('notebook')}</span><span class="notebook-btn-text">Sổ tay lỗi</span><span class="notebook-badge" aria-hidden="true">${pitfalls.length}</span></button>${headings.length?`<button id="toc-toggle" class="toc-toggle" aria-controls="article-toc article-toc-mobile" aria-expanded="${!tocHidden}"></button>`:''}</div></div><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc" id="article-toc-mobile"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" id="article-toc" aria-label="Mục lục bài học"><div class="toc-inner"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></div></aside></div>`;
   $('#article-slot').replaceWith(article);
   mountExercises(article,page);
   syncToc(tocHidden);
@@ -412,6 +415,13 @@ for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener(
 $('#image-dialog button').addEventListener('click',()=>$('#image-dialog').close());
 function openImage(img){const dialog=$('#image-dialog');dialog.querySelector('img').src=img.src;dialog.querySelector('img').alt=img.alt;dialog.showModal();}
 $('#main').addEventListener('click',async e=>{
+  const notebookButton=e.target.closest('#notebook-toggle');
+  if(notebookButton){
+    const page=pages.find(p=>p.id===currentId);
+    const lesson=data.lessons.find(l=>l.pages.some(p=>p.id===currentId));
+    if(page && lesson)openNotebookModal(lesson,page);
+    return;
+  }
   if(e.target.closest('#intro-motion-toggle')){const button=$('#intro-motion-toggle');const paused=button.getAttribute('aria-pressed')!=='true';introAnimations.forEach(animation=>paused?animation.pause():animation.play());button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'Tiếp tục chuyển động':'Tạm dừng chuyển động';return;}
   if(e.target.closest('#toc-toggle')){const hidden=!document.querySelector('.reader').classList.contains('toc-hidden');storage.set('hit-toc-hidden',hidden);syncToc(hidden,{animate:true});return;}
   if(e.target.closest('#retry')){loadContent();return;}

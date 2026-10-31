@@ -87,6 +87,8 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await writeFile(exerciseFile,(await readFile(exerciseFile,'utf8')).replace("'./exercise-model.js'",`'./exercise-model.js?v=${modelVersion}'`));
   const exerciseVersion=createHash('sha256').update(await readFile(exerciseFile)).digest('hex').slice(0,12);
   app=app.replace("'./exercises.js'",`'./exercises.js?v=${exerciseVersion}'`);
+  const notebookVersion=createHash('sha256').update(await readFile(path.join(out,'assets/notebook.js'))).digest('hex').slice(0,12);
+  app=app.replace("'./notebook.js'",`'./notebook.js?v=${notebookVersion}'`);
   const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
   await Promise.all(illustrations.map(async name=>{
     const original=path.join(out,'assets',name+'.png');
