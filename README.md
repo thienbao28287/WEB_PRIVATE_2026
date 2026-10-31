@@ -123,3 +123,7 @@ Giá trị `for` cần khớp với `id`.
 Lưu file khi chạy local sẽ rebuild nội dung. Bản online cập nhật sau push và workflow thành công. Thiếu hoặc để trống notebook.md sẽ hiển thị trạng thái chưa có ghi chú, không mượn lỗi từ tuần khác. Sổ tay trình bày cuộn dọc giống tài liệu Lý thuyết; code dùng chung code-wrap/code-toolbar, nút sao chép và màu cú pháp. Đặt comment giải thích nguyên nhân ngay cạnh dòng sai, dùng cú pháp comment đúng với ngôn ngữ và khai báo ngôn ngữ trong code fence. Nội dung Markdown được làm sạch trước khi đưa vào dialog.
 
 Sổ tay chỉ viết sau khi bài có lý thuyết. Mỗi lỗi cần bám một mục cụ thể trong theory.md của cùng tuần, ghi mục đối chiếu trong Ghi nhớ và giải thích ngay cạnh dòng sai. Không tự sinh lỗi từ tên tuần trong lộ trình; thêm lý thuyết mới cần biên soạn/rà soát notebook.md tương ứng.
+
+### Khung thực hành HTML trực tiếp
+
+Trong phần Form của Lesson2/theory.md, code fence có ngôn ngữ playground chứa mã HTML khởi đầu. Khi lưu Markdown/build, web chuyển khối đó thành vùng Nội dung / Trình duyệt và editor index.html có số dòng. Người học sửa toàn bộ HTML, chạy bằng nút hoặc Ctrl/Command + Enter; bản xem trước tự cập nhật sau 300ms dừng gõ. Mã nháp lưu riêng theo bài và vị trí khung trong trình duyệt; Khôi phục trả về code từ Markdown. Hướng dẫn hiện tại dành cho bài HTML Form. Khung tự do không chấm điểm, ba bài điền code bên dưới vẫn lưu tiến độ riêng. Preview dùng iframe sandbox, loại script/tài nguyên mạng và chặn gửi form.

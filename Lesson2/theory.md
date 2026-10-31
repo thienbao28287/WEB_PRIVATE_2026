@@ -317,6 +317,29 @@ Thẻ ngữ nghĩa thể hiện vai trò của nội dung, giúp cấu trúc tra
 
 **Giải thích:** `id` kết nối trường nhập với `label`; `name` đặt tên cho dữ liệu khi gửi form; `required` đánh dấu trường bắt buộc và `minlength` quy định độ dài tối thiểu. Nút dùng `type="button"` nên chưa gửi dữ liệu. Có thể đổi thành `type="submit"` để thử kiểm tra dữ liệu mặc định của trình duyệt, dùng dữ liệu giả; ví dụ này chưa có chức năng lưu đăng ký.
 
+### Tự thực hành HTML ngay trong bài
+
+Chỉnh sửa mã ở bên phải, chọn **Trình duyệt** hoặc bấm **Chạy code** để xem kết quả. Có thể dùng **Ctrl + Enter** (macOS: **⌘ + Enter**). Mã nháp được lưu riêng trên trình duyệt; khung này không chấm điểm.
+
+```playground
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Form đăng ký học Web</title>
+</head>
+<body>
+  <h1>Chào mừng đến với lớp Web HIT!</h1>
+  <p>Hãy sửa form và thử kết quả của bạn.</p>
+  <form>
+    <label for="full-name">Họ và tên:</label>
+    <input id="full-name" name="fullName" required>
+    <button type="submit">Kiểm tra form</button>
+  </form>
+</body>
+</html>
+```
+
 ```exercise
 html-form
 ```

@@ -21,6 +21,7 @@ function makePreview(exercise,answers,dark){
 }
 
 export function mountExercises(article,page){
+  mountPlaygrounds(article,page);
   for(const marker of article.querySelectorAll('[data-exercise]')){
     const group=page.exercises?.find(group=>group.id===marker.dataset.exercise);
     if(!group){marker.textContent='Bài thực hành chưa tải được. Vui lòng tải lại trang.';continue;}
@@ -98,4 +99,35 @@ export function mountExercises(article,page){
     }
     updateProgress();
   }
+}
+
+// Free HTML practice stays isolated from the document and from scored exercises.
+function mountPlaygrounds(article,page){
+ for(const [index,pre] of [...article.querySelectorAll('pre[data-language="playground"]')].entries()){
+  const initial=pre.textContent,key='hit-playground:'+page.id+':'+index;
+  const id='playground-'+index;
+  const panel=document.createElement('section');panel.className='html-playground';panel.setAttribute('aria-label','Thực hành HTML trực tiếp');
+  panel.innerHTML=`<div class="playground-result"><div class="playground-tabs" role="tablist" aria-label="Khu vực thực hành"><button type="button" role="tab" id="${id}-content-tab" aria-selected="true" aria-controls="${id}-content" tabindex="0">Nội dung</button><button type="button" role="tab" id="${id}-browser-tab" aria-selected="false" aria-controls="${id}-browser" tabindex="-1">Trình duyệt</button></div><div id="${id}-content" class="playground-instructions" role="tabpanel" aria-labelledby="${id}-content-tab" tabindex="0"><h4>Thử tạo form của bạn</h4><p>Sửa mã trong <strong>index.html</strong>, rồi chọn <strong>Trình duyệt</strong> để xem kết quả. Kết quả tự cập nhật khi bạn dừng gõ.</p><ol><li>Đổi tiêu đề và lời giới thiệu.</li><li>Thêm nhãn và ô nhập họ tên với for/id trùng nhau.</li><li>Thử type="email" và thuộc tính required.</li></ol><p>Khung này chỉ thực hành HTML/CSS; JavaScript không chạy và form không gửi dữ liệu. Làm ba bài bên dưới để kiểm tra kiến thức.</p></div><div id="${id}-browser" class="playground-browser" role="tabpanel" aria-labelledby="${id}-browser-tab" hidden><iframe sandbox="" referrerpolicy="no-referrer" title="Kết quả thực hành HTML"></iframe><small>Form minh họa · Không gửi dữ liệu</small></div></div><div class="playground-editor"><div class="playground-file"><span>index.html</span><button type="button" class="playground-run">Chạy code</button><button type="button" class="playground-reset">Khôi phục</button></div><div class="playground-code"><div class="playground-lines" aria-hidden="true"></div><textarea aria-label="Mã HTML thực hành" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" maxlength="30000"></textarea></div></div><p class="playground-status sr-only" role="status"></p>`;
+  pre.closest('.code-wrap').replaceWith(panel);
+  const editor=panel.querySelector('textarea'),numbers=panel.querySelector('.playground-lines'),frame=panel.querySelector('iframe'),status=panel.querySelector('.playground-status');
+  try{editor.value=localStorage.getItem(key)??initial;}catch{editor.value=initial;}
+  if(editor.value.length>30000)editor.value=initial;
+  const tabs=[...panel.querySelectorAll('[role="tab"]')];
+  function choose(which){tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===which));tab.tabIndex=i===which?0:-1;panel.querySelector('#'+tab.getAttribute('aria-controls')).hidden=i!==which;});if(which===1)render();}
+  tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>choose(i));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight'||event.key==='ArrowLeft')next=1-i;if(event.key==='Home')next=0;if(event.key==='End')next=1;if(next!==undefined){event.preventDefault();choose(next);tabs[next].focus();}});});
+  function render(){
+   if(panel.querySelector('.playground-browser').hidden)return;
+   const clean=DOMPurify.sanitize(editor.value,{FORBID_TAGS:['script','iframe','object','embed','base','link','meta','audio','video'],FORBID_ATTR:['action','formaction','src','srcset','poster','background']});
+   frame.srcdoc=`<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'; navigate-to 'none'"><style>body{margin:0;padding:20px;font:16px/1.6 system-ui;color:#374151;background:white;overflow-wrap:anywhere}input,button,select,textarea{font:inherit;max-width:100%;box-sizing:border-box}input{padding:8px}fieldset{min-width:0}</style></head><body>${clean}</body></html>`;
+  }
+  function lines(){numbers.textContent=Array.from({length:editor.value.split('\n').length},(_,i)=>i+1).join('\n');numbers.style.transform=`translateY(-${editor.scrollTop}px)`;}
+  let timer;
+  editor.addEventListener('scroll',()=>{numbers.style.transform=`translateY(-${editor.scrollTop}px)`;});
+  editor.addEventListener('input',()=>{lines();clearTimeout(timer);timer=setTimeout(()=>{if(!panel.isConnected)return;render();try{localStorage.setItem(key,editor.value);}catch{}},300);});
+  function run(){clearTimeout(timer);try{localStorage.setItem(key,editor.value);}catch{}choose(1);status.textContent='Đã cập nhật kết quả HTML.';}
+  editor.addEventListener('keydown',event=>{if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();run();}});
+  panel.querySelector('.playground-run').addEventListener('click',run);
+  panel.querySelector('.playground-reset').addEventListener('click',()=>{clearTimeout(timer);editor.value=initial;editor.scrollTop=0;lines();render();try{localStorage.removeItem(key);}catch{}status.textContent='Đã khôi phục mã ban đầu.';editor.focus();});
+  lines();render();
+ }
 }
