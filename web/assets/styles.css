@@ -634,3 +634,6 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 /* Practice controls: readable labels without oversized bold text. */
 .exercise-buttons .button{font-family:var(--font);font-size:14px;font-weight:600;line-height:1.4;letter-spacing:0;min-height:44px;padding:10px 14px;border-radius:10px;white-space:nowrap}
 @media(max-width:480px){.exercise-buttons .button{font-size:13px;padding:10px 12px;flex:1 1 auto}}
+.resume-study .resume-link{display:inline-flex;align-items:center;min-height:44px;font:600 14px/1.5 var(--font);color:var(--link);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;text-decoration-thickness:1px;transition:color 200ms,text-decoration-color 200ms}
+.resume-study .resume-link:hover,.resume-study .resume-link:focus-visible{color:var(--primary-hover);text-decoration-color:currentColor}
+@media(prefers-reduced-motion:reduce){.resume-study .resume-link{transition:none}}

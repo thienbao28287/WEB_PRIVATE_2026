@@ -116,7 +116,7 @@ function home() {
       <h1>Lộ trình khóa học</h1>
       <p>${lessons.length} buổi học · HTML, CSS và JavaScript</p>
     </header>
-    ${pages.length?`<section class="course-progress" aria-label="Tiến độ cá nhân"><div><p class="progress-caption">TIẾN ĐỘ CỦA BẠN</p><p class="progress-count"><strong>${finished}/${pages.length}</strong> tài liệu đã hoàn thành <span>· ${percentage}%</span></p><progress value="${finished}" max="${pages.length}" aria-label="Tài liệu đã hoàn thành">${percentage}%</progress><small>Lưu trên trình duyệt này · Chỉ tính tài liệu hiện có</small></div>${resumePage?`<div class="resume-study"><span>${esc(resumePage.title)}</span><a class="button primary" href="${route(resumePage.id)}">${pages.some(page=>page.id===lastPage)?'Tiếp tục bài gần nhất':'Bắt đầu học'}</a></div>`:''}</section>`:''}
+    ${pages.length?`<section class="course-progress" aria-label="Tiến độ cá nhân"><div><p class="progress-caption">TIẾN ĐỘ CỦA BẠN</p><p class="progress-count"><strong>${finished}/${pages.length}</strong> tài liệu đã hoàn thành <span>· ${percentage}%</span></p><progress value="${finished}" max="${pages.length}" aria-label="Tài liệu đã hoàn thành">${percentage}%</progress><small>Lưu trên trình duyệt này · Chỉ tính tài liệu hiện có</small></div>${resumePage?`<div class="resume-study"><a class="resume-link" href="${route(resumePage.id)}">Tiếp tục học</a></div>`:''}</section>`:''}
     ${!lessons.length?'<section class="empty-state"><h2>Chưa có buổi học</h2><p>Tài liệu đang được chuẩn bị. Bạn có thể quay lại sau.</p></section>':''}
     <ol class="roadmap" aria-label="Lộ trình các buổi học">
       ${lessons.map(lesson => {
