@@ -1,38 +1,88 @@
 {
-  "groups": [{
-    "id": "html-form",
-    "title": "Thực hành nhanh: HTML Form",
-    "exercises": [
-      {
-        "id": "form-label", "version": 1,
-        "title": "1. Nối nhãn với ô nhập",
-        "prompt": "Điền for và id bằng cùng một tên. Dùng chữ cái đầu tiên, sau đó có thể dùng chữ, số, dấu gạch ngang hoặc gạch dưới (tối đa 40 ký tự). Bấm nhãn trong bản xem trước để thử focus ô nhập.",
-        "template": "<form>\n  <label for=\"{{label-for}}\">Họ và tên</label>\n  <input id=\"{{input-id}}\" type=\"text\" name=\"fullName\">\n</form>",
-        "fields": [
-          {"id":"label-for","label":"Giá trị for của label","rule":"identifier","matches":"input-id","error":"for cần là tên hợp lệ và giống chính xác id của input."},
-          {"id":"input-id","label":"Giá trị id của input","rule":"identifier","matches":"label-for","error":"id cần là tên hợp lệ và giống chính xác for của label."}
-        ],
-        "hints":["Nhãn tìm ô nhập thông qua giá trị for trùng với id.","Bạn có thể điền full-name vào cả hai ô."],
-        "explanation":"for và id trùng nhau giúp nhãn liên kết với ô nhập. Khi bấm nhãn, ô nhập sẽ nhận focus."
-      },
-      {
-        "id":"form-email", "version":1,
-        "title":"2. Chọn kiểu nhập email",
-        "prompt":"Điền giá trị của type để trình duyệt nhận biết đây là địa chỉ email. Chỉ nhập giá trị, không nhập dấu ngoặc kép.",
-        "template":"<form>\n  <label for=\"contact-email\">Email</label>\n  <input id=\"contact-email\" name=\"email\" type=\"{{input-type}}\">\n</form>",
-        "fields":[{"id":"input-type","label":"Giá trị type của input","rule":"value","expected":"email","error":"Hãy chọn kiểu email thay vì kiểu văn bản thông thường."}],
-        "hints":["HTML có kiểu input riêng cho địa chỉ thư điện tử.","Thay phần thiếu bằng email: type=\"email\"."],
-        "explanation":"type=\"email\" cho phép trình duyệt kiểm tra định dạng email và gợi ý bàn phím phù hợp trên điện thoại. type=\"text\" chỉ là văn bản thông thường."
-      },
-      {
-        "id":"form-required", "version":1,
-        "title":"3. Đánh dấu trường bắt buộc",
-        "prompt":"Điền một thuộc tính boolean để ô họ tên không được bỏ trống. Chỉ nhập tên thuộc tính, không cần dấu bằng hay giá trị.",
-        "template":"<form>\n  <label for=\"required-name\">Họ và tên</label>\n  <input id=\"required-name\" name=\"fullName\" type=\"text\" {{required-attribute}}>\n</form>",
-        "fields":[{"id":"required-attribute","label":"Thuộc tính bắt buộc của input","rule":"attribute","expected":"required","error":"Nhập tên thuộc tính required để đánh dấu trường bắt buộc."}],
-        "hints":["Thuộc tính này diễn đạt ý nghĩa: bắt buộc phải điền.","Điền required để có <input type=\"text\" required>."],
-        "explanation":"required bật ràng buộc không được để trống trong cơ chế kiểm tra form của trình duyệt. Đây là thuộc tính boolean: chỉ cần viết tên thuộc tính."
-      }
-    ]
-  }]
+  "groups": [
+    {
+      "id": "html-form",
+      "title": "Thực hành nhanh: HTML Form",
+      "exercises": [
+        {
+          "id": "form-label",
+          "version": 1,
+          "title": "1. Nối nhãn với ô nhập",
+          "prompt": "Sửa for của label và id của input thành cùng một tên. Dùng chữ cái đầu tiên, sau đó có thể dùng chữ, số, dấu gạch ngang hoặc gạch dưới (tối đa 40 ký tự). Bấm nhãn trong bản xem trước để thử focus ô nhập.",
+          "template": "<form>\n  <label for=\"{{label-for}}\">Họ và tên</label>\n  <input id=\"{{input-id}}\" type=\"text\" name=\"fullName\">\n</form>",
+          "fields": [
+            {
+              "id": "label-for",
+              "label": "Giá trị for của label",
+              "rule": "identifier",
+              "matches": "input-id",
+              "error": "for cần là tên hợp lệ và giống chính xác id của input.",
+              "target": "label",
+              "attribute": "for"
+            },
+            {
+              "id": "input-id",
+              "label": "Giá trị id của input",
+              "rule": "identifier",
+              "matches": "label-for",
+              "error": "id cần là tên hợp lệ và giống chính xác for của label.",
+              "target": "input",
+              "attribute": "id"
+            }
+          ],
+          "hints": [
+            "Nhãn tìm ô nhập thông qua giá trị for trùng với id.",
+            "Bạn có thể điền full-name vào cả hai ô."
+          ],
+          "explanation": "for và id trùng nhau giúp nhãn liên kết với ô nhập. Khi bấm nhãn, ô nhập sẽ nhận focus."
+        },
+        {
+          "id": "form-email",
+          "version": 1,
+          "title": "2. Chọn kiểu nhập email",
+          "prompt": "Sửa giá trị type trong code để trình duyệt nhận biết đây là địa chỉ email. Giữ đúng cú pháp thuộc tính trong HTML.",
+          "template": "<form>\n  <label for=\"contact-email\">Email</label>\n  <input id=\"contact-email\" name=\"email\" type=\"{{input-type}}\">\n</form>",
+          "fields": [
+            {
+              "id": "input-type",
+              "label": "Giá trị type của input",
+              "rule": "value",
+              "expected": "email",
+              "error": "Hãy chọn kiểu email thay vì kiểu văn bản thông thường.",
+              "target": "input",
+              "attribute": "type"
+            }
+          ],
+          "hints": [
+            "HTML có kiểu input riêng cho địa chỉ thư điện tử.",
+            "Thay phần thiếu bằng email: type=\"email\"."
+          ],
+          "explanation": "type=\"email\" cho phép trình duyệt kiểm tra định dạng email và gợi ý bàn phím phù hợp trên điện thoại. type=\"text\" chỉ là văn bản thông thường."
+        },
+        {
+          "id": "form-required",
+          "version": 1,
+          "title": "3. Đánh dấu trường bắt buộc",
+          "prompt": "Thêm thuộc tính boolean vào input để ô họ tên không được bỏ trống. Thuộc tính boolean chỉ cần tên, không cần dấu bằng hay giá trị.",
+          "template": "<form>\n  <label for=\"required-name\">Họ và tên</label>\n  <input id=\"required-name\" name=\"fullName\" type=\"text\" {{required-attribute}}>\n</form>",
+          "fields": [
+            {
+              "id": "required-attribute",
+              "label": "Thuộc tính bắt buộc của input",
+              "rule": "attribute",
+              "expected": "required",
+              "error": "Nhập tên thuộc tính required để đánh dấu trường bắt buộc.",
+              "target": "input",
+              "attribute": "required"
+            }
+          ],
+          "hints": [
+            "Thuộc tính này diễn đạt ý nghĩa: bắt buộc phải điền.",
+            "Điền required để có <input type=\"text\" required>."
+          ],
+          "explanation": "required bật ràng buộc không được để trống trong cơ chế kiểm tra form của trình duyệt. Đây là thuộc tính boolean: chỉ cần viết tên thuộc tính."
+        }
+      ]
+    }
+  ]
 }

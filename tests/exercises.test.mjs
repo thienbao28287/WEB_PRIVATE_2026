@@ -47,6 +47,8 @@ test('exercise authoring rejects duplicate IDs, missing blanks and unknown field
     copy=>{copy.groups[0].exercises[0].template='<form></form>';},
     copy=>{copy.groups[0].exercises[0].template+='{{unknown}}';},
     copy=>{delete copy.groups[0].exercises[1].fields[0].expected;},
+    copy=>{delete copy.groups[0].exercises[0].fields[0].target;},
+    copy=>{copy.groups[0].exercises[0].fields[0].target='script';},
   ]){const copy=structuredClone(data);mutate(copy);assert.throws(()=>validateExercises(copy,'Lesson2/exercises.json'),/Lesson2\/exercises.json/);}
 });
 test('Markdown marker produces associated exercise data at the Form section only',async()=>{

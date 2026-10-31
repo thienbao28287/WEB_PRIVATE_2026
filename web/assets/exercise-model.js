@@ -36,6 +36,7 @@ export function validateExercises(document,source) {
       const fields=new Set();
       for(const field of ex.fields){
         if(typeof field.id!=='string'||!identifier.test(field.id)||fields.has(field.id)||!field.label||!field.error||!['identifier','value','attribute'].includes(field.rule))fail(`Ô nhập không hợp lệ trong ${ex.id}`);
+        if((!['label','input'].includes(field.target)||!['for','id','type','required'].includes(field.attribute)))fail(`Đích kiểm tra HTML không hợp lệ trong ${ex.id}`);
         fields.add(field.id);
         if(field.rule!=='identifier'&&(typeof field.expected!=='string'||!identifier.test(field.expected)))fail(`Đáp án không hợp lệ trong ${ex.id}`);
       }

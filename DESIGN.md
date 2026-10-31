@@ -95,3 +95,5 @@ Sổ tay lấy nội dung từ LessonN/notebook.md qua build vào lesson.noteboo
 Sổ tay lỗi hiện dùng bố cục tài liệu như Lý thuyết: nội dung cuộn dọc, mục lục đầu trang, prose và code có nút sao chép. Bỏ kiểu sách lật và giấy kẻ dòng; nội dung vẫn lấy từ Markdown.
 
 Khung thực hành HTML Form: hai cột bằng nhau, trái là tab Nội dung/Trình duyệt, phải là textarea nền navy có số dòng và thanh index.html. Dưới 760px xếp dọc. Tab dùng ARIA và phím mũi tên/Home/End; textarea dùng Tab để thoát, Ctrl/Command+Enter để chạy. Preview nền trắng như trình duyệt, không phụ thuộc theme của editor. Không thêm animation trong khi nhập.
+
+Toàn bộ bài thực hành Form dùng chung workspace HTML đầy đủ: nội dung, nút kiểm tra, gợi ý và phản hồi nằm trong tab trái; editor phải có số dòng và chức năng chạy/khôi phục. Không còn ô điền xen giữa code hoặc preview cạnh code theo kiểu cũ.

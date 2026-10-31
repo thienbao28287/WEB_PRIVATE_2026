@@ -127,3 +127,5 @@ Sổ tay chỉ viết sau khi bài có lý thuyết. Mỗi lỗi cần bám mộ
 ### Khung thực hành HTML trực tiếp
 
 Trong phần Form của Lesson2/theory.md, code fence có ngôn ngữ playground chứa mã HTML khởi đầu. Khi lưu Markdown/build, web chuyển khối đó thành vùng Nội dung / Trình duyệt và editor index.html có số dòng. Người học sửa toàn bộ HTML, chạy bằng nút hoặc Ctrl/Command + Enter; bản xem trước tự cập nhật sau 300ms dừng gõ. Mã nháp lưu riêng theo bài và vị trí khung trong trình duyệt; Khôi phục trả về code từ Markdown. Hướng dẫn hiện tại dành cho bài HTML Form. Khung tự do không chấm điểm, ba bài điền code bên dưới vẫn lưu tiến độ riêng. Preview dùng iframe sandbox, loại script/tài nguyên mạng và chặn gửi form.
+
+Các bài HTML Form có chấm điểm cũng dùng editor HTML đầy đủ và tab Nội dung/Trình duyệt. Mỗi field khai báo target (label/input) và attribute (for/id/type/required) để lấy đáp án từ DOM đã làm sạch, không so chuỗi toàn bộ code. Mỗi bài giữ một form, label và input. Mã cũ từ ô điền tự chuyển sang editor; thay đổi code sau khi đúng yêu cầu chấm lại.
