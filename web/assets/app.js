@@ -1,4 +1,5 @@
 import DOMPurify from './purify.mjs';
+import { mountExercises, refreshExerciseThemes } from './exercises.js';
 import { fetchContent } from './content.js';
 import { animateElement, motionEnabled, createLatestTransition } from './motion.js';
 
@@ -203,6 +204,7 @@ function reader(page) {
   storage.set('hit-last',page.id);
   $('#main').innerHTML = `<div class="reader"><div class="reader-main"><div class="reader-toolbar"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="#/overview">Khóa học</a>${icon('chevron')}<span>Buổi ${lesson.number}</span>${icon('chevron')}<span>${label(page.type)}</span></nav>${headings.length?`<button id="toc-toggle" class="toc-toggle" aria-controls="article-toc article-toc-mobile" aria-expanded="${!tocHidden}"></button>`:''}</div><nav class="tabs" aria-label="Tài liệu buổi ${lesson.number}">${['theory','homework'].map(type => { const p = lesson.pages.find(p=>p.type===type); return p?`<a class="tab ${type===page.type?'active':''}" ${type===page.type?'aria-current="page"':''} href="${route(p.id)}">${icon(type==='theory'?'book':'code')}${label(type)}</a>`:`<span class="tab disabled" title="Sắp cập nhật">${icon(type==='theory'?'book':'code')}${label(type)} · Chưa có</span>`; }).join('')}</nav>${headings.length?`<details class="mobile-toc" id="article-toc-mobile"><summary>Trong bài này</summary><nav aria-label="Mục lục thu gọn">${tocLinks}</nav></details>`:''}<div class="read-meta">${icon('clock')}${page.minutes} phút đọc<span>·</span>Buổi ${lesson.number}</div><div id="article-slot"></div><section class="reader-actions"><button class="button complete-button ${completed.has(page.id)?'done':''}" id="complete" aria-pressed="${completed.has(page.id)}">${icon('circle')}<span>${completed.has(page.id)?'Đã hoàn thành bài học':'Đánh dấu đã hoàn thành'}</span></button><nav class="pagination" aria-label="Bài trước và bài sau">${prev?`<a class="pagination-prev" rel="prev" href="${route(prev.id)}">${icon('left')}<span><small>BÀI TRƯỚC</small>${esc(prev.title)}</span></a>`:''}${next?`<a class="pagination-next" rel="next" href="${route(next.id)}"><span><small>TIẾP THEO</small>${esc(next.title)}</span>${icon('arrow')}</a>`:''}</nav></section>${footer()}</div><aside class="toc" id="article-toc" aria-label="Mục lục bài học"><div class="toc-inner"><p class="toc-label">TRONG BÀI NÀY</p><nav class="toc-links">${tocLinks || '<p class="toc-tip">Bài học chưa có mục con.</p>'}</nav><div class="toc-tip">Học một chút mỗi ngày.<br>Tiến bộ qua từng dòng code.<a href="${new URL(page.source,base).href}" target="_blank" rel="noopener">Xem bản Markdown ↗</a></div></div></aside></div>`;
   $('#article-slot').replaceWith(article);
+  mountExercises(article,page);
   syncToc(tocHidden);
   tocResizeObserver?.disconnect();
   if(typeof ResizeObserver==='function'){
@@ -395,7 +397,7 @@ function search() {
   }).join('') || '<p class="search-summary">Thử một từ khóa khác, ví dụ: HTML, selector hoặc Git.</p>';
 }
 function openSearch(){ if(!data){toast('Tài liệu đang tải, vui lòng thử lại.');return;}closeMenu(false);$('#search-dialog').showModal();search();$('#search-input').focus(); }
-function updateThemeButton(){ const dark=document.documentElement.dataset.theme==='dark'; $('#theme-toggle').innerHTML=icon(dark?'sun':'moon'); $('#theme-toggle').setAttribute('aria-label',dark?'Chuyển sang giao diện sáng':'Chuyển sang giao diện tối'); }
+function updateThemeButton(){ refreshExerciseThemes(); const dark=document.documentElement.dataset.theme==='dark'; $('#theme-toggle').innerHTML=icon(dark?'sun':'moon'); $('#theme-toggle').setAttribute('aria-label',dark?'Chuyển sang giao diện sáng':'Chuyển sang giao diện tối'); }
 $('#menu-toggle').innerHTML=icon('menu'); $('#search-open').insertAdjacentHTML('afterbegin',icon('search'));
 $('.skip').addEventListener('click', e=>{e.preventDefault();$('#main').focus();window.scrollTo(0,0);});
 updateThemeButton(); syncSidebarAccess();

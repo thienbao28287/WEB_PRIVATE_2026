@@ -317,6 +317,10 @@ Thẻ ngữ nghĩa thể hiện vai trò của nội dung, giúp cấu trúc tra
 
 **Giải thích:** `id` kết nối trường nhập với `label`; `name` đặt tên cho dữ liệu khi gửi form; `required` đánh dấu trường bắt buộc và `minlength` quy định độ dài tối thiểu. Nút dùng `type="button"` nên chưa gửi dữ liệu. Có thể đổi thành `type="submit"` để thử kiểm tra dữ liệu mặc định của trình duyệt, dùng dữ liệu giả; ví dụ này chưa có chức năng lưu đăng ký.
 
+```exercise
+html-form
+```
+
 ### 8. Thẻ script và style
 
 | Thẻ | Tác dụng |

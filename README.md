@@ -59,7 +59,7 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 | 11 | Thực hành | — | Chưa có |
 | 12 | Callback, Promise, async/await, Fetch API | Chưa có | Chưa có |
 | 13 | Thực hành | — | Chưa có |
-| 14 | Ôn tập và giải đáp thắc mắc | — | — |
+| 14 | Sổ tay lỗi thường gặp & Giải đáp thắc mắc | [Lý thuyết](Lesson14/theory.md) | Chưa có |
 
 ## Cách sử dụng
 

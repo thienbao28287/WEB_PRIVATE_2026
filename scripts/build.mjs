@@ -6,11 +6,13 @@ import { createHash } from 'node:crypto';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { imageSize } from './image-metadata.mjs';
+import { validateExercises } from '../web/assets/exercise-model.js';
 
 export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 marked.use({ renderer: { code({ text, lang }) {
   const language = (lang || '').split(/\s/)[0];
+  if(language==='exercise')return `<div data-exercise="${escape(text.trim())}"></div>`;
   const code = language && hljs.getLanguage(language) ? hljs.highlight(text, { language }).value : escape(text);
   return `<pre data-language="${escape(language || 'text')}"><code class="hljs">${code}</code></pre>`;
 } } });
@@ -26,6 +28,10 @@ export async function collectContent(root) {
   for (const dir of dirs) {
     const number = +dir.name.slice(6);
     const lesson = lessons.get(number) || { number, title: `Buổi ${number}`, pages: [] };
+    let exerciseGroups=[];
+    const exerciseSource=`${dir.name}/exercises.json`;
+    try { exerciseGroups=validateExercises(JSON.parse(await readFile(path.join(root,exerciseSource),'utf8')),exerciseSource); }
+    catch(error){if(error.code!=='ENOENT')throw new Error(`${exerciseSource}: ${error.message}`);}
     for (const type of ['theory', 'homework']) {
       const source = `${dir.name}/${type}.md`;
       let markdown;
@@ -34,6 +40,13 @@ export async function collectContent(root) {
       if (!markdown.trim()) continue;
       const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim() || `${type === 'theory' ? 'Lý thuyết' : 'Bài tập'} buổi ${number}`;
       const html = marked.parse(markdown);
+      const exerciseIds=[...html.matchAll(/data-exercise="([^"]*)"/g)].map(match=>match[1]);
+      if(new Set(exerciseIds).size!==exerciseIds.length)throw new Error(`${source}: marker exercise bị trùng`);
+      const exercises=exerciseIds.map(id=>{
+        const group=exerciseGroups.find(group=>group.id===id);
+        if(!group)throw new Error(`${source}: marker exercise không tồn tại: ${id}`);
+        return group;
+      });
       const images = {};
       await Promise.all([...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(async match => {
         try {
@@ -46,7 +59,7 @@ export async function collectContent(root) {
           if (size?.width > 0 && size?.height > 0) images[src] = size;
         } catch { /* Missing/unsupported images retain a readable fallback in the UI. */ }
       }));
-      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html, images,
+      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html, images, ...(exercises.length?{exercises}:{}),
         text: markdown.replace(/^```[^\n]*$/gm, ' ').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/[#*`|_>]/g, '').replace(/\s+/g, ' ').trim(),
         minutes: Math.max(1, Math.ceil(markdown.split(/\s+/).length / 220)) });
     }
@@ -69,6 +82,11 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   let app=(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`);
   const contentVersion=createHash('sha256').update(await readFile(path.join(out,'assets/content.js'))).digest('hex').slice(0,12);
   app=app.replace("'./content.js'",`'./content.js?v=${contentVersion}'`);
+  const modelVersion=createHash('sha256').update(await readFile(path.join(out,'assets/exercise-model.js'))).digest('hex').slice(0,12);
+  const exerciseFile=path.join(out,'assets/exercises.js');
+  await writeFile(exerciseFile,(await readFile(exerciseFile,'utf8')).replace("'./exercise-model.js'",`'./exercise-model.js?v=${modelVersion}'`));
+  const exerciseVersion=createHash('sha256').update(await readFile(exerciseFile)).digest('hex').slice(0,12);
+  app=app.replace("'./exercises.js'",`'./exercises.js?v=${exerciseVersion}'`);
   const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
   await Promise.all(illustrations.map(async name=>{
     const original=path.join(out,'assets',name+'.png');
