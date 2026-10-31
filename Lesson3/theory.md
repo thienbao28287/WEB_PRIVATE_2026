@@ -595,3 +595,30 @@ Element có thể nằm sâu trong HTML; dùng `.card__title`, tránh chuỗi `.
 Bài Viblo còn giới thiệu cách viết `class="button -primary"`. Đây là một biến thể đặt tên, không phải cú pháp bắt buộc của BEM. Trong buổi học này, thống nhất dùng `class="button button--primary"`.
 
 Các ví dụ trên dùng CSS thuần. Không cần học Sass/SCSS để sử dụng BEM.
+
+## VI. Thực hành CSS ngay trong bài
+
+Dùng khung dưới đây để thực hành các mục **Selector, Cascade, Specificity và BEM** vừa học. Viết HTML trong body, CSS trong style; chuyển sang **Trình duyệt** hoặc bấm **Chạy code** để xem kết quả. Có thể dùng Ctrl + Enter (macOS: ⌘ + Enter).
+
+1. **Selector và specificity:** tạo một tiêu đề có cả id và class; so sánh rule theo thẻ, class và ID.
+2. **Pseudo-class và combinator:** thử đổi màu mục danh sách lẻ, trạng thái hover và phân biệt con trực tiếp với hậu duệ.
+3. **Cascade:** viết hai quy tắc cùng selector rồi đổi thứ tự, quan sát quy tắc thắng.
+4. **BEM:** tạo nút có cả class gốc và modifier; giữ kiểu chung và thêm biến thể màu cam.
+
+Khung bắt đầu với body trống. Mã nháp lưu riêng theo bài trên trình duyệt; **Khôi phục** trả về mẫu ban đầu. Chỉ chạy HTML/CSS nội bộ, không chạy JavaScript hay nạp file CSS bên ngoài.
+
+```playground-css
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thực hành CSS · Bài 3</title>
+  <style>
+    /* Viết CSS tại đây */
+  </style>
+</head>
+<body>
+ 
+</body>
+</html>
+```
