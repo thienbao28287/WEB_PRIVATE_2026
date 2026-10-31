@@ -116,7 +116,7 @@ function home() {
     </ol>
     <section class="author-note" aria-labelledby="author-heading">
       <img src="./assets/author-standing-flat.png" alt="Minh họa tác giả đeo kính, mặc áo trắng viền cam và vẫy tay chào" width="180" height="240" loading="lazy">
-      <div><p class="author-label">Người xây dựng website</p><h2 id="author-heading">Cùng học, cùng tiến bộ.</h2><p>Mỗi buổi học là một bước gần hơn tới website đầu tiên của bạn.</p><strong class="author-handle">@phamthienbao</strong></div>
+      <div><p class="author-label">Người xây dựng website</p><h2 id="author-heading">Cùng học, cùng tiến bộ.</h2><p>Mỗi buổi học là một bước gần hơn tới website đầu tiên của bạn.</p></div>
     </section>
     ${footer()}
   </div>`;
