@@ -1,6 +1,7 @@
 /**
  * Sổ tay ghi lỗi thường gặp theo từng bài học (Lesson Pitfalls Notebook)
- * Thiết kế theo chuẩn shadcn/ui components kết hợp animation Motion & ThreeJS-style Canvas.
+ * Giao diện cuốn vở kẻ dòng có lò xo ở giữa (Open Spiral Lined Notebook)
+ * với hoạt ảnh lật trang 3D từ phải sang trái (Page Flip 3D).
  */
 
 export const LESSON_PITFALLS = {
@@ -267,9 +268,6 @@ export const LESSON_PITFALLS = {
   ]
 };
 
-/**
- * Lấy danh sách các lỗi phù hợp với bài học hiện tại
- */
 export function getLessonPitfalls(lessonNumber, pageType = 'theory') {
   if (LESSON_PITFALLS[lessonNumber]) {
     return LESSON_PITFALLS[lessonNumber];
@@ -284,266 +282,211 @@ export function getLessonPitfalls(lessonNumber, pageType = 'theory') {
 const esc = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /**
- * ThreeJS-inspired Interactive 3D Mesh Particle Canvas
- * Tạo không gian hình học 3D tương tác chạy nhẹ nhàng ở nền header của panel
+ * Render nội dung một trang giấy vở kẻ ô (Lined Paper Page)
  */
-class ThreeJSMeshCanvas {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.particles = [];
-    this.numParticles = 26;
-    this.angleX = 0;
-    this.angleY = 0;
-    this.targetAngleX = 0;
-    this.targetAngleY = 0;
-    this.fov = 240;
-    this.running = false;
-    this.resize();
-    this.initParticles();
-    this.bindEvents();
-    this.start();
+function renderSinglePage(item, pageIndex, totalPages, lessonTitle, side = 'left') {
+  if (!item) {
+    // Trang kết thúc hoặc ghi chú thêm
+    return `
+      <div class="notebook-page-surface lined-paper ${side === 'left' ? 'paper-left' : 'paper-right'}">
+        <div class="paper-margin-line" aria-hidden="true"></div>
+        <header class="paper-header">
+          <div class="paper-header-brand">
+            <span class="paper-brand-logo">▲</span>
+            <div class="paper-brand-text">
+              <strong>HIT WEBSPACE</strong>
+              <small>way towards clean code</small>
+            </div>
+          </div>
+          <div class="paper-header-date">
+            <span>Date:</span> <span class="date-dots">..... / ..... / 2026</span>
+          </div>
+        </header>
+        <div class="paper-content paper-summary-page">
+          <div class="handwritten-title">
+            <span class="pen-icon">✍️</span>
+            <h3>Lời dặn dò từ Mentor</h3>
+          </div>
+          <p class="paper-text">“Mỗi dòng code bị lỗi là một cơ hội để bạn hiểu sâu hơn về bản chất của trình duyệt và ngôn ngữ lập trình.”</p>
+          <div class="paper-sticky-note">
+            <p><strong>Checklist kiểm tra khi gặp bug:</strong></p>
+            <ul>
+              <li>1. Mở F12 kiểm tra tab <strong>Console</strong> (Lỗi đỏ).</li>
+              <li>2. Kiểm tra tab <strong>Network</strong> xem có file nào bị 404 không.</li>
+              <li>3. Soi tab <strong>Elements / Styles</strong> xem CSS có bị gạch ngang không.</li>
+              <li>4. Nhấn <code>Ctrl + Shift + R</code> để xóa cache trình duyệt.</li>
+            </ul>
+          </div>
+        </div>
+        <footer class="paper-footer">
+          <span class="paper-page-num">${pageIndex}</span>
+        </footer>
+      </div>
+    `;
   }
 
-  resize() {
-    if (!this.canvas) return;
-    const rect = this.canvas.parentElement.getBoundingClientRect();
-    this.width = rect.width || 600;
-    this.height = rect.height || 180;
-    this.canvas.width = this.width * window.devicePixelRatio;
-    this.canvas.height = this.height * window.devicePixelRatio;
-    this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-  }
+  return `
+    <div class="notebook-page-surface lined-paper ${side === 'left' ? 'paper-left' : 'paper-right'}">
+      <div class="paper-margin-line" aria-hidden="true"></div>
+      
+      <header class="paper-header">
+        <div class="paper-header-brand">
+          <span class="paper-brand-logo">▲</span>
+          <div class="paper-brand-text">
+            <strong>HIT WEBSPACE</strong>
+            <small>way towards clean code</small>
+          </div>
+        </div>
+        <div class="paper-header-date">
+          <span>Date:</span> <span class="date-dots">..... / ..... / 2026</span>
+        </div>
+      </header>
 
-  initParticles() {
-    this.particles = [];
-    for (let i = 0; i < this.numParticles; i++) {
-      this.particles.push({
-        x: (Math.random() - 0.5) * 360,
-        y: (Math.random() - 0.5) * 160,
-        z: (Math.random() - 0.5) * 260,
-        radius: Math.random() * 2.2 + 1.2,
-        color: i % 3 === 0 ? '#F47B2A' : '#DB6E26'
-      });
-    }
-  }
+      <div class="paper-content">
+        <article class="notebook-entry" data-id="${esc(item.id)}">
+          <div class="paper-entry-header">
+            <div class="paper-tag-row">
+              <span class="paper-badge-num">LỖI #${pageIndex}</span>
+              <span class="paper-badge-tag">${esc(item.tag)}</span>
+            </div>
+            <h3 class="paper-entry-title">${esc(item.title)}</h3>
+          </div>
 
-  bindEvents() {
-    this.onMouseMove = (e) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width - 0.5;
-      const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      this.targetAngleY = nx * 0.8;
-      this.targetAngleX = -ny * 0.5;
-    };
-    window.addEventListener('mousemove', this.onMouseMove, { passive: true });
-  }
+          <div class="paper-symptom-box">
+            <span class="symptom-pen-mark">⚠️</span>
+            <p class="notebook-entry-symptom"><strong>Dấu hiệu:</strong> ${esc(item.symptom)}</p>
+          </div>
 
-  start() {
-    this.running = true;
-    const loop = () => {
-      if (!this.running) return;
-      this.render();
-      requestAnimationFrame(loop);
-    };
-    requestAnimationFrame(loop);
-  }
+          <div class="notebook-comparison paper-code-grid">
+            <div class="code-box code-box-bad paper-memo-bad">
+              <div class="code-box-header">
+                <span class="memo-tape" aria-hidden="true"></span>
+                <span class="code-status-badge badge-bad">❌ Mã SAI / LỖI</span>
+                <button class="copy-code-mini" data-code="${esc(item.badCode)}" aria-label="Sao chép mã lỗi">Sao chép</button>
+              </div>
+              <pre class="code-snippet"><code>${esc(item.badCode)}</code></pre>
+            </div>
 
-  stop() {
-    this.running = false;
-    window.removeEventListener('mousemove', this.onMouseMove);
-  }
+            <div class="code-box code-box-good paper-memo-good">
+              <div class="code-box-header">
+                <span class="memo-tape" aria-hidden="true"></span>
+                <span class="code-status-badge badge-good">✅ Cách sửa ĐÚNG</span>
+                <button class="copy-code-mini" data-code="${esc(item.goodCode)}" aria-label="Sao chép mã chuẩn">Sao chép</button>
+              </div>
+              <pre class="code-snippet"><code>${esc(item.goodCode)}</code></pre>
+            </div>
+          </div>
 
-  render() {
-    if (!this.ctx) return;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+          <div class="notebook-entry-footer paper-note-callout">
+            <span class="bulb-icon" aria-hidden="true">💡</span>
+            <p><strong>Ghi nhớ:</strong> ${esc(item.explanation)}</p>
+          </div>
+        </article>
+      </div>
 
-    // Damping rotation
-    this.angleX += (this.targetAngleX - this.angleX) * 0.05 + 0.0015;
-    this.angleY += (this.targetAngleY - this.angleY) * 0.05 + 0.003;
-
-    const cx = this.width / 2;
-    const cy = this.height / 2;
-
-    const cosX = Math.cos(this.angleX), sinX = Math.sin(this.angleX);
-    const cosY = Math.cos(this.angleY), sinY = Math.sin(this.angleY);
-
-    const projected = this.particles.map(p => {
-      // Rotate Y
-      const x1 = p.x * cosY + p.z * sinY;
-      const z1 = -p.x * sinY + p.z * cosY;
-      // Rotate X
-      const y2 = p.y * cosX - z1 * sinX;
-      const z2 = p.y * sinX + z1 * cosX;
-
-      const scale = this.fov / (this.fov + z2 + 200);
-      return {
-        px: cx + x1 * scale,
-        py: cy + y2 * scale,
-        scale,
-        alpha: Math.max(0.1, Math.min(0.85, (z2 + 130) / 260)),
-        color: p.color
-      };
-    });
-
-    // Draw lines (3D Mesh constellation)
-    for (let i = 0; i < projected.length; i++) {
-      for (let j = i + 1; j < projected.length; j++) {
-        const dx = projected[i].px - projected[j].px;
-        const dy = projected[i].py - projected[j].py;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 85) {
-          const alpha = (1 - dist / 85) * 0.28 * Math.min(projected[i].alpha, projected[j].alpha);
-          this.ctx.strokeStyle = `rgba(244, 123, 42, ${alpha})`;
-          this.ctx.lineWidth = 1;
-          this.ctx.beginPath();
-          this.ctx.moveTo(projected[i].px, projected[i].py);
-          this.ctx.lineTo(projected[j].px, projected[j].py);
-          this.ctx.stroke();
-        }
-      }
-    }
-
-    // Draw particle points
-    projected.forEach(p => {
-      this.ctx.beginPath();
-      this.ctx.arc(p.px, p.py, Math.max(1, p.scale * 2.8), 0, Math.PI * 2);
-      this.ctx.fillStyle = `rgba(244, 123, 42, ${p.alpha * 0.9})`;
-      this.ctx.fill();
-    });
-  }
+      <footer class="paper-footer">
+        <span class="paper-topic-hint">${esc(lessonTitle)}</span>
+        <span class="paper-page-num">${pageIndex}</span>
+      </footer>
+    </div>
+  `;
 }
 
 /**
- * Render HTML cho Panel Sổ tay chuẩn phong cách shadcn/ui components
+ * Render toàn bộ cuốn sổ tay lò xo 2 trang (Two-Page Open Notebook)
  */
 export function renderNotebookDialog(lesson, page, pitfalls) {
   const lessonTitle = lesson ? `Tuần ${lesson.number} · ${lesson.title}` : 'Bài học';
-  const pageLabel = page.type === 'theory' ? 'Lý thuyết' : 'Bài tập';
-
-  // Thống kê số lượng theo từng tag
-  const tagCounts = pitfalls.reduce((acc, p) => {
-    acc[p.tag] = (acc[p.tag] || 0) + 1;
-    return acc;
-  }, {});
-  const tags = [{ name: 'Tất cả', count: pitfalls.length }, ...Object.entries(tagCounts).map(([name, count]) => ({ name, count }))];
+  const totalItems = pitfalls.length;
+  // Mỗi Spread chứa 2 lỗi (Trang trái & Trang phải)
+  const totalSpreads = Math.ceil(totalItems / 2);
 
   return `
-  <dialog id="notebook-dialog" class="notebook-dialog shadcn-dialog" aria-labelledby="notebook-dialog-title" aria-modal="true">
-    <div class="notebook-book shadcn-sheet">
-      <!-- Gáy sổ phong cách Spiral / Bookmark giữ cho test pass -->
-      <div class="notebook-spine" aria-hidden="true">
-        <div class="notebook-rings">
-          ${Array.from({ length: 6 }).map(() => '<span class="notebook-ring"></span>').join('')}
-        </div>
+  <dialog id="notebook-dialog" class="notebook-dialog shadcn-dialog notebook-spiral-dialog" aria-labelledby="notebook-dialog-title" aria-modal="true">
+    <!-- Khung điều khiển trên cùng -->
+    <div class="notebook-top-bar">
+      <div class="notebook-top-info">
+        <span class="spiral-indicator-icon">📖</span>
+        <h2 id="notebook-dialog-title" class="notebook-top-title">
+          Vở ghi chép lỗi: ${esc(lessonTitle)}
+        </h2>
+        <span class="page-spread-counter" id="page-spread-counter">Trang 1-2 / ${Math.max(2, totalItems)}</span>
       </div>
+      
+      <div class="notebook-top-actions">
+        <button id="flip-prev-btn" class="notebook-flip-btn" title="Lật về trang trước" aria-label="Trang trước" disabled>
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Trang trước</span>
+        </button>
+        <button id="flip-next-btn" class="notebook-flip-btn primary-flip" title="Lật trang tiếp (hoặc click vào trang phải)" aria-label="Lật trang tiếp">
+          <span>Lật trang tiếp</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <button id="notebook-close" class="notebook-close-circle" aria-label="Đóng sổ tay (Phím Esc)">
+          ✕
+        </button>
+      </div>
+    </div>
 
-      <!-- Nội dung trang sổ phong cách shadcn/ui -->
-      <div class="notebook-page-surface shadcn-sheet-content">
-        <!-- Canvas 3D Mesh Animation kiểu ThreeJS ở phần đầu -->
-        <div class="notebook-canvas-wrap" aria-hidden="true">
-          <canvas id="notebook-3d-canvas" class="notebook-3d-canvas"></canvas>
-          <div class="notebook-canvas-glow"></div>
+    <!-- Cuốn sổ mở đôi dạng lò xo 3D -->
+    <div class="notebook-book shadcn-sheet open-spiral-notebook" id="open-spiral-notebook" data-current-spread="0" data-total-spreads="${totalSpreads}">
+      <!-- Bìa nền giả lập bàn gỗ mờ sang trọng -->
+      <div class="notebook-desk-mat" aria-hidden="true"></div>
+
+      <!-- Khung 3D Perspective -->
+      <div class="notebook-3d-stage">
+        
+        <!-- TRANG TRÁI DƯỚI (Left Page Underneath) -->
+        <div class="notebook-spread-side spread-left" id="spread-left-container">
+          ${renderSinglePage(pitfalls[0], 1, totalItems, lessonTitle, 'left')}
         </div>
 
-        <header class="notebook-header shadcn-sheet-header">
-          <div class="notebook-header-top">
-            <div class="notebook-badge-wrap">
-              <span class="shadcn-badge shadcn-badge-primary">HIT POCKET HANDBOOK</span>
-              <span class="shadcn-badge shadcn-badge-outline">Buổi ${lesson ? lesson.number : ''}</span>
-              <span class="shadcn-badge shadcn-badge-secondary">${esc(pageLabel)}</span>
-            </div>
-            <button id="notebook-close" class="shadcn-btn-ghost notebook-close-btn" aria-label="Đóng sổ tay (Phím Esc)">
-              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-
-          <h2 id="notebook-dialog-title" class="notebook-title shadcn-title">
-            <span class="notebook-title-icon" aria-hidden="true">⚡</span>
-            Sổ tay lỗi: ${esc(lessonTitle)}
-          </h2>
-          <p class="notebook-subtitle shadcn-description">
-            Tổng hợp <strong>${pitfalls.length} lỗi trọng tâm</strong> hay gặp khi học ${esc(pageLabel.toLowerCase())}, kèm mã so sánh đối chiếu và cách khắc phục chuẩn.
-          </p>
-
-          <!-- shadcn Tabs Component (Segmented control) kèm số lượng lỗi -->
-          <div class="shadcn-tabs-list" role="tablist" aria-label="Lọc nhóm lỗi">
-            ${tags.map((t, idx) => `
-              <button class="shadcn-tab-trigger ${idx === 0 ? 'active' : ''}" role="tab" data-filter="${esc(t.name)}" aria-selected="${idx === 0}">
-                <span>${esc(t.name)}</span>
-                <span class="tab-count-badge">${t.count}</span>
-              </button>
+        <!-- GÁY XOẮN LÒ XO KIM LOẠI ĐÔI Ở CHÍNH GIỮA (Center Double Wire Spiral) -->
+        <div class="notebook-spine notebook-spine-center" aria-hidden="true">
+          <div class="notebook-rings-double">
+            ${Array.from({ length: 16 }).map(() => `
+              <div class="spiral-wire-loop">
+                <span class="hole hole-left"></span>
+                <span class="wire-curve"></span>
+                <span class="hole hole-right"></span>
+              </div>
             `).join('')}
           </div>
-        </header>
-
-        <div class="notebook-body shadcn-sheet-body" id="notebook-entries-container">
-          ${pitfalls.map((item, index) => `
-            <article class="notebook-entry shadcn-card spotlight-card" data-tag="${esc(item.tag)}" style="--entry-index: ${index};">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              
-              <div class="shadcn-card-header">
-                <div class="notebook-entry-head">
-                  <span class="notebook-entry-num">LỖI #${index + 1}</span>
-                  <span class="shadcn-badge shadcn-badge-outline notebook-entry-tag">${esc(item.tag)}</span>
-                </div>
-                <h3 class="notebook-entry-title shadcn-card-title">${esc(item.title)}</h3>
-              </div>
-
-              <div class="shadcn-card-content">
-                <div class="shadcn-alert-destructive" role="alert">
-                  <svg class="alert-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                  <p class="notebook-entry-symptom"><strong class="symptom-label">Dấu hiệu nhận biết:</strong> ${esc(item.symptom)}</p>
-                </div>
-
-                <div class="notebook-comparison shadcn-comparison-grid">
-                  <div class="code-box code-box-bad shadcn-code-panel">
-                    <div class="code-box-header">
-                      <div class="code-window-dots" aria-hidden="true">
-                        <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
-                      </div>
-                      <span class="code-status-badge badge-bad">❌ Mã SAI / LỖI</span>
-                      <button class="copy-code-mini" data-code="${esc(item.badCode)}" aria-label="Sao chép đoạn mã lỗi">Sao chép</button>
-                    </div>
-                    <pre class="code-snippet"><code>${esc(item.badCode)}</code></pre>
-                  </div>
-
-                  <div class="code-box code-box-good shadcn-code-panel">
-                    <div class="code-box-header">
-                      <div class="code-window-dots" aria-hidden="true">
-                        <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
-                      </div>
-                      <span class="code-status-badge badge-good">✅ Cách sửa ĐÚNG</span>
-                      <button class="copy-code-mini" data-code="${esc(item.goodCode)}" aria-label="Sao chép đoạn mã đúng">Sao chép</button>
-                    </div>
-                    <pre class="code-snippet"><code>${esc(item.goodCode)}</code></pre>
-                  </div>
-                </div>
-
-                <div class="notebook-entry-footer shadcn-callout">
-                  <span class="bulb-icon" aria-hidden="true">💡</span>
-                  <p><strong>Nguyên nhân & Cách phòng tránh:</strong> ${esc(item.explanation)}</p>
-                </div>
-              </div>
-            </article>
-          `).join('')}
         </div>
 
-        <footer class="notebook-page-footer shadcn-sheet-footer">
-          <p>Xem toàn bộ cẩm nang chi tiết tại <a href="#/Lesson14/theory" class="notebook-full-link">Sổ tay lỗi tổng hợp Buổi 14 ➔</a></p>
-          <button id="notebook-bottom-close" class="button secondary notebook-bottom-close-btn shadcn-btn-outline">Đóng sổ tay</button>
-        </footer>
+        <!-- TỜ GIẤY LẬT 3D TỪ PHẢI SANG TRÁI (Flipping Page 3D) -->
+        <div class="notebook-flipping-sheet" id="notebook-flipping-sheet" aria-hidden="true">
+          <div class="flipping-face flipping-front" id="flipping-front">
+            ${renderSinglePage(pitfalls[1], 2, totalItems, lessonTitle, 'right')}
+          </div>
+          <div class="flipping-face flipping-back" id="flipping-back">
+            ${renderSinglePage(pitfalls[2], 3, totalItems, lessonTitle, 'left')}
+          </div>
+        </div>
+
+        <!-- TRANG PHẢI DƯỚI (Right Page Underneath) -->
+        <div class="notebook-spread-side spread-right" id="spread-right-container" title="Click vào đây để lật trang tiếp ➔">
+          ${renderSinglePage(pitfalls[1], 2, totalItems, lessonTitle, 'right')}
+          <!-- Góc gấp trang gợi ý lật (Dog-ear curl) -->
+          <div class="page-curl-corner" aria-hidden="true">
+            <span class="curl-text">Lật ➔</span>
+          </div>
+        </div>
+
       </div>
+    </div>
+
+    <!-- Thanh chân trang phụ trợ -->
+    <div class="notebook-bottom-hint">
+      <span>💡 Nhấp vào trang bên phải hoặc nút <strong>"Lật trang tiếp"</strong> để xem các lỗi tiếp theo với hiệu ứng lật trang 3D.</span>
+      <button id="notebook-bottom-close" class="notebook-link-close">Đóng sổ</button>
     </div>
   </dialog>
   `;
 }
 
 /**
- * Mở modal Sổ tay ghi lỗi với Motion Spring Physics & ThreeJS-style Canvas
+ * Xử lý logic và hoạt ảnh lật trang 3D từ phải sang trái
  */
 export function openNotebookModal(lesson, page) {
   const pitfalls = getLessonPitfalls(lesson?.number || 1, page?.type || 'theory');
@@ -559,95 +502,134 @@ export function openNotebookModal(lesson, page) {
 
   dialog.showModal();
 
-  // Khởi tạo Canvas 3D Mesh
-  const canvasEl = dialog.querySelector('#notebook-3d-canvas');
-  let meshCanvas = null;
-  if (canvasEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    meshCanvas = new ThreeJSMeshCanvas(canvasEl);
+  const lessonTitle = lesson ? `Tuần ${lesson.number} · ${lesson.title}` : 'Bài học';
+  let currentSpread = 0;
+  const totalItems = pitfalls.length;
+  const totalSpreads = Math.ceil(totalItems / 2);
+  let isAnimating = false;
+
+  const leftContainer = dialog.querySelector('#spread-left-container');
+  const rightContainer = dialog.querySelector('#spread-right-container');
+  const flippingSheet = dialog.querySelector('#notebook-flipping-sheet');
+  const flippingFront = dialog.querySelector('#flipping-front');
+  const flippingBack = dialog.querySelector('#flipping-back');
+  const prevBtn = dialog.querySelector('#flip-prev-btn');
+  const nextBtn = dialog.querySelector('#flip-next-btn');
+  const counterEl = dialog.querySelector('#page-spread-counter');
+
+  function updateControls() {
+    prevBtn.disabled = currentSpread === 0;
+    nextBtn.disabled = currentSpread >= totalSpreads - 1;
+    const startNum = currentSpread * 2 + 1;
+    const endNum = Math.min(startNum + 1, totalItems);
+    counterEl.textContent = `Trang ${startNum}-${endNum} / ${totalItems}`;
   }
 
-  // Spotlight Card 3D Hover Effect theo tọa độ chuột (shadcn / Aceternity style)
-  const cards = dialog.querySelectorAll('.spotlight-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+  // LẬT TRANG TỪ PHẢI SANG TRÁI (Forward Flip)
+  function flipForward() {
+    if (isAnimating || currentSpread >= totalSpreads - 1) return;
+    isAnimating = true;
+
+    const nextSpread = currentSpread + 1;
+    const nextLeftItem = pitfalls[nextSpread * 2];
+    const nextRightItem = pitfalls[nextSpread * 2 + 1];
+
+    // Chuẩn bị mặt sau của tờ lật và trang phải bên dưới
+    flippingFront.innerHTML = renderSinglePage(pitfalls[currentSpread * 2 + 1], currentSpread * 2 + 2, totalItems, lessonTitle, 'right');
+    flippingBack.innerHTML = renderSinglePage(nextLeftItem, nextSpread * 2 + 1, totalItems, lessonTitle, 'left');
+    rightContainer.innerHTML = renderSinglePage(nextRightItem, nextSpread * 2 + 2, totalItems, lessonTitle, 'right') + `
+      <div class="page-curl-corner" aria-hidden="true"><span class="curl-text">Lật ➔</span></div>
+    `;
+
+    // Kích hoạt class lật 3D rotateY(-180deg)
+    flippingSheet.classList.add('is-flipping-forward');
+
+    setTimeout(() => {
+      // Khi đã lật xong qua trái
+      currentSpread = nextSpread;
+      leftContainer.innerHTML = renderSinglePage(nextLeftItem, currentSpread * 2 + 1, totalItems, lessonTitle, 'left');
+      flippingSheet.classList.remove('is-flipping-forward');
+      updateControls();
+      isAnimating = false;
+      bindCopyButtons();
+    }, 600);
+  }
+
+  // LẬT NGƯỢC TỪ TRÁI SANG PHẢI (Backward Flip)
+  function flipBackward() {
+    if (isAnimating || currentSpread <= 0) return;
+    isAnimating = true;
+
+    const prevSpread = currentSpread - 1;
+    const prevLeftItem = pitfalls[prevSpread * 2];
+    const prevRightItem = pitfalls[prevSpread * 2 + 1];
+
+    // Đặt tờ lật ở bên trái
+    flippingFront.innerHTML = renderSinglePage(prevRightItem, prevSpread * 2 + 2, totalItems, lessonTitle, 'right');
+    flippingBack.innerHTML = renderSinglePage(pitfalls[currentSpread * 2], currentSpread * 2 + 1, totalItems, lessonTitle, 'left');
+    
+    // Bắt đầu từ vị trí -180deg quay về 0deg
+    flippingSheet.classList.add('is-flipping-backward-prepare');
+    
+    requestAnimationFrame(() => {
+      flippingSheet.classList.remove('is-flipping-backward-prepare');
+      flippingSheet.classList.add('is-flipping-backward');
+
+      setTimeout(() => {
+        currentSpread = prevSpread;
+        leftContainer.innerHTML = renderSinglePage(prevLeftItem, currentSpread * 2 + 1, totalItems, lessonTitle, 'left');
+        rightContainer.innerHTML = renderSinglePage(prevRightItem, currentSpread * 2 + 2, totalItems, lessonTitle, 'right') + `
+          <div class="page-curl-corner" aria-hidden="true"><span class="curl-text">Lật ➔</span></div>
+        `;
+        flippingSheet.classList.remove('is-flipping-backward');
+        updateControls();
+        isAnimating = false;
+        bindCopyButtons();
+      }, 600);
     });
+  }
+
+  // Gán sự kiện click nút lật và click vào trang
+  nextBtn.addEventListener('click', flipForward);
+  prevBtn.addEventListener('click', flipBackward);
+
+  rightContainer.addEventListener('click', (e) => {
+    if (e.target.closest('.copy-code-mini')) return;
+    flipForward();
   });
 
-  // Sao chép code trong popup
-  dialog.querySelectorAll('.copy-code-mini').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const code = btn.dataset.code;
-      if (code) {
-        try {
-          await navigator.clipboard.writeText(code);
-          const original = btn.textContent;
-          btn.textContent = 'Copied!';
-          setTimeout(() => { btn.textContent = original; }, 1500);
-        } catch {}
-      }
-    });
+  leftContainer.addEventListener('click', (e) => {
+    if (e.target.closest('.copy-code-mini')) return;
+    flipBackward();
   });
 
-  // Tab Filtering (shadcn tabs) kèm Motion transition
-  const tabTriggers = dialog.querySelectorAll('.shadcn-tab-trigger');
-  tabTriggers.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabTriggers.forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected', 'true');
-
-      const filter = tab.dataset.filter;
-      const targetCards = [];
-      cards.forEach(card => {
-        const match = filter === 'Tất cả' || card.dataset.tag === filter;
-        if (match) {
-          card.style.display = 'block';
-          targetCards.push(card);
-        } else {
-          card.style.display = 'none';
+  // Sao chép code
+  function bindCopyButtons() {
+    dialog.querySelectorAll('.copy-code-mini').forEach(btn => {
+      btn.onclick = async (e) => {
+        e.stopPropagation();
+        const code = btn.dataset.code;
+        if (code) {
+          try {
+            await navigator.clipboard.writeText(code);
+            const original = btn.textContent;
+            btn.textContent = 'Đã chép ✓';
+            setTimeout(() => { btn.textContent = original; }, 1500);
+          } catch {}
         }
-      });
-
-      // Animate các thẻ phù hợp bằng Motion
-      if (globalThis.Motion && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        globalThis.Motion.animate(targetCards, { opacity: [0, 1], y: [16, 0] }, {
-          duration: 0.35,
-          delay: globalThis.Motion.stagger(0.05),
-          ease: 'easeOut'
-        });
-      }
+      };
     });
-  });
+  }
+  bindCopyButtons();
 
-  // Đóng dialog với Motion
+  // Đóng dialog
   const closeDialog = () => {
-    meshCanvas?.stop();
-    if (globalThis.Motion && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const sheet = dialog.querySelector('.shadcn-sheet');
-      globalThis.Motion.animate(sheet, { opacity: [1, 0], scale: [1, 0.95], y: [0, 16] }, { duration: 0.2 }).finished.then(() => {
-        dialog.close();
-        dialog.remove();
-        document.body.style.overflow = originalOverflow;
-        const toggleBtn = document.getElementById('notebook-toggle');
-        toggleBtn?.setAttribute('aria-expanded', 'false');
-        toggleBtn?.focus();
-      });
-    } else {
-      dialog.close();
-      dialog.remove();
-      document.body.style.overflow = originalOverflow;
-      const toggleBtn = document.getElementById('notebook-toggle');
-      toggleBtn?.setAttribute('aria-expanded', 'false');
-      toggleBtn?.focus();
-    }
+    dialog.close();
+    dialog.remove();
+    document.body.style.overflow = originalOverflow;
+    const toggleBtn = document.getElementById('notebook-toggle');
+    toggleBtn?.setAttribute('aria-expanded', 'false');
+    toggleBtn?.focus();
   };
 
   document.getElementById('notebook-close')?.addEventListener('click', closeDialog);
@@ -662,60 +644,11 @@ export function openNotebookModal(lesson, page) {
     closeDialog();
   });
 
-  // ANIMATION: Spring Physics & Stagger Reveal bằng thư viện Motion
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const sheet = dialog.querySelector('.shadcn-sheet');
-    const header = dialog.querySelector('.shadcn-sheet-header');
-    const cardElements = Array.from(dialog.querySelectorAll('.shadcn-card'));
-    const footer = dialog.querySelector('.shadcn-sheet-footer');
-
-    if (globalThis.Motion) {
-      const { animate, stagger } = globalThis.Motion;
-
-      // Spring physics cho cả khung Sheet
-      animate(sheet, {
-        opacity: [0, 1],
-        scale: [0.93, 1],
-        y: [24, 0]
-      }, {
-        type: 'spring',
-        damping: 24,
-        stiffness: 300
-      });
-
-      // Staggered reveal cho Header, Cards và Footer
-      animate([header, ...cardElements, footer].filter(Boolean), {
-        opacity: [0, 1],
-        y: [18, 0]
-      }, {
-        duration: 0.45,
-        delay: stagger(0.06),
-        ease: 'easeOut'
-      });
-    } else {
-      // Fallback Web Animations API nếu Motion chưa sẵn sàng
-      sheet?.animate([
-        { opacity: 0, transform: 'scale(0.95) translateY(20px)' },
-        { opacity: 1, transform: 'scale(1) translateY(0)' }
-      ], {
-        duration: 320,
-        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        fill: 'forwards'
-      });
-
-      [header, ...cardElements, footer].filter(Boolean).forEach((el, index) => {
-        el.animate([
-          { opacity: 0, transform: 'translateY(16px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], {
-          duration: 350,
-          delay: 50 + index * 55,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          fill: 'forwards'
-        });
-      });
-    }
-  }
+  // Bàn phím mũi tên lật trang
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') flipForward();
+    if (e.key === 'ArrowLeft') flipBackward();
+  });
 
   const toggleBtn = document.getElementById('notebook-toggle');
   toggleBtn?.setAttribute('aria-expanded', 'true');
