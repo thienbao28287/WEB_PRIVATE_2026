@@ -7,6 +7,7 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { imageSize } from './image-metadata.mjs';
 import { validateExercises } from '../web/assets/exercise-model.js';
+import { parseNotebook } from './notebook.mjs';
 
 export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -28,6 +29,9 @@ export async function collectContent(root) {
   for (const dir of dirs) {
     const number = +dir.name.slice(6);
     const lesson = lessons.get(number) || { number, title: `Buổi ${number}`, pages: [] };
+    const notebookSource=`${dir.name}/notebook.md`;
+    try {lesson.notebook=parseNotebook(await readFile(path.join(root,notebookSource),'utf8'),notebookSource);lesson.notebookSource=notebookSource;}
+    catch(error){if(error.code!=='ENOENT')throw error;}
     let exerciseGroups=[];
     const exerciseSource=`${dir.name}/exercises.json`;
     try { exerciseGroups=validateExercises(JSON.parse(await readFile(path.join(root,exerciseSource),'utf8')),exerciseSource); }

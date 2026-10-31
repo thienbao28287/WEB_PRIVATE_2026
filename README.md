@@ -88,3 +88,36 @@ html-form
 - Khi thay đổi yêu cầu/đáp án, tăng `version` để tiến độ cũ không áp dụng nhầm. Đáp án và tiến độ lưu trong `hit-exercises-v1`; không gửi lên máy chủ. Nếu trình duyệt chặn lưu, thao tác vẫn dùng được trong phiên.
 - Preview được làm sạch và chạy trong iframe sandbox không có quyền script, gửi form hay điều hướng trang chính. Chỉ dùng template Form có sẵn; đây không phải trình chạy HTML/JS tự do.
 - Build báo lỗi nếu ID trùng, thiếu token hoặc marker không tồn tại. `npm test` kiểm tra quy tắc chấm, escape, khôi phục và phiên bản; `npm run build` tạo bản xuất bản.
+
+### Sổ tay lỗi lấy từ Markdown
+
+Mỗi tuần có thể thêm `LessonN/notebook.md`. Nội dung file này là nguồn của nút Sổ tay lỗi; không sửa dữ liệu trong JavaScript. Một ghi chú bắt đầu bằng heading `##`, sau đó dùng các mục `### Nhóm` (tùy chọn), `### Dấu hiệu`, `### Mã sai`, `### Cách sửa`, `### Ghi nhớ`. Hai mục code phải có code fence, ví dụ:
+
+````md
+# Sổ tay lỗi · Tuần 2
+
+## Label không nối với input
+
+### Nhóm
+HTML Form
+
+### Dấu hiệu
+Bấm nhãn nhưng ô nhập không nhận focus.
+
+### Mã sai
+```html
+<label for="email">Email</label>
+<input name="email">
+```
+
+### Cách sửa
+```html
+<label for="email">Email</label>
+<input id="email" name="email">
+```
+
+### Ghi nhớ
+Giá trị `for` cần khớp với `id`.
+````
+
+Lưu file khi chạy local sẽ rebuild nội dung. Bản online cập nhật sau push và workflow thành công. Thiếu hoặc để trống notebook.md sẽ hiển thị trạng thái chưa có ghi chú, không mượn lỗi từ tuần khác. Desktop đọc hai trang, mobile đọc từng trang; nút trước/sau, Escape và sao chép code đều hoạt động độc lập. Nội dung Markdown được làm sạch trước khi đưa vào dialog.

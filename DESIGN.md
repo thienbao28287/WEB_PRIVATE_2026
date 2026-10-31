@@ -87,3 +87,7 @@ Tổng quan hiển thị bài gần nhất hợp lệ và tiến độ theo số
 ## Interactive HTML Form exercises
 
 Nhóm thực hành nằm ngay sau ví dụ Form trong Buổi 2. Desktop chia code/preview hai cột; dưới 1100px xếp dọc. Ô điền code và nút có vùng bấm tối thiểu 44px; code cuộn riêng, preview có nhãn và ghi rõ không gửi dữ liệu. Kết quả có chữ và ký hiệu, không chỉ dùng màu; ô sai dùng aria-invalid/aria-describedby và focus ô sai đầu tiên khi chấm. Nhóm hiển thị tiến độ thực hành riêng, giữ theme hiện tại và cập nhật preview khi đổi theme. Không thêm animation vào bài tập. Tài liệu khai báo bằng exercises.json và marker exercise trong Markdown; dữ liệu được kiểm tra lúc build.
+
+## Markdown notebook fixes
+
+Sổ tay lấy nội dung từ LessonN/notebook.md qua build vào lesson.notebook, badge và dialog dùng chung nguồn. Không còn dữ liệu lỗi viết cứng trong JS hay fallback sang tuần không liên quan. Lưới hai trang nằm trong notebook-3d-stage; mobile một trang với bước điều hướng 1, desktop bước 2. Tờ lật chỉ xuất hiện trong animation, không phủ nội dung/sao chép khi đứng yên; đóng/chuyển bài hủy hiệu ứng và trả overflow/focus. Bấm nhanh ưu tiên chỉ số mới nhất, reduced-motion đổi trang ngay. Không lật trang khi người dùng chỉ bấm hoặc chọn văn bản trong trang.
