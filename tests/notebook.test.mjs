@@ -11,7 +11,7 @@ test('notebook entries come from lesson Markdown and code remains escaped',async
  const content=await collectContent(projectRoot);
  const lesson=content.lessons.find(lesson=>lesson.number===2);
  const list=getLessonPitfalls(lesson);
- assert.equal(list.length,4);assert.ok(list.some(item=>item.title.includes('preventDefault')));
+ assert.equal(list.length,6);assert.ok(list.some(item=>item.title.includes('Label')));
  assert.ok(lesson.notebookSource.endsWith('/notebook.md'));
  const html=renderNotebookDialog(lesson,lesson.pages[0],list);
  assert.match(html,/notebook-dialog/);assert.match(html,/notes-content/);assert.doesNotMatch(html,/notebook-3d-stage|flip-next-btn/);
@@ -47,4 +47,14 @@ test('only lessons with published theory appear in notebook choices',()=>{
  assert.deepEqual(lessons.filter(hasTheory).map(item=>item.number),[1]);
  const html=renderNotebookDialog(lessons[0],{},[],lessons);
  assert.match(html,/value="1"/);assert.doesNotMatch(html,/value="[234]"/);
+});
+
+test('notebooks follow existing theory and the old lesson 14 aggregate is removed',async()=>{
+ const content=await collectContent(projectRoot);
+ assert.deepEqual(content.lessons.filter(l=>getLessonPitfalls(l).length).map(l=>l.number),[1,2,3]);
+ assert.equal(content.lessons.find(l=>l.number===14).pages.length,0);
+ for(const lesson of content.lessons.filter(l=>getLessonPitfalls(l).length)){
+  assert.ok(hasTheory(lesson));
+  for(const item of lesson.notebook)assert.ok(item.explanationHTML.includes('#/Lesson'+lesson.number+'/theory'));
+ }
 });

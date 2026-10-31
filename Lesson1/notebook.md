@@ -1,80 +1,112 @@
 # Sổ tay lỗi · Tuần 1
 
-## Lệnh git/node báo "not recognized"
+## Live Server chưa mở đúng trang
 
 ### Nhóm
-Cài đặt môi trường
+I. Cài đặt IDE, Extensions
 
 ### Dấu hiệu
-Mở Terminal gõ git hoặc node thì báo lỗi "The term is not recognized as the name of a cmdlet...".
+Trình duyệt đang mở trang cũ hoặc sửa HTML mà không thấy thay đổi.
 
 ### Mã sai
 
 ```text
-# Gõ trên PowerShell/CMD:
-git --version # Sai nếu chưa cài Git hoặc PATH chưa chứa thư mục Git
-# -> Lỗi: git : The term 'git' is not recognized...
+index.html chưa được lưu  # Sai: Live Server chỉ đọc nội dung đã lưu trên đĩa
 ```
 
 ### Cách sửa
 
 ```text
-# Sửa: Mở Windows Search -> "Edit the system environment variables"
-# Thêm đường dẫn cài đặt Git vào biến PATH, ví dụ:
-C:\Program Files\Git\cmd
-# Sau đó khởi động lại hoàn toàn VS Code / Terminal
+1. Mở thư mục dự án trong VS Code
+2. Lưu index.html (Ctrl + S)
+3. Chuột phải index.html → Open with Live Server
+4. Kiểm tra đúng địa chỉ và tên tệp trên trình duyệt
 ```
 
 ### Ghi nhớ
-Khi cài đặt Git hoặc Node.js, bạn quên chưa tích chọn tùy chọn "Add to PATH", hoặc chưa khởi động lại Terminal sau khi cài đặt.
+Cài extension Live Server trong VS Code và lưu tệp trước khi kiểm tra kết quả.
 
-## Lưu file thành index.html.txt
+**Đối chiếu lý thuyết:** [Tuần 1 — I. Cài đặt IDE, Extensions](#/Lesson1/theory).
+
+## Commit không chứa thay đổi vừa sửa
 
 ### Nhóm
-Thao tác tệp
+II. Git & GitHub — Các lệnh cơ bản
 
 ### Dấu hiệu
-Mở file trên trình duyệt thì thấy hiện nguyên văn mã nguồn HTML như tệp văn bản thô, không hiện giao diện web.
+Git báo không có thay đổi để commit, hoặc commit thiếu phần vừa sửa.
 
 ### Mã sai
 
-```text
-<!-- Tên tệp trên ổ cứng bị ẩn đuôi: -->
-index.html.txt # Sai: phần mở rộng thực tế là .txt, không phải .html
+```bash
+git commit -m "Update page" # Sai nếu chưa git add: thay đổi chưa vào staging
 ```
 
 ### Cách sửa
 
-```text
-<!-- Bật tính năng hiển thị đuôi file trên Windows: -->
-<!-- File Explorer -> View -> Tích chọn "File name extensions" -->
-index.html
+```bash
+git status
+git add index.html
+git commit -m "Update page"
+git status
 ```
 
 ### Ghi nhớ
-Windows mặc định ẩn phần mở rộng (.txt). Khi bạn lưu index.html bằng Notepad hoặc tạo file mới, hệ điều hành tự gắn thêm đuôi .txt.
+Sau khi sửa tiếp một tệp đã add, cần add lại để đưa phiên bản mới nhất vào staging.
 
-## Mở trực tiếp file:// thay vì máy chủ cục bộ
+**Đối chiếu lý thuyết:** [Tuần 1 — II. Git & GitHub — Các lệnh cơ bản](#/Lesson1/theory).
+
+## Git chưa biết thông tin tác giả
 
 ### Nhóm
-Môi trường chạy
+II. Git & GitHub — Thiết lập thông tin cá nhân
 
 ### Dấu hiệu
-Các tính năng như ES Modules (import/export), Fetch API, hình ảnh cục bộ bị chặn với thông báo CORS policy.
+Khi commit, Git yêu cầu khai báo tên và email tác giả.
 
 ### Mã sai
 
-```text
-// Đường dẫn trên thanh URL trình duyệt:
-file:///C:/HIT/project/index.html // Sai: file:// không cung cấp môi trường HTTP cho fetch/module
+```bash
+git commit -m "First page" # Không thực hiện được nếu Git chưa có user.name và user.email
 ```
 
 ### Cách sửa
 
-```text
-// Sử dụng Live Server trong VS Code hoặc npm dev:
-http://127.0.0.1:5500/index.html
+```bash
+git config --global user.name "Tên của bạn"
+git config --global user.email "email@example.com"
+git config --list
+git commit -m "First page"
 ```
 
 ### Ghi nhớ
-Trình duyệt áp dụng chính sách bảo mật Same-Origin nghiêm ngặt trên giao thức file:///. Luôn sử dụng extension Live Server hoặc dev server.
+Dùng tên và email của bạn; đây là thông tin tác giả commit, không phải lệnh đăng nhập GitHub.
+
+**Đối chiếu lý thuyết:** [Tuần 1 — II. Git & GitHub — Thiết lập thông tin cá nhân](#/Lesson1/theory).
+
+## GitHub chưa nhận được nội dung vừa sửa
+
+### Nhóm
+II. Git & GitHub — GitHub Pages
+
+### Dấu hiệu
+Trang GitHub và website chưa có thay đổi sau khi chỉ lưu tệp trên máy.
+
+### Mã sai
+
+```bash
+git add . # Chỉ đưa vào staging, chưa tạo commit và chưa gửi lên GitHub
+```
+
+### Cách sửa
+
+```bash
+git add .
+git commit -m "Update homepage"
+git push origin main
+```
+
+### Ghi nhớ
+Lưu tệp, add, commit và push là các bước khác nhau. Sau push còn cần đợi GitHub Pages triển khai thành công; kiểm tra nguồn xuất bản đúng nhánh.
+
+**Đối chiếu lý thuyết:** [Tuần 1 — II. Git & GitHub — GitHub Pages](#/Lesson1/theory).

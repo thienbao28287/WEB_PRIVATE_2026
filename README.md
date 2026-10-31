@@ -59,7 +59,7 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 | 11 | Thực hành | — | Chưa có |
 | 12 | Callback, Promise, async/await, Fetch API | Chưa có | Chưa có |
 | 13 | Thực hành | — | Chưa có |
-| 14 | Sổ tay lỗi thường gặp & Giải đáp thắc mắc | [Lý thuyết](Lesson14/theory.md) | Chưa có |
+| 14 | Tổng kết & Giải đáp thắc mắc | Chưa có | Chưa có |
 
 ## Cách sử dụng
 
@@ -121,3 +121,5 @@ Giá trị `for` cần khớp với `id`.
 ````
 
 Lưu file khi chạy local sẽ rebuild nội dung. Bản online cập nhật sau push và workflow thành công. Thiếu hoặc để trống notebook.md sẽ hiển thị trạng thái chưa có ghi chú, không mượn lỗi từ tuần khác. Sổ tay trình bày cuộn dọc giống tài liệu Lý thuyết; code dùng chung code-wrap/code-toolbar, nút sao chép và màu cú pháp. Đặt comment giải thích nguyên nhân ngay cạnh dòng sai, dùng cú pháp comment đúng với ngôn ngữ và khai báo ngôn ngữ trong code fence. Nội dung Markdown được làm sạch trước khi đưa vào dialog.
+
+Sổ tay chỉ viết sau khi bài có lý thuyết. Mỗi lỗi cần bám một mục cụ thể trong theory.md của cùng tuần, ghi mục đối chiếu trong Ghi nhớ và giải thích ngay cạnh dòng sai. Không tự sinh lỗi từ tên tuần trong lộ trình; thêm lý thuyết mới cần biên soạn/rà soát notebook.md tương ứng.

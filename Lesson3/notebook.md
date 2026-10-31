@@ -1,117 +1,212 @@
 # Sổ tay lỗi · Tuần 3
 
-## CSS không áp dụng do chưa link hoặc sai đường dẫn
+## CSS ngoài không được nạp
 
 ### Nhóm
-CSS Cơ bản
+I.2. Ba cách thêm CSS vào HTML
 
 ### Dấu hiệu
-Trang web trơ trọi chỉ có văn bản thô, kiểm tra F12 tab Network không thấy file .css nào được tải.
+style.css cùng cấp index.html nhưng nội dung trang chưa được định dạng.
 
 ### Mã sai
 
 ```html
-<!-- SAI: Quên rel="stylesheet" hoặc sai đường dẫn file -->
 <link href="style.css"> <!-- Sai: thiếu rel="stylesheet" -->
-<link rel="stylesheet" href="/style.css"> <!-- Sai nếu CSS ở trong repo: / trỏ về gốc domain -->
 ```
 
 ### Cách sửa
 
 ```html
-<!-- ĐÚNG: Đặt trong <head>, có rel="stylesheet" và đường dẫn tương đối chính xác -->
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="style.css">
 ```
 
 ### Ghi nhớ
-Nếu thiếu rel="stylesheet", trình duyệt coi đó là một tài nguyên thông thường chứ không nạp vào hệ thống tạo kiểu CSS.
+Đặt link trong head. Tệp .css chỉ chứa CSS, không bọc bằng thẻ style.
 
-## Xung đột độ ưu tiên (CSS Specificity bị đè)
+**Đối chiếu lý thuyết:** [Tuần 3 — I.2. Ba cách thêm CSS vào HTML](#/Lesson3/theory).
+
+## Thiếu dấu chấm phẩy giữa hai khai báo
 
 ### Nhóm
-CSS Specificity
+I.1. Cú pháp cơ bản
 
 ### Dấu hiệu
-Viết class đúng nhưng màu sắc/kích thước không đổi; mở F12 thấy thuộc tính bị gạch ngang (strike-through).
+Màu chữ và màu nền không được áp dụng như mong muốn.
 
 ### Mã sai
 
 ```css
-/* CSS thư viện hoặc CSS chung dùng ID: */
-#main-menu a { color: #1E293B; }
-
-/* Class này sẽ KHÔNG ĂN vì ID mạnh hơn class: */
-.menu-active { color: #F47B2A; } /* Bị selector chứa ID ở trên ghi đè */
+.title {
+  color: blue /* Sai: thiếu ; để kết thúc khai báo trước background-color */
+  background-color: lightyellow;
+}
 ```
 
 ### Cách sửa
 
 ```css
-/* CÁCH SỬA: Tăng độ ưu tiên khớp với cha, hoặc dùng BEM hạn chế dùng ID */
-#main-menu a.menu-active { color: #F47B2A; }
-
-/* BEM chuẩn mực: */
-.menu__link--active { color: #F47B2A; }
+.title {
+  color: blue;
+  background-color: lightyellow;
+}
 ```
 
 ### Ghi nhớ
-Thứ tự ưu tiên: Inline Style > ID Selector (100đ) > Class/Attribute/Pseudo-class (10đ) > Element Selector (1đ).
+Dùng dấu : giữa thuộc tính và giá trị, dấu ; giữa các khai báo. Lỗi này không làm mọi rule phía sau tự động mất hiệu lực.
 
-## Thiếu dấu chấm phẩy giữa hai khai báo CSS
+**Đối chiếu lý thuyết:** [Tuần 3 — I.1. Cú pháp cơ bản](#/Lesson3/theory).
+
+## Nhầm class đồng thời với class hậu duệ
 
 ### Nhóm
-Cú pháp CSS
+II.4. Nhóm selector và lỗi dễ nhầm
 
 ### Dấu hiệu
-Một số class ở nửa dưới file CSS hoàn toàn không có tác dụng mặc dù viết đúng.
+Phần tử có class="menu active" không đổi màu khi dùng selector hậu duệ.
 
 ### Mã sai
 
 ```css
-.btn-primary {
-    background-color: #F47B2A   /* <-- THIẾU DẤU ; */
-    color: #FFFFFF;
-}
-/* Rule độc lập phía dưới vẫn hợp lệ: */
-.btn-secondary { color: #374151; }
+.menu .active { color: orange; } /* Sai với yêu cầu: chọn active ở bên trong menu, không phải cùng phần tử */
 ```
 
 ### Cách sửa
 
 ```css
-.btn-primary {
-    background-color: #F47B2A; /* Đầy đủ dấu ; */
-    color: #FFFFFF;
-}
-.btn-secondary {
-    color: #374151;
-}
+.menu.active { color: orange; }
 ```
 
 ### Ghi nhớ
-Khi thiếu dấu chấm phẩy giữa hai khai báo, trình duyệt có thể đọc chúng thành một giá trị không hợp lệ và bỏ khai báo đó. Rule độc lập tiếp theo vẫn được xử lý.
+Khoảng trắng biểu diễn quan hệ hậu duệ. Dấu phẩy trong .menu, .active lại chọn hai nhóm độc lập.
 
-## Trình duyệt lưu cache file CSS cũ
+**Đối chiếu lý thuyết:** [Tuần 3 — II.4. Nhóm selector và lỗi dễ nhầm](#/Lesson3/theory).
+
+## Nhầm nth-child với nth-of-type
 
 ### Nhóm
-Trình duyệt
+II.2.a. Pseudo-class
 
 ### Dấu hiệu
-Sửa code trong file CSS, lưu lại rồi bấm F5 trên trình duyệt nhưng giao diện vẫn giữ nguyên mẫu cũ.
+Với section có lần lượt h2, p A, p B, selector lại chọn đoạn A thay vì đoạn B.
 
 ### Mã sai
 
-```text
-# Chỉ bấm F5 thông thường -> Trình duyệt đọc lại file CSS từ bộ nhớ đệm (disk cache)
+```css
+p:nth-child(2) { color: blue; } /* Sai nếu muốn p thứ hai: phần tử con thứ hai là p A */
 ```
 
 ### Cách sửa
 
-```text
-# SỬA BẰNG PHÍM TẮT:
-Ctrl + Shift + R (hoặc Ctrl + F5)
-# Hoặc mở F12 -> tab Network -> Tích chọn "Disable cache"
+```css
+p:nth-of-type(2) { color: blue; }
 ```
 
 ### Ghi nhớ
-Để tăng tốc độ tải trang, trình duyệt lưu cache file tĩnh (.css, .js). Hãy dùng Hard Reload khi đang trong quá trình phát triển.
+nth-child đếm vị trí giữa tất cả phần tử anh em; nth-of-type đếm theo loại thẻ. Vị trí bắt đầu từ 1.
+
+**Đối chiếu lý thuyết:** [Tuần 3 — II.2.a. Pseudo-class](#/Lesson3/theory).
+
+## Before không hiển thị nội dung
+
+### Nhóm
+II.2.b. Pseudo-element
+
+### Dấu hiệu
+Đã đặt màu cho phần tử giả nhưng không thấy ký hiệu trước thông báo.
+
+### Mã sai
+
+```css
+.notice::before { color: orange; } /* Thiếu content nên phần tử giả không tạo nội dung hiển thị */
+```
+
+### Cách sửa
+
+```css
+.notice::before {
+  content: "★ ";
+  color: orange;
+}
+```
+
+### Ghi nhớ
+Viết nội dung thiết yếu trong HTML. before/after chỉ dùng bổ sung hoặc trang trí như ví dụ bài học.
+
+**Đối chiếu lý thuyết:** [Tuần 3 — II.2.b. Pseudo-element](#/Lesson3/theory).
+
+## Nhầm con trực tiếp với hậu duệ
+
+### Nhóm
+II.3. Combinator
+
+### Dấu hiệu
+Muốn tô mọi đoạn văn trong content nhưng đoạn nằm trong div con không được chọn.
+
+### Mã sai
+
+```css
+.content > p { color: blue; } /* Sai với yêu cầu mọi cấp: > chỉ chọn con trực tiếp */
+```
+
+### Cách sửa
+
+```css
+.content p { color: blue; }
+```
+
+### Ghi nhớ
+Dùng > khi thật sự chỉ muốn con trực tiếp. + và ~ chọn anh em phía sau có cùng cha, không chọn hậu duệ.
+
+**Đối chiếu lý thuyết:** [Tuần 3 — II.3. Combinator](#/Lesson3/theory).
+
+## Cho rằng viết sau luôn thắng selector ID
+
+### Nhóm
+III. Cascade; IV. Specificity
+
+### Dấu hiệu
+Với h1 id="heading" class="heading", tiêu đề vẫn màu cam dù rule class viết sau.
+
+### Mã sai
+
+```css
+#heading { color: orange; }
+.heading { color: blue; } /* Không thắng: (0,1,0) thấp hơn (1,0,0) khi cùng nguồn/mức quan trọng */
+```
+
+### Cách sửa
+
+```css
+.heading { color: orange; }
+.heading { color: blue; } /* Cùng trọng số và điều kiện cascade: khai báo sau thắng */
+```
+
+### Ghi nhớ
+Trong ví dụ đơn giản, bỏ selector ID không cần thiết rồi dùng class nhất quán. Xét mức quan trọng trước specificity; chỉ dùng thứ tự khi các yếu tố trước ngang nhau.
+
+**Đối chiếu lý thuyết:** [Tuần 3 — III. Cascade; IV. Specificity](#/Lesson3/theory).
+
+## Modifier BEM thay thế class gốc
+
+### Nhóm
+V. BEM — Block và Modifier
+
+### Dấu hiệu
+Nút có màu riêng nhưng mất kiểu chung như viền hoặc màu chữ.
+
+### Mã sai
+
+```html
+<button class="button--primary">Đăng ký</button> <!-- Sai theo quy ước của bài: thiếu class button chứa kiểu chung -->
+```
+
+### Cách sửa
+
+```html
+<button type="button" class="button button--primary">Đăng ký</button>
+```
+
+### Ghi nhớ
+Modifier đi kèm class gốc, không tự kế thừa chỉ vì tên bắt đầu giống nhau. Dùng __ cho element và -- cho modifier.
+
+**Đối chiếu lý thuyết:** [Tuần 3 — V. BEM — Block và Modifier](#/Lesson3/theory).

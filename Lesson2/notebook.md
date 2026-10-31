@@ -3,112 +3,167 @@
 ## Sai đường dẫn hình ảnh (Lỗi 404 Not Found)
 
 ### Nhóm
-HTML & Đường dẫn
+III.4. Thẻ liên kết và hình ảnh
 
 ### Dấu hiệu
-Hình ảnh hiển thị icon ảnh vỡ kèm nội dung alt. Console báo đỏ GET ... 404 (Not Found).
+Giả sử index.html cùng cấp với thư mục images/ chứa banner.png: ảnh bị vỡ khi đường dẫn không trỏ đến tệp đó.
 
 ### Mã sai
 
 ```html
-<!-- SAI: Nhầm đường dẫn tuyệt đối bắt đầu bằng / hoặc quên cấp thư mục -->
-<img src="/images/banner.png" alt="Banner"> <!-- Sai nếu ảnh nằm trong repo: / trỏ về gốc domain -->
-<img src="banner.png" alt="Banner"> <!-- Sai nếu banner.png nằm trong images/, không cùng thư mục HTML -->
+<img src="banner.png" alt="Banner"> <!-- Sai: ảnh nằm trong images/, không cùng cấp index.html -->
 ```
 
 ### Cách sửa
 
 ```html
-<!-- ĐÚNG: Dùng đường dẫn tương đối từ file HTML -->
 <img src="./images/banner.png" alt="Banner">
-<!-- Nếu ảnh ở thư mục ngoài: -->
-<img src="../img/banner.png" alt="Banner">
 ```
 
 ### Ghi nhớ
-Đường dẫn bắt đầu bằng "/" sẽ nhảy về gốc ổ đĩa hoặc domain root. Khi deploy lên GitHub Pages (ví dụ github.io/repo/), đường dẫn "/" sẽ không trỏ vào thư mục repo; có thể báo 404 nếu tài nguyên không tồn tại ở gốc domain.
+Đường dẫn tương đối tính từ tệp HTML. Kiểm tra tên thư mục, tên tệp và chữ hoa/thường; alt mô tả ảnh chứ không sửa đường dẫn.
 
-## Label không kết nối được với ô Input
+**Đối chiếu lý thuyết:** [Tuần 2 — III.4. Thẻ liên kết và hình ảnh](#/Lesson2/theory).
+
+## Label không kết nối với ô nhập
 
 ### Nhóm
-HTML Form
+III.7. Thẻ biểu mẫu (Form)
 
 ### Dấu hiệu
-Nhấp chuột vào dòng chữ của label nhưng ô nhập liệu hoặc checkbox không được focus hay kích hoạt.
+Bấm nhãn Email nhưng ô nhập không nhận focus.
 
 ### Mã sai
 
 ```html
-<!-- SAI: for trỏ tới name hoặc id gõ sai ký tự -->
 <label for="user-email">Email:</label>
-<input type="email" name="user-email"> <!-- Sai: thiếu id="user-email" để khớp for của label -->
+<input type="email" name="user-email"> <!-- Sai: name không thay thế id mà for đang tham chiếu -->
 ```
 
 ### Cách sửa
 
 ```html
-<!-- ĐÚNG: Giá trị thuộc tính for phải trùng khớp 100% với id của input -->
 <label for="user-email">Email:</label>
-<input type="email" id="user-email" name="user-email">
+<input type="email" id="user-email" name="email">
 ```
 
 ### Ghi nhớ
-Trình duyệt liên kết ngữ nghĩa giữa <label> và <input> thông qua cặp thuộc tính for và id, chứ không thông qua name.
+for phải khớp id. name là tên trường dữ liệu khi gửi form; id phải duy nhất trong trang.
 
-## Quên preventDefault() làm Form tải lại trang
+**Đối chiếu lý thuyết:** [Tuần 2 — III.7. Thẻ biểu mẫu (Form)](#/Lesson2/theory).
 
-### Nhóm
-Sự kiện & Form
-
-### Dấu hiệu
-Bấm nút submit thì trang web nhấp nháy tải lại, dữ liệu form vừa nhập và console.log biến mất ngay lập tức.
-
-### Mã sai
-
-```javascript
-form.addEventListener("submit", function() { // Sai: không nhận event để chặn submit mặc định
-    // SAI: Quên nhận e và gọi e.preventDefault()
-    console.log("Đã gửi form!"); // Bị xóa mất ngay do trang reload!
-});
-```
-
-### Cách sửa
-
-```javascript
-form.addEventListener("submit", function(event) {
-    event.preventDefault(); // CHẶN HÀNH VI RELOAD MẶC ĐỊNH
-    console.log("Xử lý form an toàn bằng JavaScript!");
-});
-```
-
-### Ghi nhớ
-Thẻ <form> có hành vi mặc định khi submit là gửi HTTP request và tải lại toàn bộ trang. Phải dùng event.preventDefault() để xử lý bằng JS.
-
-## Lồng thẻ sai ngữ nghĩa (Invalid Nesting)
+## Hai radio chọn được cùng lúc
 
 ### Nhóm
-Semantic HTML
+III.7. Thẻ biểu mẫu (Form)
 
 ### Dấu hiệu
-Trình duyệt tự động đóng thẻ sớm hoặc nhảy phần tử ra ngoài, làm bố cục vỡ bất ngờ.
+Người học chọn được cả ca sáng lẫn ca tối dù chỉ được đăng ký một ca.
 
 ### Mã sai
 
 ```html
-<!-- SAI: <p> không được chứa các thẻ khối như <div>, <h1>, <ul> -->
-<p>Giới thiệu khóa học <div>CLB Tin học HIT</div></p> <!-- Sai: div không được nằm trong p -->
-<!-- SAI: <a> lồng trong <a> -->
-<a href="#page">Xem bài <a href="#author">Tác giả</a></a> <!-- Sai: không được lồng a trong a -->
+<input type="radio" name="morning" value="morning"> Sáng
+<input type="radio" name="evening" value="evening"> Tối <!-- Sai: khác name nên không cùng nhóm -->
 ```
 
 ### Cách sửa
 
 ```html
-<!-- ĐÚNG: Dùng các khối độc lập hoặc thẻ nội dòng như <span> -->
-<div class="intro">
-    <p>Giới thiệu khóa học <span class="highlight">CLB Tin học HIT</span></p>
-</div>
+<label><input type="radio" name="session" value="morning"> Sáng</label>
+<label><input type="radio" name="session" value="evening"> Tối</label>
 ```
 
 ### Ghi nhớ
-Theo đặc tả HTML5, trình duyệt gặp thẻ block bên trong <p> sẽ tự động chèn thẻ đóng </p> ngầm định ngay trước đó.
+Các radio cùng một nhóm trong form dùng cùng name, mỗi lựa chọn có value riêng.
+
+**Đối chiếu lý thuyết:** [Tuần 2 — III.7. Thẻ biểu mẫu (Form)](#/Lesson2/theory).
+
+## Form chưa kiểm tra email hoặc trường bắt buộc
+
+### Nhóm
+III.7. Thẻ biểu mẫu (Form)
+
+### Dấu hiệu
+Form chấp nhận trường email trống hoặc chuỗi không phải địa chỉ email.
+
+### Mã sai
+
+```html
+<form>
+  <input type="text" name="email"> <!-- Sai với yêu cầu: text không kiểm tra email và thiếu required -->
+  <button type="button">Gửi</button> <!-- Không submit nên chưa kích hoạt kiểm tra khi gửi -->
+</form>
+```
+
+### Cách sửa
+
+```html
+<form>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+  <button type="submit">Kiểm tra</button>
+</form>
+```
+
+### Ghi nhớ
+Dùng dữ liệu giả khi thử. type=email kiểm tra định dạng cơ bản, required không cho để trống. Ví dụ chưa có backend lưu dữ liệu.
+
+**Đối chiếu lý thuyết:** [Tuần 2 — III.7. Thẻ biểu mẫu (Form)](#/Lesson2/theory).
+
+## Lồng thẻ không hợp lệ
+
+### Nhóm
+III.1–2. Thẻ ngữ nghĩa, tiêu đề và văn bản
+
+### Dấu hiệu
+Bố cục DOM khác mã đã viết vì trình duyệt tự sửa cấu trúc.
+
+### Mã sai
+
+```html
+<p>Giới thiệu <div>CLB HIT</div></p> <!-- Sai: p không chứa div -->
+<a href="#intro">Giới thiệu <a href="#contact">Liên hệ</a></a> <!-- Sai: a không được lồng a -->
+```
+
+### Cách sửa
+
+```html
+<div><p>Giới thiệu <span>CLB HIT</span></p></div>
+<a href="#intro">Giới thiệu</a>
+<a href="#contact">Liên hệ</a>
+```
+
+### Ghi nhớ
+Dùng div để nhóm khối, span để bao nội dung trong dòng; chọn thẻ theo vai trò nội dung.
+
+**Đối chiếu lý thuyết:** [Tuần 2 — III.1–2. Thẻ ngữ nghĩa, tiêu đề và văn bản](#/Lesson2/theory).
+
+## Script chạy trước phần tử cần sử dụng
+
+### Nhóm
+III.8. Thẻ script và style
+
+### Dấu hiệu
+Ví dụ đổi lời chào không hoạt động vì lúc script chạy, nút chưa tồn tại.
+
+### Mã sai
+
+```html
+<script src="script.js"></script> <!-- Sai nếu script truy cập ngay hello-button trước khi nút được tạo -->
+<button type="button" id="hello-button">Nhấn vào đây</button>
+<p id="message">Chưa có lời chào.</p>
+```
+
+### Cách sửa
+
+```html
+<button type="button" id="hello-button">Nhấn vào đây</button>
+<p id="message">Chưa có lời chào.</p>
+<script src="script.js"></script>
+```
+
+### Ghi nhớ
+Làm theo thứ tự ví dụ trong lý thuyết: nút và đoạn văn đứng trước script. Kiểm tra id trong HTML khớp với chuỗi trong getElementById.
+
+**Đối chiếu lý thuyết:** [Tuần 2 — III.8. Thẻ script và style](#/Lesson2/theory).
