@@ -372,7 +372,7 @@ function search() {
 }
 function openSearch(){ if(!data){toast('Tài liệu đang tải, vui lòng thử lại.');return;}closeMenu(false);$('#search-dialog').showModal();search();$('#search-input').focus(); }
 function updateThemeButton(){ const dark=document.documentElement.dataset.theme==='dark'; $('#theme-toggle').innerHTML=icon(dark?'sun':'moon'); $('#theme-toggle').setAttribute('aria-label',dark?'Chuyển sang giao diện sáng':'Chuyển sang giao diện tối'); }
-$('#menu-toggle').innerHTML=icon('menu'); $('#search-open').insertAdjacentHTML('afterbegin',icon('search')); $('.header-github').innerHTML=icon('github');
+$('#menu-toggle').innerHTML=icon('menu'); $('#search-open').insertAdjacentHTML('afterbegin',icon('search'));
 $('.skip').addEventListener('click', e=>{e.preventDefault();$('#main').focus();window.scrollTo(0,0);});
 updateThemeButton(); syncSidebarAccess();
 $('#theme-toggle').addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;try{localStorage.setItem('hit-theme',theme);}catch{}updateThemeButton();});
