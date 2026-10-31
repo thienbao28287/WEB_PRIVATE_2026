@@ -12,13 +12,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('hit-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch{}</script>
   <link rel="stylesheet" href="./assets/styles.css">
-  <script type="module" src="./assets/app.js"></script>
+  <script>document.documentElement.classList.toggle("intro-mode",!location.hash || location.hash==="#/")</script><script src="./assets/motion-vendor.js"></script><script type="module" src="./assets/app.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Đi đến nội dung</a>
   <header class="header">
     <button id="menu-toggle" class="icon-button sidebar-toggle" aria-label="Thu gọn sidebar" aria-expanded="true" aria-controls="sidebar"></button>
-    <a class="brand" href="#/" aria-label="HIT Web Private 2026 — Trang chủ"><img class="brand-logo" src="./Lesson1/img/logo-02.png" alt="CLB Tin học HIT" width="500" height="500"><span class="brand-name">WEB PRIVATE <small>Tài liệu lớp Web</small></span></a>
+    <a class="brand" href="#/overview" aria-label="HIT Web Private 2026 — Trang chủ"><img class="brand-logo" src="./Lesson1/img/logo-02.png" alt="CLB Tin học HIT" width="500" height="500"><span class="brand-name">WEB PRIVATE <small>Tài liệu lớp Web</small></span></a>
 
     <button id="search-open" class="search-open" aria-label="Tìm kiếm tài liệu"><span class="search-label">Tìm trong tài liệu...</span><kbd>Ctrl K</kbd></button>
     <button id="theme-toggle" class="icon-button" aria-label="Đổi giao diện sáng tối"></button>

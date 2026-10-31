@@ -73,3 +73,7 @@ Có skip link, landmark, focus-visible, aria-current, aria-pressed, nhãn ảnh,
 ## Course intro
 
 Intro đặt trên roadmap, dùng Lora cho tiêu đề lớn, Roboto cho nội dung, nút cam HIT và nền grid mờ. Nút bắt đầu/tiếp tục mở bài gần nhất hợp lệ hoặc bài đầu tiên. Số buổi lấy từ curriculum; không hiển thị số câu hỏi hay thời gian giả. Nội dung xuất hiện lần lượt trong 650ms, hai khối minh họa trôi nhẹ theo chu kỳ 7s; tắt animation với reduced-motion. Mobile bỏ các khối trang trí, thông tin khóa học xếp dọc. Theme tối dùng semantic surface/body/hairline của website.
+
+## Standalone intro (updated)
+
+Luồng chính: `/` hoặc `#/` là intro toàn màn hình; `#/overview` là tổng quan có header/sidebar. Nút Học ngay đi tới tổng quan; các link về khóa học cũng đi tới tổng quan. Đường dẫn bài Markdown giữ nguyên. Cấu trúc intro tham khảo `page/intro.html` và các lớp `oq-intro` trong source RAR người dùng cung cấp; chỉ dùng phần giao diện intro, không đưa archive hay dữ liệu Git của archive lên web. Motion được cài qua npm, đóng gói cùng website, điều khiển reveal, floating cards và pulse nodes lặp vô hạn. Có nút tạm dừng/tiếp tục, dừng animation khi rời intro và tôn trọng reduced-motion.

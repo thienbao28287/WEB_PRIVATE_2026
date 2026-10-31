@@ -61,12 +61,13 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await cp(path.join(projectRoot, 'web'), out, { recursive: true });
   await mkdir(path.join(out, 'assets'), { recursive: true });
   await cp(path.join(projectRoot, 'node_modules/dompurify/dist/purify.es.mjs'), path.join(out, 'assets/purify.mjs'));
+  await cp(path.join(projectRoot, 'node_modules/motion/dist/motion.js'), path.join(out, 'assets/motion-vendor.js'));
   const motion = await readFile(path.join(out, 'assets/motion.js'));
   const motionVersion = createHash('sha256').update(motion).digest('hex').slice(0, 12);
   const appFile = path.join(out, 'assets/app.js');
   await writeFile(appFile,(await readFile(appFile,'utf8')).replace("'./motion.js'",`'./motion.js?v=${motionVersion}'`));
   let index = await readFile(path.join(out, 'index.html'), 'utf8');
-  for (const asset of ['app.js', 'styles.css']) {
+  for (const asset of ['app.js', 'styles.css', 'motion-vendor.js']) {
     const content = await readFile(path.join(out, 'assets', asset));
     const version = createHash('sha256').update(content).digest('hex').slice(0, 12);
     index = index.replace(`./assets/${asset}`, `./assets/${asset}?v=${version}`);
