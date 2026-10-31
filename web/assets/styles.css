@@ -406,3 +406,9 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 .author-handle { color: var(--link); font-weight: 600; }
 .author-note > div { padding-bottom: 2rem; }
 @media(max-width:480px) { .author-note { gap: 1rem; padding-inline: .75rem; } .author-note img { width: 90px; height: 160px; } .author-note p { font-size: .8125rem; } }
+
+/* Only the selected week receives the orange treatment. */
+#sidebar .side-lesson:not(.selected) > summary { background: transparent; color: var(--body); font-weight: 400; }
+#sidebar .side-lesson:not(.selected) > summary:hover { background: var(--subtle); color: var(--link); }
+#sidebar .side-lesson.selected > summary { background: #F47B2A; color: #FFFFFF; font-weight: 600; }
+#sidebar .side-lesson > summary > svg { color: inherit; }

@@ -31,7 +31,7 @@ const route = id => `#/${id}`;
 const label = type => type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 const storage = { get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }, set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} } };
 let data, pages = [], currentId = '', routeVersion = 0, observer, toastTimer;
-let hasRendered=false, tocMotion=null, tocGeneration=0, tocResizeObserver;
+let hasRendered=false, tocMotion=null, tocGeneration=0, tocResizeObserver, selectedWeek=null;
 const navigationMotion=createLatestTransition();
 const savedCompletions = () => { const saved=storage.get('hit-completed',[]); return new Set(Array.isArray(saved)?saved.filter(value=>typeof value==='string'):[]); };
 let completed = savedCompletions();
@@ -42,9 +42,11 @@ function sidebar() {
   $('#sidebar').classList.toggle('sidebar-intro',!$('#sidebar .side-lesson'));
   const open = [...document.querySelectorAll('.side-lesson[open]')].map(el => +el.dataset.number);
   const lessons = [...data.lessons].sort((a,b) => a.number-b.number);
+  const activeLesson=lessons.find(lesson=>lesson.pages.some(page=>page.id===currentId));
+  selectedWeek=activeLesson?.number ?? null;
   $('#sidebar').innerHTML = `<a class="side-home ${currentId==='overview'?'active':''}" href="#/overview">${icon('home')}Tổng quan khóa học</a><div class="side-label">Nội dung khóa học</div>` + lessons.map((lesson,index) => {
     const current = lesson.pages.some(page => page.id === currentId);
-    return `<details class="side-lesson ${current?'current':''}" data-number="${lesson.number}" style="--side-delay:${Math.min(index*18,180)}ms" ${current || open.includes(lesson.number)?'open':''}>
+    return `<details class="side-lesson ${current?'current selected':''}" data-number="${lesson.number}" style="--side-delay:${Math.min(index*18,180)}ms" ${current || open.includes(lesson.number)?'open':''}>
       <summary><span class="side-title">Tuần ${lesson.number}</span>${icon('chevron')}</summary>
       <div class="side-documents">${lesson.pages.length ? lesson.pages.map(page => `<a class="side-link ${page.id===currentId?'active':''}" ${page.id===currentId?'aria-current="page"':''} href="${route(page.id)}">${icon(completed.has(page.id)?'check':page.type==='theory'?'book':'code')}${label(page.type)}</a>`).join('') : '<div class="side-empty">Sắp cập nhật tài liệu</div>'}</div>
     </details>`;
@@ -400,6 +402,10 @@ $('#main').addEventListener('click',async e=>{
 });
 document.addEventListener('click', e=>{
   const summary=e.target.closest('.side-lesson > summary,.mobile-toc > summary');
+  if(summary?.parentElement.matches('.side-lesson')){
+    selectedWeek=+summary.parentElement.dataset.number;
+    document.querySelectorAll('.side-lesson').forEach(week=>week.classList.toggle('selected',+week.dataset.number===selectedWeek));
+  }
   if(!summary || matchMedia('(prefers-reduced-motion: reduce)').matches || typeof summary.animate!=='function')return;
   e.preventDefault();
   const details=summary.parentElement;
