@@ -421,8 +421,12 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
   const lessonTitle = lesson ? `Tuần ${lesson.number} · ${lesson.title}` : 'Bài học';
   const pageLabel = page.type === 'theory' ? 'Lý thuyết' : 'Bài tập';
 
-  // Lấy danh sách tag duy nhất để làm shadcn tabs filter
-  const tags = ['Tất cả', ...new Set(pitfalls.map(p => p.tag))];
+  // Thống kê số lượng theo từng tag
+  const tagCounts = pitfalls.reduce((acc, p) => {
+    acc[p.tag] = (acc[p.tag] || 0) + 1;
+    return acc;
+  }, {});
+  const tags = [{ name: 'Tất cả', count: pitfalls.length }, ...Object.entries(tagCounts).map(([name, count]) => ({ name, count }))];
 
   return `
   <dialog id="notebook-dialog" class="notebook-dialog shadcn-dialog" aria-labelledby="notebook-dialog-title" aria-modal="true">
@@ -430,7 +434,7 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
       <!-- Gáy sổ phong cách Spiral / Bookmark giữ cho test pass -->
       <div class="notebook-spine" aria-hidden="true">
         <div class="notebook-rings">
-          ${Array.from({ length: 8 }).map(() => '<span class="notebook-ring"></span>').join('')}
+          ${Array.from({ length: 6 }).map(() => '<span class="notebook-ring"></span>').join('')}
         </div>
       </div>
 
@@ -462,14 +466,15 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
             Sổ tay lỗi: ${esc(lessonTitle)}
           </h2>
           <p class="notebook-subtitle shadcn-description">
-            Tổng hợp các lỗi hay gặp nhất khi học <strong>${pageLabel}</strong>, kèm mã so sánh và mẹo gỡ lỗi trực tiếp.
+            Tổng hợp <strong>${pitfalls.length} lỗi trọng tâm</strong> hay gặp khi học ${esc(pageLabel.toLowerCase())}, kèm mã so sánh đối chiếu và cách khắc phục chuẩn.
           </p>
 
-          <!-- shadcn Tabs Component (Segmented control) -->
+          <!-- shadcn Tabs Component (Segmented control) kèm số lượng lỗi -->
           <div class="shadcn-tabs-list" role="tablist" aria-label="Lọc nhóm lỗi">
-            ${tags.map((tag, idx) => `
-              <button class="shadcn-tab-trigger ${idx === 0 ? 'active' : ''}" role="tab" data-filter="${esc(tag)}" aria-selected="${idx === 0}">
-                ${esc(tag)}
+            ${tags.map((t, idx) => `
+              <button class="shadcn-tab-trigger ${idx === 0 ? 'active' : ''}" role="tab" data-filter="${esc(t.name)}" aria-selected="${idx === 0}">
+                <span>${esc(t.name)}</span>
+                <span class="tab-count-badge">${t.count}</span>
               </button>
             `).join('')}
           </div>
@@ -482,16 +487,16 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
               
               <div class="shadcn-card-header">
                 <div class="notebook-entry-head">
-                  <span class="notebook-entry-num">#0${index + 1}</span>
+                  <span class="notebook-entry-num">LỖI #${index + 1}</span>
                   <span class="shadcn-badge shadcn-badge-outline notebook-entry-tag">${esc(item.tag)}</span>
                 </div>
                 <h3 class="notebook-entry-title shadcn-card-title">${esc(item.title)}</h3>
               </div>
 
               <div class="shadcn-card-content">
-                <div class="shadcn-alert-destructive">
-                  <svg class="alert-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                  <p class="notebook-entry-symptom"><strong class="symptom-label">Dấu hiệu:</strong> ${esc(item.symptom)}</p>
+                <div class="shadcn-alert-destructive" role="alert">
+                  <svg class="alert-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  <p class="notebook-entry-symptom"><strong class="symptom-label">Dấu hiệu nhận biết:</strong> ${esc(item.symptom)}</p>
                 </div>
 
                 <div class="notebook-comparison shadcn-comparison-grid">
@@ -501,7 +506,7 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
                         <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
                       </div>
                       <span class="code-status-badge badge-bad">❌ Mã SAI / LỖI</span>
-                      <button class="copy-code-mini" data-code="${esc(item.badCode)}" title="Sao chép mã lỗi">Copy</button>
+                      <button class="copy-code-mini" data-code="${esc(item.badCode)}" aria-label="Sao chép đoạn mã lỗi">Sao chép</button>
                     </div>
                     <pre class="code-snippet"><code>${esc(item.badCode)}</code></pre>
                   </div>
@@ -512,15 +517,15 @@ export function renderNotebookDialog(lesson, page, pitfalls) {
                         <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
                       </div>
                       <span class="code-status-badge badge-good">✅ Cách sửa ĐÚNG</span>
-                      <button class="copy-code-mini" data-code="${esc(item.goodCode)}" title="Sao chép mã chuẩn">Copy</button>
+                      <button class="copy-code-mini" data-code="${esc(item.goodCode)}" aria-label="Sao chép đoạn mã đúng">Sao chép</button>
                     </div>
                     <pre class="code-snippet"><code>${esc(item.goodCode)}</code></pre>
                   </div>
                 </div>
 
                 <div class="notebook-entry-footer shadcn-callout">
-                  <span class="bulb-icon">💡</span>
-                  <p><strong>Tại sao bị lỗi?</strong> ${esc(item.explanation)}</p>
+                  <span class="bulb-icon" aria-hidden="true">💡</span>
+                  <p><strong>Nguyên nhân & Cách phòng tránh:</strong> ${esc(item.explanation)}</p>
                 </div>
               </div>
             </article>
