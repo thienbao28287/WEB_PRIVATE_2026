@@ -10,15 +10,15 @@ Hình ảnh hiển thị icon ảnh vỡ kèm nội dung alt. Console báo đỏ
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: Nhầm đường dẫn tuyệt đối bắt đầu bằng / hoặc quên cấp thư mục -->
-<img src="/images/banner.png" alt="Banner">
-<img src="banner.png" alt="Banner">
+<img src="/images/banner.png" alt="Banner"> <!-- Sai nếu ảnh nằm trong repo: / trỏ về gốc domain -->
+<img src="banner.png" alt="Banner"> <!-- Sai nếu banner.png nằm trong images/, không cùng thư mục HTML -->
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Dùng đường dẫn tương đối từ file HTML -->
 <img src="./images/banner.png" alt="Banner">
 <!-- Nếu ảnh ở thư mục ngoài: -->
@@ -26,7 +26,7 @@ Hình ảnh hiển thị icon ảnh vỡ kèm nội dung alt. Console báo đỏ
 ```
 
 ### Ghi nhớ
-Đường dẫn bắt đầu bằng "/" sẽ nhảy về gốc ổ đĩa hoặc domain root. Khi deploy lên GitHub Pages (ví dụ github.io/repo/), đường dẫn "/" chắc chắn bị 404.
+Đường dẫn bắt đầu bằng "/" sẽ nhảy về gốc ổ đĩa hoặc domain root. Khi deploy lên GitHub Pages (ví dụ github.io/repo/), đường dẫn "/" sẽ không trỏ vào thư mục repo; có thể báo 404 nếu tài nguyên không tồn tại ở gốc domain.
 
 ## Label không kết nối được với ô Input
 
@@ -38,15 +38,15 @@ Nhấp chuột vào dòng chữ của label nhưng ô nhập liệu hoặc check
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: for trỏ tới name hoặc id gõ sai ký tự -->
 <label for="user-email">Email:</label>
-<input type="email" name="user-email">
+<input type="email" name="user-email"> <!-- Sai: thiếu id="user-email" để khớp for của label -->
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Giá trị thuộc tính for phải trùng khớp 100% với id của input -->
 <label for="user-email">Email:</label>
 <input type="email" id="user-email" name="user-email">
@@ -65,8 +65,8 @@ Bấm nút submit thì trang web nhấp nháy tải lại, dữ liệu form vừ
 
 ### Mã sai
 
-```text
-form.addEventListener("submit", function() {
+```javascript
+form.addEventListener("submit", function() { // Sai: không nhận event để chặn submit mặc định
     // SAI: Quên nhận e và gọi e.preventDefault()
     console.log("Đã gửi form!"); // Bị xóa mất ngay do trang reload!
 });
@@ -74,7 +74,7 @@ form.addEventListener("submit", function() {
 
 ### Cách sửa
 
-```text
+```javascript
 form.addEventListener("submit", function(event) {
     event.preventDefault(); // CHẶN HÀNH VI RELOAD MẶC ĐỊNH
     console.log("Xử lý form an toàn bằng JavaScript!");
@@ -94,16 +94,16 @@ Trình duyệt tự động đóng thẻ sớm hoặc nhảy phần tử ra ngo�
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: <p> không được chứa các thẻ khối như <div>, <h1>, <ul> -->
-<p>Giới thiệu khóa học <div>CLB Tin học HIT</div></p>
+<p>Giới thiệu khóa học <div>CLB Tin học HIT</div></p> <!-- Sai: div không được nằm trong p -->
 <!-- SAI: <a> lồng trong <a> -->
-<a href="#page">Xem bài <a href="#author">Tác giả</a></a>
+<a href="#page">Xem bài <a href="#author">Tác giả</a></a> <!-- Sai: không được lồng a trong a -->
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Dùng các khối độc lập hoặc thẻ nội dòng như <span> -->
 <div class="intro">
     <p>Giới thiệu khóa học <span class="highlight">CLB Tin học HIT</span></p>

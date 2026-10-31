@@ -120,4 +120,4 @@ Bấm nhãn nhưng ô nhập không nhận focus.
 Giá trị `for` cần khớp với `id`.
 ````
 
-Lưu file khi chạy local sẽ rebuild nội dung. Bản online cập nhật sau push và workflow thành công. Thiếu hoặc để trống notebook.md sẽ hiển thị trạng thái chưa có ghi chú, không mượn lỗi từ tuần khác. Desktop đọc hai trang, mobile đọc từng trang; nút trước/sau, Escape và sao chép code đều hoạt động độc lập. Nội dung Markdown được làm sạch trước khi đưa vào dialog.
+Lưu file khi chạy local sẽ rebuild nội dung. Bản online cập nhật sau push và workflow thành công. Thiếu hoặc để trống notebook.md sẽ hiển thị trạng thái chưa có ghi chú, không mượn lỗi từ tuần khác. Sổ tay trình bày cuộn dọc giống tài liệu Lý thuyết; code dùng chung code-wrap/code-toolbar, nút sao chép và màu cú pháp. Đặt comment giải thích nguyên nhân ngay cạnh dòng sai, dùng cú pháp comment đúng với ngôn ngữ và khai báo ngôn ngữ trong code fence. Nội dung Markdown được làm sạch trước khi đưa vào dialog.

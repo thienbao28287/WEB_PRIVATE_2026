@@ -10,17 +10,17 @@ Khai báo justify-content: center hoặc space-between nhưng các phần tử c
 
 ### Mã sai
 
-```text
+```css
 .container {
     /* SAI: Quên bật flexbox ở thẻ cha */
-    justify-content: center;
+    justify-content: center; /* Không căn theo flex khi cha chưa có display: flex */
     align-items: center;
 }
 ```
 
 ### Cách sửa
 
-```text
+```css
 .container {
     display: flex; /* BẮT BUỘC KHAI BÁO DISPLAY: FLEX */
     justify-content: center;
@@ -41,9 +41,9 @@ Positioning
 
 ### Mã sai
 
-```text
+```css
 .card-badge {
-    position: absolute;
+    position: absolute; /* Sai vị trí mong muốn: cha .card chưa có position: relative */
     top: 10px;
     right: 10px;
 }
@@ -52,7 +52,7 @@ Positioning
 
 ### Cách sửa
 
-```text
+```css
 .card {
     position: relative; /* ĐẶT KHUNG NEO TỌA ĐỘ CHO CON */
 }
@@ -76,17 +76,17 @@ Mở web trên smartphone thì thấy toàn bộ trang web bị co cụm lại n
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: Thiếu thẻ viewport trong <head> -->
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> <!-- Thiếu meta viewport bên cạnh: mobile dùng viewport mặc định rộng -->
     <title>Trang web</title>
 </head>
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Luôn có meta viewport để tỷ lệ 1:1 theo màn hình thiết bị -->
 <head>
     <meta charset="UTF-8">

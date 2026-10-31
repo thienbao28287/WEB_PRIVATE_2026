@@ -10,15 +10,15 @@ Trang web trơ trọi chỉ có văn bản thô, kiểm tra F12 tab Network khô
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: Quên rel="stylesheet" hoặc sai đường dẫn file -->
-<link href="style.css">
-<link rel="stylesheet" href="/style.css">
+<link href="style.css"> <!-- Sai: thiếu rel="stylesheet" -->
+<link rel="stylesheet" href="/style.css"> <!-- Sai nếu CSS ở trong repo: / trỏ về gốc domain -->
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Đặt trong <head>, có rel="stylesheet" và đường dẫn tương đối chính xác -->
 <link rel="stylesheet" href="./css/style.css">
 ```
@@ -36,17 +36,17 @@ Viết class đúng nhưng màu sắc/kích thước không đổi; mở F12 th�
 
 ### Mã sai
 
-```text
+```css
 /* CSS thư viện hoặc CSS chung dùng ID: */
 #main-menu a { color: #1E293B; }
 
 /* Class này sẽ KHÔNG ĂN vì ID mạnh hơn class: */
-.menu-active { color: #F47B2A; }
+.menu-active { color: #F47B2A; } /* Bị selector chứa ID ở trên ghi đè */
 ```
 
 ### Cách sửa
 
-```text
+```css
 /* CÁCH SỬA: Tăng độ ưu tiên khớp với cha, hoặc dùng BEM hạn chế dùng ID */
 #main-menu a.menu-active { color: #F47B2A; }
 
@@ -57,7 +57,7 @@ Viết class đúng nhưng màu sắc/kích thước không đổi; mở F12 th�
 ### Ghi nhớ
 Thứ tự ưu tiên: Inline Style > ID Selector (100đ) > Class/Attribute/Pseudo-class (10đ) > Element Selector (1đ).
 
-## Thiếu dấu chấm phẩy ; làm hỏng toàn bộ CSS phía sau
+## Thiếu dấu chấm phẩy giữa hai khai báo CSS
 
 ### Nhóm
 Cú pháp CSS
@@ -67,18 +67,18 @@ Một số class ở nửa dưới file CSS hoàn toàn không có tác dụng m
 
 ### Mã sai
 
-```text
+```css
 .btn-primary {
     background-color: #F47B2A   /* <-- THIẾU DẤU ; */
     color: #FFFFFF;
 }
-/* Rule tiếp theo bị trình duyệt bỏ qua hoàn toàn: */
+/* Rule độc lập phía dưới vẫn hợp lệ: */
 .btn-secondary { color: #374151; }
 ```
 
 ### Cách sửa
 
-```text
+```css
 .btn-primary {
     background-color: #F47B2A; /* Đầy đủ dấu ; */
     color: #FFFFFF;
@@ -89,7 +89,7 @@ Một số class ở nửa dưới file CSS hoàn toàn không có tác dụng m
 ```
 
 ### Ghi nhớ
-Khi thiếu dấu chấm phẩy, CSS parser coi dòng tiếp theo là giá trị mở rộng không hợp lệ của thuộc tính trước và vứt bỏ cả khối.
+Khi thiếu dấu chấm phẩy giữa hai khai báo, trình duyệt có thể đọc chúng thành một giá trị không hợp lệ và bỏ khai báo đó. Rule độc lập tiếp theo vẫn được xử lý.
 
 ## Trình duyệt lưu cache file CSS cũ
 

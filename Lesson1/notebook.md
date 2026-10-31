@@ -12,7 +12,7 @@ Mở Terminal gõ git hoặc node thì báo lỗi "The term is not recognized as
 
 ```text
 # Gõ trên PowerShell/CMD:
-git --version
+git --version # Sai nếu chưa cài Git hoặc PATH chưa chứa thư mục Git
 # -> Lỗi: git : The term 'git' is not recognized...
 ```
 
@@ -40,7 +40,7 @@ Mở file trên trình duyệt thì thấy hiện nguyên văn mã nguồn HTML 
 
 ```text
 <!-- Tên tệp trên ổ cứng bị ẩn đuôi: -->
-index.html.txt
+index.html.txt # Sai: phần mở rộng thực tế là .txt, không phải .html
 ```
 
 ### Cách sửa
@@ -66,7 +66,7 @@ Các tính năng như ES Modules (import/export), Fetch API, hình ảnh cục b
 
 ```text
 // Đường dẫn trên thanh URL trình duyệt:
-file:///C:/HIT/project/index.html
+file:///C:/HIT/project/index.html // Sai: file:// không cung cấp môi trường HTTP cho fetch/module
 ```
 
 ### Cách sửa

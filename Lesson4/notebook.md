@@ -10,7 +10,7 @@ Box Model
 
 ### Mã sai
 
-```text
+```css
 /* Mặc định box-sizing: content-box */
 .col {
     width: 50%;
@@ -20,7 +20,7 @@ Box Model
 
 ### Cách sửa
 
-```text
+```css
 /* Khai báo Reset chuẩn mực ở đầu file CSS: */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -44,15 +44,15 @@ Cỡ chữ bị phóng đại to quá mức khi các thẻ lồng nhau nhiều c
 
 ### Mã sai
 
-```text
+```css
 /* em bị nhân dồn từ các cấp cha con: */
-.card { font-size: 1.2em; }
+.card { font-size: 1.2em; } /* Cỡ chữ con dùng em sẽ nhân tiếp với cỡ chữ này */
 .card-body { font-size: 1.2em; } /* Sẽ thành 1.2 * 1.2 = 1.44em */
 ```
 
 ### Cách sửa
 
-```text
+```css
 /* rem luôn tính theo gốc root <html> (16px), không bị nhân dồn: */
 .card { font-size: 1.125rem; }
 .card-body { font-size: 1rem; }

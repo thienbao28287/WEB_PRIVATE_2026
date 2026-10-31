@@ -10,14 +10,14 @@ Console báo đỏ Uncaught ReferenceError: userName is not defined.
 
 ### Mã sai
 
-```text
+```javascript
 console.log(userName); // Dùng trước khi khai báo!
 let userName = "HIT HaUI";
 ```
 
 ### Cách sửa
 
-```text
+```javascript
 // Luôn khai báo trước khi sử dụng:
 let userName = "HIT HaUI";
 console.log(userName);
@@ -36,14 +36,14 @@ Lấy giá trị từ ô input cộng với số nhưng kết quả bị ghép c
 
 ### Mã sai
 
-```text
+```javascript
 const count = input.value; // Trả về chuỗi: "5"
 const total = count + 2;   // Kết quả: "52"!
 ```
 
 ### Cách sửa
 
-```text
+```javascript
 const count = Number(input.value); // Hoặc +input.value
 const total = count + 2;             // Kết quả đúng: 7
 ```
@@ -61,7 +61,7 @@ Rẽ nhánh & Điều kiện
 
 ### Mã sai
 
-```text
+```javascript
 let role = "member";
 if (role = "admin") { // SAI: Đây là phép GÁN, gán role thành "admin"!
     console.log("Chào Admin"); // Luôn chạy!
@@ -70,7 +70,7 @@ if (role = "admin") { // SAI: Đây là phép GÁN, gán role thành "admin"!
 
 ### Cách sửa
 
-```text
+```javascript
 let role = "member";
 if (role === "admin") { // ĐÚNG: So sánh bằng nghiêm ngặt cả giá trị lẫn kiểu
     console.log("Chào Admin");

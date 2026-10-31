@@ -10,10 +10,10 @@ Console báo đỏ lỗi Cannot read properties of null khi cố gắng bắt s�
 
 ### Mã sai
 
-```text
+```html
 <!-- SAI: Script đặt trong <head> không có defer -->
 <head>
-    <script src="app.js"></script>
+    <script src="app.js"></script> <!-- Sai: chạy trước khi DOM phía dưới được tạo, thiếu defer -->
 </head>
 <!-- JS chạy trước khi nút được tạo ra trong DOM: -->
 <button id="btn">Click me</button>
@@ -21,7 +21,7 @@ Console báo đỏ lỗi Cannot read properties of null khi cố gắng bắt s�
 
 ### Cách sửa
 
-```text
+```html
 <!-- ĐÚNG: Thêm thuộc tính defer trong <head> -->
 <head>
     <script src="app.js" defer></script>
@@ -42,15 +42,15 @@ Code không báo lỗi nhưng không đổi class, hoặc báo hàm không tồn
 
 ### Mã sai
 
-```text
-element.class = "active";    // SAI: class là từ khóa dành riêng
+```javascript
+element.class = "active";    // Sai: đây không phải thuộc tính DOM dùng để đổi class (dùng className/classList)
 element.innnerHTML = "text"; // SAI: 3 chữ n
 document.getElementByID("x"); // SAI: chữ D viết hoa
 ```
 
 ### Cách sửa
 
-```text
+```javascript
 element.classList.add("active"); // ĐÚNG
 element.innerHTML = "text";         // ĐÚNG
 document.getElementById("x");        // ĐÚNG (id viết thường)
@@ -69,8 +69,8 @@ Bấm thẻ <a href="#"> làm trang bị cuộn vọt lên đỉnh đầu, form 
 
 ### Mã sai
 
-```text
-link.addEventListener("click", function() {
+```javascript
+link.addEventListener("click", function() { // Sai: không nhận event để chặn điều hướng mặc định
     // SAI: Không chặn hành vi mặc định
     openModal();
 });
@@ -78,7 +78,7 @@ link.addEventListener("click", function() {
 
 ### Cách sửa
 
-```text
+```javascript
 link.addEventListener("click", function(event) {
     event.preventDefault(); // CHẶN NHẢY TRANG
     openModal();

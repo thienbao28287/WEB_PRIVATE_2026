@@ -10,7 +10,7 @@ console.log thấy in ra đối tượng Promise trạng thái pending thay vì 
 
 ### Mã sai
 
-```text
+```javascript
 async function getData() {
     const res = fetch("https://api.example.com/users"); // Quên await!
     console.log(res); // In ra: Promise { <pending> }
@@ -19,7 +19,7 @@ async function getData() {
 
 ### Cách sửa
 
-```text
+```javascript
 async function getData() {
     const res = await fetch("https://api.example.com/users");
     const data = await res.json(); // Nhớ await cả res.json()!
@@ -40,9 +40,9 @@ Console báo đỏ: Access to fetch at ... has been blocked by CORS policy: No "
 
 ### Mã sai
 
-```text
+```javascript
 // Gọi API từ một domain khác mà server chưa cấu hình header CORS
-fetch("https://private-api.com/data");
+fetch("https://private-api.com/data"); // Bị chặn đọc response nếu server chưa cho phép origin này qua CORS
 ```
 
 ### Cách sửa

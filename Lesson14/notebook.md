@@ -10,14 +10,14 @@ Chạy trên máy tính Windows thì ảnh và CSS chạy tốt, nhưng đưa l�
 
 ### Mã sai
 
-```text
+```html
 <!-- Tên tệp trên Git là logo-02.PNG nhưng code viết: -->
-<img src="./img/logo-02.png">
+<img src="./img/logo-02.png"> <!-- Sai: tệp là logo-02.PNG, đuôi .png không khớp chữ hoa/thường -->
 ```
 
 ### Cách sửa
 
-```text
+```html
 <!-- Khớp chính xác 100% từng chữ hoa và chữ thường: -->
 <img src="./img/logo-02.PNG">
 <!-- Khuyên dùng: Đổi toàn bộ tên tệp sang chữ thường trước khi commit -->
@@ -36,15 +36,15 @@ Submit form khiến trang web reload, làm mất toàn bộ state trên trình d
 
 ### Mã sai
 
-```text
+```javascript
 form.onsubmit = () => {
-    sendData(); // Bị reload ngay!
+    sendData(); // Sai: chưa gọi e.preventDefault(), submit mặc định vẫn tải lại trang
 };
 ```
 
 ### Cách sửa
 
-```text
+```javascript
 form.onsubmit = (e) => {
     e.preventDefault(); // Luôn luôn chặn reload
     sendData();
@@ -64,14 +64,14 @@ Lạm dụng !important để ghi đè CSS khiến dự án về sau không th�
 
 ### Mã sai
 
-```text
-.title { color: #F47B2A !important; }
+```css
+.title { color: #F47B2A !important; } /* Lạm dụng !important gây khó ghi đè; bản thân cú pháp này hợp lệ */
 .card-title { color: #1E293B !important; } /* Gây hỗn loạn */
 ```
 
 ### Cách sửa
 
-```text
+```css
 /* Sử dụng phương pháp đặt tên BEM: */
 .card__title { color: #1E293B; }
 .card__title--highlight { color: #F47B2A; }

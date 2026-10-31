@@ -15,7 +15,7 @@ test('notebook entries come from lesson Markdown and code remains escaped',async
  assert.ok(lesson.notebookSource.endsWith('/notebook.md'));
  const html=renderNotebookDialog(lesson,lesson.pages[0],list);
  assert.match(html,/notebook-dialog/);assert.match(html,/notes-content/);assert.doesNotMatch(html,/notebook-3d-stage|flip-next-btn/);
- assert.match(html,/&lt;img/);assert.doesNotMatch(html,/<img src="\/images\/banner/);
+ assert.match(html.replace(/<[^>]*>/g,''),/&lt;img/);assert.match(html,/class="code-toolbar"/);assert.doesNotMatch(html,/notes-code|notes-copy/);assert.match(list[0].badCode,/Banner"> <!-- Sai/);assert.doesNotMatch(html,/<img src="\/images\/banner/);
  assert.deepEqual(getLessonPitfalls({number:99}),[]);
 });
 test('editing Markdown changes notebook data; absent notes have no unrelated fallback',async()=>{
