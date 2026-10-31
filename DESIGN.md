@@ -97,3 +97,5 @@ Sổ tay lỗi hiện dùng bố cục tài liệu như Lý thuyết: nội dung
 Khung thực hành HTML Form: hai cột bằng nhau, trái là tab Nội dung/Trình duyệt, phải là textarea nền navy có số dòng và thanh index.html. Dưới 760px xếp dọc. Tab dùng ARIA và phím mũi tên/Home/End; textarea dùng Tab để thoát, Ctrl/Command+Enter để chạy. Preview nền trắng như trình duyệt, không phụ thuộc theme của editor. Không thêm animation trong khi nhập.
 
 Toàn bộ bài thực hành Form dùng chung workspace HTML đầy đủ: nội dung, nút kiểm tra, gợi ý và phản hồi nằm trong tab trái; editor phải có số dòng và chức năng chạy/khôi phục. Không còn ô điền xen giữa code hoặc preview cạnh code theo kiểu cũ.
+
+Responsive: khung thực hành chọn số cột theo chiều rộng khả dụng (mỗi cột tối thiểu 22rem), tablet/điện thoại <=1100px xếp dọc. Nội dung và phản hồi không bị nhốt trong vùng cuộn ngắn trên mobile; editor/preview có chiều cao theo viewport và code cuộn riêng. Điện thoại dùng chữ editor 16px, nút từ 44px. Dialog sổ tay dùng flex với vùng đọc tự co, không trừ chiều cao header cố định. Kiểm tra 320/390/768/1024/1440px cùng intro, tổng quan và bài học.
