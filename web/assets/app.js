@@ -57,7 +57,7 @@ function startIntroMotion() {
   if(!globalThis.Motion || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const {animate,stagger}=globalThis.Motion;
   introAnimations.push(animate('.intro-content > *',{opacity:[0,1],y:[18,0]},{duration:.75,delay:stagger(.08),ease:'easeOut'}));
-  document.querySelectorAll('.intro-float').forEach((element,index)=>introAnimations.push(animate(element,{y:[0,-18,0],rotate:[index?8:-8,index?5:-5,index?8:-8]},{duration:6+index,repeat:Infinity,ease:'easeInOut',delay:index*.3})));
+  document.querySelectorAll('.intro-float').forEach((element,index)=>{const direction=element.matches('.intro-float-code,.intro-float-fourth')?-1:1;introAnimations.push(animate(element,{y:[0,-18,0],rotate:[8*direction,5*direction,8*direction]},{duration:6+index,repeat:Infinity,ease:'easeInOut',delay:index*.3}));});
   document.querySelectorAll('.intro-node').forEach((element,index)=>introAnimations.push(animate(element,{scale:[1,1.25,1],opacity:[.5,1,.5],x:[0,index%2?20:-20,0]},{duration:4+index,repeat:Infinity,ease:'easeInOut'})));
 }
 function intro() {
@@ -74,9 +74,10 @@ function intro() {
         <a class="intro-start" href="#/overview">Học ngay${icon('arrow')}</a>
         <p class="intro-note">Mỗi dòng code là một bước tiến.</p>
       </div>
-      <div class="intro-float intro-float-code"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Mỗi ngày một chút,<br>tiến xa hơn hôm qua.”</p></div>
-      <div class="intro-float intro-float-progress"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Chưa làm được hôm nay,<br>hãy thử lại ngày mai.”</p></div>
-    <div class="intro-float intro-float-third"><img src="./assets/student-study.png" alt="" width="100" height="100"><p>“Học để hiểu.<br>Thực hành để nhớ.”</p></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
+      <div class="intro-float intro-float-code"><img src="./assets/student-daily.png" alt="" width="100" height="100"><p>“Mỗi ngày một chút,<br>tiến xa hơn hôm qua.”</p></div>
+      <div class="intro-float intro-float-progress"><img src="./assets/student-retry.png" alt="" width="100" height="100"><p>“Mỗi lỗi sai là một<br>cơ hội để hiểu sâu hơn.”</p></div>
+      <div class="intro-float intro-float-third"><img src="./assets/student-practice.png" alt="" width="100" height="100"><p>“Học để hiểu.<br>Thực hành để nhớ.”</p></div>
+      <div class="intro-float intro-float-fourth"><img src="./assets/student-together.png" alt="" width="100" height="100"><p>“Cùng nhau học hỏi,<br>cùng nhau tiến bộ.”</p></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
 </div>`;
   startIntroMotion();
 }

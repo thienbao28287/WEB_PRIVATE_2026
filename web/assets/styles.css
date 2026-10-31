@@ -385,3 +385,15 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 .intro-page .intro-float-progress { right: 2%; bottom: 22%; }
 .intro-page .intro-float-third { right: 4%; bottom: 6%; }
 @media(min-width:901px) and (max-width:1200px) { .intro-page .intro-float { max-width: 260px; } .intro-float img { width: 65px; height: 65px; } .intro-float p { font-size: .75rem; } }
+
+/* Two distinct motivational cards on each side of the welcome screen. */
+.intro-page .intro-float-code { left: 2%; bottom: 25%; }
+.intro-page .intro-float-fourth { left: 4%; bottom: 7%; }
+.intro-page .intro-float-progress { right: 2%; bottom: 25%; }
+.intro-page .intro-float-third { right: 4%; bottom: 7%; }
+@media(min-width:901px) and (max-width:1200px) {
+  .intro-page .intro-float { max-width: 245px; padding: .5rem; }
+  .intro-page .intro-float-code,.intro-page .intro-float-progress { bottom: 18%; }
+  .intro-page .intro-float-third,.intro-page .intro-float-fourth { bottom: 3%; }
+}
+@media(min-width:901px) { .intro-page .intro-float-third { display: flex; } }
