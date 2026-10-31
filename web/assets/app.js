@@ -75,9 +75,9 @@ function intro() {
         <p class="intro-note">Mỗi dòng code là một bước tiến.</p>
       </div>
       <div class="intro-float intro-float-code"><img src="./assets/student-daily.png" alt="" width="100" height="100"><p>“Mỗi ngày một chút,<br>tiến xa hơn hôm qua.”</p></div>
-      <div class="intro-float intro-float-progress"><img src="./assets/student-retry.png" alt="" width="100" height="100"><p>“Mỗi lỗi sai là một<br>cơ hội để hiểu sâu hơn.”</p></div>
+      <div class="intro-float intro-float-progress"><img src="./assets/student-retry-white.png" alt="" width="100" height="100"><p>“Mỗi lỗi sai là một<br>cơ hội để hiểu sâu hơn.”</p></div>
       <div class="intro-float intro-float-third"><img src="./assets/student-practice.png" alt="" width="100" height="100"><p>“Học để hiểu.<br>Thực hành để nhớ.”</p></div>
-      <div class="intro-float intro-float-fourth"><img src="./assets/student-together.png" alt="" width="100" height="100"><p>“Cùng nhau học hỏi,<br>cùng nhau tiến bộ.”</p></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
+      <div class="intro-float intro-float-fourth"><img src="./assets/student-together-white.png" alt="" width="100" height="100"><p>“Cùng nhau học hỏi,<br>cùng nhau tiến bộ.”</p></div><button class="intro-motion-toggle" id="intro-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button></section>
 </div>`;
   startIntroMotion();
 }
