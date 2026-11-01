@@ -51,14 +51,17 @@ test('exercise authoring rejects duplicate IDs, missing blanks and unknown field
     copy=>{copy.groups[0].exercises[0].fields[0].target='script';},
   ]){const copy=structuredClone(data);mutate(copy);assert.throws(()=>validateExercises(copy,'Lesson2/exercises.json'),/Lesson2\/exercises.json/);}
 });
-test('Markdown marker produces associated exercise data at the Form section only',async()=>{
-  const content=await collectContent(projectRoot);
-  const page=content.lessons.find(lesson=>lesson.number===2).pages.find(page=>page.type==='theory');
-  assert.equal(page.exercises[0].exercises.length,3);
-  assert.ok(page.html.indexOf('data-exercise="html-form"')>page.html.indexOf('Thẻ biểu mẫu'));
-  assert.ok(page.html.indexOf('data-exercise="html-form"')<page.html.indexOf('Thẻ script và style'));
-  assert.equal(content.lessons.find(lesson=>lesson.number===1).pages[0].exercises,undefined);
+test('each published lesson has one practice workspace at the end',async()=>{
+ const content=await collectContent(projectRoot);
+ for(const number of [1,2,3]){
+  const page=content.lessons.find(l=>l.number===number).pages.find(p=>p.type==='theory');
+  assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,1);
+  assert.equal(page.exercises,undefined);
+  const position=page.html.indexOf('data-language="playground');
+  assert.doesNotMatch(page.html.slice(position),/<h[1-6][ >]/);
+ }
 });
+
 test('build reports missing and duplicate exercise markers with the Markdown path',async()=>{
   const root=await mkdtemp(path.join(os.tmpdir(),'hit-exercise-'));
   try{

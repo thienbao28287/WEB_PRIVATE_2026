@@ -317,27 +317,6 @@ Thẻ ngữ nghĩa thể hiện vai trò của nội dung, giúp cấu trúc tra
 
 **Giải thích:** `id` kết nối trường nhập với `label`; `name` đặt tên cho dữ liệu khi gửi form; `required` đánh dấu trường bắt buộc và `minlength` quy định độ dài tối thiểu. Nút dùng `type="button"` nên chưa gửi dữ liệu. Có thể đổi thành `type="submit"` để thử kiểm tra dữ liệu mặc định của trình duyệt, dùng dữ liệu giả; ví dụ này chưa có chức năng lưu đăng ký.
 
-### Tự thực hành HTML ngay trong bài
-
-Chỉnh sửa mã ở bên phải, chọn **Trình duyệt** hoặc bấm **Chạy code** để xem kết quả. Có thể dùng **Ctrl + Enter** (macOS: **⌘ + Enter**). Mã nháp được lưu riêng trên trình duyệt; khung này không chấm điểm.
-
-```playground
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Form đăng ký học Web</title>
-</head>
-<body>
- 
-</body>
-</html>
-```
-
-```exercise
-html-form
-```
-
 ### 8. Thẻ script và style
 
 | Thẻ | Tác dụng |
@@ -438,3 +417,21 @@ Block và inline mô tả cách phần tử tham gia bố cục. Các đặc đi
 Lưu ý: `<img>` mặc định tham gia bố cục inline nhưng là phần tử thay thế (replaced element), nên vẫn có thể thiết lập `width` và `height`.
 
 **Kết quả khi chạy ví dụ:** Hai `<div>` nằm trên hai dòng riêng; hai `<span>` nằm cùng dòng nếu đủ chỗ. Thử thu hẹp cửa sổ trình duyệt để thấy nội dung inline tự ngắt dòng khi hết chỗ.
+
+## V. Thực hành tổng hợp HTML
+
+Chỉnh sửa mã ở bên phải, chọn **Trình duyệt** hoặc bấm **Chạy code** để xem kết quả. Có thể dùng **Ctrl + Enter** (macOS: **⌘ + Enter**). Mã nháp được lưu riêng trên trình duyệt; khung này không chấm điểm.
+
+```playground
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Form đăng ký học Web</title>
+</head>
+<body>
+ 
+</body>
+</html>
+```
+

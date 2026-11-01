@@ -43,12 +43,13 @@ function readCodeAnswers(exercise,code){
  }));
 }
 export function mountExercises(article,page){
- for(const [index,pre] of [...article.querySelectorAll('pre[data-language="playground"],pre[data-language="playground-css"]')].entries()){
+ for(const [index,pre] of [...article.querySelectorAll('pre[data-language="playground"],pre[data-language="playground-css"],pre[data-language="playground-intro"]')].entries()){
   const initial=pre.textContent,key='hit-playground:'+page.id+':'+index;let saved;
   try{saved=localStorage.getItem(key);}catch{}
-  const css=pre.dataset.language==='playground-css';
+  const css=pre.dataset.language==='playground-css',intro=pre.dataset.language==='playground-intro';
+  const introInstructions='<h4>Thực hành Bài 1</h4><p>Tạo trang chào mừng đầu tiên sau khi làm quen VS Code, Live Server và Git.</p><ol><li>Viết h1 và một đoạn giới thiệu trong body.</li><li>Chạy code để xem trang hiển thị.</li><li>Chép mã vào index.html trong dự án trên máy, lưu và mở bằng Live Server.</li><li>Dùng Git Bash để kiểm tra git status, add, commit và push theo lý thuyết.</li></ol><p>Chỉ viết HTML trong editor; các lệnh Git cần chạy trên máy của bạn. Khung này không chấm điểm tự động.</p>';
   const cssInstructions='<h4>Thực hành CSS · Bài 3</h4><p>Viết HTML trong body và CSS trong style. Chọn Trình duyệt để xem kết quả; mã nháp tự lưu trên trình duyệt này.</p><ol><li>Tạo tiêu đề có id="heading" và class="heading". Thử selector thẻ, class và ID để so sánh độ ưu tiên.</li><li>Tạo hai thông báo: class="notice" và class="notice important". Dùng .notice.important để chỉ đổi màu thông báo thứ hai.</li><li>Tạo danh sách và thử :hover, :nth-child(odd), dấu &gt; và dấu cách trong selector.</li><li>Tạo nút với class="button button--primary". Viết kiểu chung cho .button và màu cam cho modifier .button--primary.</li></ol><p>Thử đổi thứ tự các quy tắc cùng độ ưu tiên để quan sát cascade. Đây là thực hành tự do, không chấm điểm tự động.</p>';
-  const w=workspace('playground-'+index,typeof saved==='string'&&saved.length<=30000?saved:initial,css?cssInstructions:'<h4>Thử tạo form của bạn</h4><p>Sửa toàn bộ HTML ở bên phải, rồi chọn Trình duyệt hoặc Chạy code. Kết quả tự cập nhật sau khi dừng gõ.</p><ol><li>Đổi tiêu đề và lời giới thiệu.</li><li>Thêm nhãn và ô họ tên có for/id trùng nhau.</li><li>Thử type="email" và required.</li></ol><p>Thực hành tự do không chấm điểm. Ba bài phía dưới có kiểm tra đáp án.</p>');
+  const w=workspace('playground-'+index,typeof saved==='string'&&saved.length<=30000?saved:initial,intro?introInstructions:css?cssInstructions:'<h4>Thử tạo form của bạn</h4><p>Sửa toàn bộ HTML ở bên phải, rồi chọn Trình duyệt hoặc Chạy code. Kết quả tự cập nhật sau khi dừng gõ.</p><ol><li>Đổi tiêu đề và lời giới thiệu.</li><li>Thêm nhãn và ô họ tên có for/id trùng nhau.</li><li>Thử type="email" và required.</li></ol><p>Tự viết một form hoàn chỉnh có trường họ tên, email, nhãn liên kết đúng và thuộc tính required. Thực hành tự do không chấm điểm.</p>');
   pre.closest('.code-wrap').replaceWith(w.panel);
   w.panel.addEventListener('workspace-change',()=>{try{localStorage.setItem(key,w.editor.value);}catch{}});
   w.panel.addEventListener('workspace-reset',()=>{w.setCode(initial);try{localStorage.removeItem(key);}catch{}w.editor.focus();});

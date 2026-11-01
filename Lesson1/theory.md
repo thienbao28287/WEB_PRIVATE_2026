@@ -216,3 +216,20 @@ B12: Nếu cần, thêm `index.html` (tên file vừa tạo ở bước 2) vào 
 - Ví dụ: nhấn nút để mở menu, kiểm tra thông tin trong biểu mẫu hoặc chuyển đổi giao diện sáng/tối.
 - Khi xây dựng trang web, HTML tạo cấu trúc và nội dung, CSS định dạng giao diện, còn JavaScript xử lý hành vi và tương tác.
 ---
+
+## IV. Thực hành cuối bài
+
+Tạo trang chào mừng đầu tiên: viết tiêu đề và đoạn giới thiệu trong body rồi chọn **Trình duyệt** để xem kết quả. Sau đó lưu thành index.html trên máy, mở bằng Live Server và thực hiện add, commit, push như hướng dẫn ở phần Git & GitHub. Các lệnh Git chạy trong terminal trên máy, không chạy trong editor HTML này.
+
+```playground-intro
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang web đầu tiên</title>
+</head>
+<body>
+ 
+</body>
+</html>
+```

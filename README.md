@@ -131,3 +131,6 @@ Trong phần Form của Lesson2/theory.md, code fence có ngôn ngữ playground
 Các bài HTML Form có chấm điểm cũng dùng editor HTML đầy đủ và tab Nội dung/Trình duyệt. Mỗi field khai báo target (label/input) và attribute (for/id/type/required) để lấy đáp án từ DOM đã làm sạch, không so chuỗi toàn bộ code. Mỗi bài giữ một form, label và input. Mã cũ từ ô điền tự chuyển sang editor; thay đổi code sau khi đúng yêu cầu chấm lại.
 
 Bài 3 dùng code fence playground-css cho thực hành CSS: sửa HTML và thẻ style trong cùng file index.html. Preview giữ CSS nội bộ sau khi làm sạch, cô lập bằng sandbox/CSP; không chạy JS hay tải CSS ngoài. Nội dung hướng dẫn bám selector, cascade, specificity và BEM; mã nháp tách biệt giữa các bài.
+
+### Quy tắc thực hành hiện tại
+Mỗi bài lý thuyết chỉ có một khung thực hành tổng hợp ở cuối. Bài 1 dùng playground-intro (HTML và quy trình công cụ/Git), Bài 2 dùng playground (HTML Form), Bài 3 dùng playground-css (CSS). Không chèn nhóm ba bài Form nhỏ vào bài học nữa. Mã trong code fence là mẫu khởi đầu, thay đổi Markdown sẽ cập nhật website sau build/deploy.
