@@ -4,7 +4,7 @@ Khung chương trình học Web cơ bản gồm 14 buổi, từ HTML/CSS đến 
 
 ## Chạy website tài liệu
 
-Yêu cầu Node.js 24 trở lên. Giao diện dùng HTML/CSS/JavaScript thuần; Node.js phục vụ tạo dữ liệu và xem trước.
+Yêu cầu Node.js 24 trở lên. Giao diện dùng HTML, Tailwind CSS 4 và JavaScript thuần; Node.js biên dịch CSS, tạo dữ liệu và phục vụ xem trước.
 
 ```sh
 npm ci
@@ -19,6 +19,14 @@ npm run build
 ```
 
 Bản xuất bản nằm trong `dist/`. Thiết kế và component được mô tả trong [DESIGN.md](DESIGN.md).
+
+### Sửa giao diện với Tailwind
+
+- Thêm utility class trực tiếp trong `web/index.html` hoặc template JavaScript tại `web/assets/`. Viết tên class đầy đủ để Tailwind nhận diện, tránh ghép chuỗi như `bg-${color}`.
+- Dùng token HIT như `bg-hit-primary`, `text-hit-body`, `border-hit-line`, `font-hit-heading`; token tự đổi theo theme đang chọn.
+- Các component dùng chung (button, tab, dialog, code, quiz, editor) nằm trong `web/styles/components.css`, dùng `@apply` để giữ template dễ đọc. Xem [hướng dẫn component](web/styles/README.md).
+- Màu và font gốc nằm trong `web/styles/tokens.css`; keyframe trong `web/styles/motion.css`. CSS riêng vẫn dùng cho hình trang trí, animation và nội dung Markdown.
+- `npm run dev` tự biên dịch lại khi lưu. `npm run build` xuất CSS tĩnh đã nén, không cần Tailwind CDN hay JavaScript Tailwind trên trình duyệt. Không sửa trực tiếp `dist/`.
 
 ### Viết và thêm bài
 

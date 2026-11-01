@@ -15,7 +15,7 @@ function tokens(css,regex) {
   return result;
 }
 test('light and dark reading text, focus and control boundaries retain contrast', async()=>{
-  const css=await readFile(new URL('../web/assets/styles.css',import.meta.url),'utf8');
+  const css=await readFile(new URL('../web/styles/tokens.css',import.meta.url),'utf8');
   const light=tokens(css,/:root\s*\{([^}]+)\}/g);
   const dark={...light,...tokens(css,/:root\[data-theme=dark\]\s*\{([^}]+)\}/g)};
   for(const [theme,palette] of [['light',light],['dark',dark]]){

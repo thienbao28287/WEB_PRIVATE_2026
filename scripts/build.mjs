@@ -9,6 +9,7 @@ import { imageSize } from './image-metadata.mjs';
 import { validateExercises } from '../web/assets/exercise-model.js';
 import { parseNotebook } from './notebook.mjs';
 import { parseQuiz } from './quiz.mjs';
+import { compileStyles } from './styles.mjs';
 
 export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -84,6 +85,7 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await mkdir(out, { recursive: true });
   await cp(path.join(projectRoot, 'web'), out, { recursive: true });
   await mkdir(path.join(out, 'assets'), { recursive: true });
+  await writeFile(path.join(out,'assets/styles.css'),await compileStyles(projectRoot));
   await cp(path.join(projectRoot, 'node_modules/dompurify/dist/purify.es.mjs'), path.join(out, 'assets/purify.mjs'));
   await cp(path.join(projectRoot, 'node_modules/motion/dist/motion.js'), path.join(out, 'assets/motion-vendor.js'));
   const motion = await readFile(path.join(out, 'assets/motion.js'));

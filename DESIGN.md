@@ -6,7 +6,9 @@ Tiêu chí rà soát dựa trên hướng dẫn do người dùng cung cấp. B�
 
 ## Foundation
 
-HTML/CSS/JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, Roboto và các bề mặt sạch.
+HTML, Tailwind CSS 4 và JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, Roboto và các bề mặt sạch.
+
+Tailwind được biên dịch bằng PostCSS trong bước build. Entry `web/assets/styles.css` khai báo theme HIT và nguồn quét class; component dùng `@apply` trong `web/styles/components.css`, token nằm trong `web/styles/tokens.css`, keyframe trong `web/styles/motion.css`. Không bật Preflight để giữ cách trình bày Markdown, code và biểu mẫu hiện tại. Utility viết trực tiếp trong HTML/JS có thể tùy biến component; các trạng thái ẩn phải dùng `hidden`, `intro:hidden` hoặc selector tương ứng để không bị utility display ghi đè. Xem `web/styles/README.md` để tái sử dụng component.
 
 | Token | Sáng | Vai trò |
 | --- | --- | --- |

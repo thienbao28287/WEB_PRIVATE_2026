@@ -14,17 +14,17 @@
   <link rel="stylesheet" href="./assets/styles.css">
   <script>document.documentElement.classList.toggle("intro-mode",!location.hash || location.hash==="#/")</script><script defer src="./assets/motion-vendor.js"></script><script type="module" src="./assets/app.js"></script>
 </head>
-<body>
+<body class="bg-hit-canvas font-hit-body text-hit-body">
   <a class="skip" href="#main">Đi đến nội dung</a>
-  <header class="header">
+  <header class="header fixed inset-x-0 top-0 flex items-center gap-2 min-[901px]:gap-5 border-b border-hit-line bg-hit-surface intro:hidden">
     <a class="brand" href="#/" aria-label="HIT Web Private 2026 — Trang chủ"><img class="brand-logo" src="./Lesson1/img/logo-02.png" alt="CLB Tin học HIT" width="500" height="500"><span class="brand-name">WEB PRIVATE <small>Tài liệu lớp Web</small></span></a>
 
     <button id="search-open" class="search-open" aria-label="Tìm kiếm tài liệu"><span class="search-label">Tìm trong tài liệu...</span><kbd>Ctrl K</kbd></button>
     <button id="theme-toggle" class="icon-button" aria-label="Đổi giao diện sáng tối"></button>
   </header>
   <button id="backdrop" class="backdrop" aria-label="Đóng danh sách buổi học" hidden></button>
-  <button id="menu-toggle" class="icon-button sidebar-toggle" aria-label="Thu gọn sidebar" aria-expanded="true" aria-controls="sidebar"></button>
-  <aside id="sidebar" class="sidebar" aria-label="Điều hướng khóa học"></aside>
+  <button id="menu-toggle" class="icon-button sidebar-toggle inline-flex items-center justify-center intro:hidden" aria-label="Thu gọn sidebar" aria-expanded="true" aria-controls="sidebar"></button>
+  <aside id="sidebar" class="sidebar fixed flex flex-col border-r border-hit-line bg-hit-surface intro:hidden" aria-label="Điều hướng khóa học"></aside>
   <main id="main" tabindex="-1" aria-busy="true"><div class="boot-loader" role="status" aria-live="polite"><div class="boot-spinner" aria-hidden="true"><span>HIT</span></div><strong>Chuẩn bị không gian học tập</strong><p>Đang tải tài liệu khóa học…</p></div></main>
   <dialog id="search-dialog" class="search-dialog" aria-label="Tìm kiếm tài liệu">
     <form method="dialog" class="search-head"><label class="sr-only" for="search-input">Tìm kiếm nội dung</label><input id="search-input" placeholder="Tìm bài học, kiến thức, đoạn code…" autocomplete="off"><button class="icon-button" aria-label="Đóng tìm kiếm">✕</button></form>
