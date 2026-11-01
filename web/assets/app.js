@@ -483,3 +483,11 @@ if(document.querySelector('meta[name="hit-preview"]')){
   const events=new EventSource(new URL('__events',base));
   events.onmessage=()=>{loadContent(true);toast('Tài liệu đã cập nhật');};
 }
+
+const backToTop=$('#back-to-top');
+let topUpdatePending=false;
+function updateBackToTop(){topUpdatePending=false;backToTop.hidden=window.scrollY<400||document.documentElement.classList.contains('intro-mode');}
+window.addEventListener('scroll',()=>{if(!topUpdatePending){topUpdatePending=true;requestAnimationFrame(updateBackToTop);}},{passive:true});
+window.addEventListener('hashchange',updateBackToTop);
+backToTop.addEventListener('click',()=>{$('#main').focus({preventScroll:true});window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
+updateBackToTop();

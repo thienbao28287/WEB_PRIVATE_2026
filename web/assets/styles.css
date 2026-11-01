@@ -638,3 +638,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 .resume-study .resume-link:hover,.resume-study .resume-link:focus-visible{color:var(--primary-hover);text-decoration-color:currentColor}
 @media(prefers-reduced-motion:reduce){.resume-study .resume-link{transition:none}}
 #notebook-close{font-size:28px;line-height:1;flex-shrink:0}
+.back-to-top{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:28;display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--primary);border-radius:50%;background:var(--primary);color:#fff;box-shadow:0 3px 12px #0002;transition:background 200ms,transform 200ms}
+.back-to-top:hover{background:var(--primary-hover);transform:translateY(-2px)}.back-to-top svg{width:24px;height:24px;stroke-width:2}
+body:has(dialog[open]) .back-to-top,body:has(.sidebar.open) .back-to-top{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.back-to-top{transition:none}}
