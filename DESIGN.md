@@ -40,6 +40,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Components
 
+- Trên mobile dưới 768px, nút menu cố định vị trí trong header, dùng icon ba gạch khi đóng và dấu × khi mở. Sidebar trượt dưới header, chừa ít nhất 56px bên phải để bấm nền đóng; khóa cuộn nội dung nền. Chọn bài (kể cả bài hiện tại), bấm nền hoặc Escape đều đóng menu. Focus nằm trong vùng menu khi mở và trở về nút sau khi đóng bằng nút/nền/Escape. Desktop giữ nút chevron ở giữa mép phải sidebar.
 - Primary button: cam, chữ tối 700, cao tối thiểu 48px. Secondary button: nền surface, viền hairline. Icon button: 44×44px.
 - Sidebar: các mục “Tuần 1” đến tuần cuối theo thứ tự tăng dần; details/summary mở đóng bằng bàn phím, bài hiện tại có viền cam và nền soft. Tiêu đề xuất hiện nhẹ theo lượt, hover dịch 3px, mũi tên xoay và tài liệu fade/slide khi mở; chiều cao accordion chuyển động 300ms. Tôn trọng reduced-motion.
 - Tabs: liên kết thật để có thể sao chép đường dẫn; mục đang chọn có gạch cam, tài liệu chưa có hiện nhãn rõ ràng.

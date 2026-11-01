@@ -4458,10 +4458,25 @@ body:has(dialog[open]) .back-to-top,body:has(.sidebar.open) .back-to-top {
 
 @media(max-width:767px) {
   #menu-toggle {
-  @apply left-[max(8px,env(safe-area-inset-left))]
+    @apply static shrink-0 rounded-lg;
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+    border-color: transparent;
+    transition: background 200ms var(--ease), color 200ms var(--ease);
 }
-  body:has(.sidebar.open) #menu-toggle {
-  @apply left-[calc(min(18rem,100vw_-_1rem)_-_22px)]
+  #menu-toggle[aria-expanded="true"] {
+    @apply text-hit-primary bg-hit-soft;
+  }
+  #sidebar {
+    @apply left-0;
+    width: min(20rem, calc(100vw - 3.5rem));
+    overscroll-behavior: contain;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
+  #backdrop {
+    touch-action: none;
 }
 }
 

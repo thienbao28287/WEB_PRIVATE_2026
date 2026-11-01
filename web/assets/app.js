@@ -9,6 +9,7 @@ const $ = selector => document.querySelector(selector);
 const icons = {
   search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  close:'<path d="m6 6 12 12M18 6 6 18"/>',
   list:'<path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1"/>',
   panel:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m7-11-3 3 3 3"/>',
   expand:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m4-11 3 3-3 3"/>',
@@ -357,8 +358,8 @@ function closeMenu(returnFocus=true) {
   const wasOpen=$('#sidebar').classList.contains('open');
   $('#sidebar').classList.remove('open'); $('#backdrop').hidden=true; $('#menu-toggle').setAttribute('aria-expanded','false');
   document.body.style.overflow='';
-  if(wasOpen && returnFocus)$('#menu-toggle').focus();
   syncSidebarAccess();
+  if(wasOpen && returnFocus)$('#menu-toggle').focus({preventScroll:true});
 }
 function syncSidebarAccess(){
   const mobile=matchMedia('(max-width: 767px)').matches;
@@ -369,8 +370,8 @@ function syncSidebarAccess(){
   $('#menu-toggle').setAttribute('aria-expanded',String(mobile?open:!collapsed));
   const action=mobile?(open?'Đóng danh sách buổi học':'Mở danh sách buổi học'):(collapsed?'Mở rộng sidebar':'Thu gọn sidebar');
   $('#menu-toggle').setAttribute('aria-label',action); $('#menu-toggle').title=action;
-  $('#menu-toggle').innerHTML=icon('chevron');
-  $('#menu-toggle').classList.toggle('points-left',mobile?open:!collapsed);
+  $('#menu-toggle').innerHTML=icon(mobile?(open?'close':'menu'):'chevron');
+  $('#menu-toggle').classList.toggle('points-left',!mobile&&!collapsed);
   $('#main').inert=mobile&&open;
   document.querySelectorAll('.header > :not(#menu-toggle)').forEach(element=>{element.inert=mobile&&open;});
   if(mobile&&open)$('#main').setAttribute('aria-hidden','true');else $('#main').removeAttribute('aria-hidden');
@@ -382,7 +383,7 @@ function toggleMenu() {
   }
   if($('#sidebar').classList.contains('open')){closeMenu();return;}
   $('#sidebar').classList.add('open'); $('#backdrop').hidden=false; $('#menu-toggle').setAttribute('aria-expanded','true');
-  document.body.style.overflow='hidden'; syncSidebarAccess(); $('#sidebar a')?.focus();
+  document.body.style.overflow='hidden'; syncSidebarAccess(); $('#menu-toggle').focus({preventScroll:true});
 }
 function search() {
   if(!pages.length){
@@ -407,7 +408,13 @@ updateThemeButton(); syncSidebarAccess();
 $('#theme-toggle').addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;try{localStorage.setItem('hit-theme',theme);}catch{}updateThemeButton();});
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{let saved;try{saved=localStorage.getItem('hit-theme');}catch{}if(!saved){document.documentElement.dataset.theme=e.matches?'dark':'light';updateThemeButton();}});
 $('#menu-toggle').addEventListener('click',toggleMenu); $('#backdrop').addEventListener('click',()=>closeMenu());
-matchMedia('(max-width: 767px)').addEventListener('change',()=>closeMenu(false));
+matchMedia('(max-width: 767px)').addEventListener('change',()=>closeMenu());
+$('#sidebar').addEventListener('click',event=>{
+  const link=event.target.closest('a');
+  if(!link || !matchMedia('(max-width: 767px)').matches)return;
+  closeMenu(false);
+  if(link.hash===location.hash)$('#main').focus({preventScroll:true});
+});
 $('#search-open').addEventListener('click',openSearch); $('#search-input').addEventListener('input',search);
 $('#search-dialog form').addEventListener('submit',e=>{if(!e.submitter)e.preventDefault();});
 $('#search-results').addEventListener('click',e=>{if(e.target.closest('a')){$('#search-dialog').close();if(e.target.closest('a').hash===location.hash)$('#main').focus();}});
