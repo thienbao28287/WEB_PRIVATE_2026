@@ -370,7 +370,7 @@ function syncSidebarAccess(){
   $('#menu-toggle').setAttribute('aria-expanded',String(mobile?open:!collapsed));
   const action=mobile?(open?'Đóng danh sách buổi học':'Mở danh sách buổi học'):(collapsed?'Mở rộng sidebar':'Thu gọn sidebar');
   $('#menu-toggle').setAttribute('aria-label',action); $('#menu-toggle').title=action;
-  $('#menu-toggle').innerHTML=icon(mobile?'menu':collapsed?'expand':'panel');
+  $('#menu-toggle').textContent=mobile?(open?'‹':'›'):(collapsed?'›':'‹');
   $('#main').inert=mobile&&open;
   document.querySelectorAll('.header > :not(#menu-toggle)').forEach(element=>{element.inert=mobile&&open;});
   if(mobile&&open)$('#main').setAttribute('aria-hidden','true');else $('#main').removeAttribute('aria-hidden');
@@ -401,7 +401,7 @@ function search() {
 }
 function openSearch(){ if(!data){toast('Tài liệu đang tải, vui lòng thử lại.');return;}closeMenu(false);$('#search-dialog').showModal();search();$('#search-input').focus(); }
 function updateThemeButton(){ refreshExerciseThemes(); const dark=document.documentElement.dataset.theme==='dark'; $('#theme-toggle').innerHTML=icon(dark?'sun':'moon'); $('#theme-toggle').setAttribute('aria-label',dark?'Chuyển sang giao diện sáng':'Chuyển sang giao diện tối'); }
-$('#menu-toggle').innerHTML=icon('menu'); $('#search-open').insertAdjacentHTML('afterbegin',icon('search'));
+$('#menu-toggle').textContent='›'; $('#search-open').insertAdjacentHTML('afterbegin',icon('search'));
 $('.skip').addEventListener('click', e=>{e.preventDefault();$('#main').focus();window.scrollTo(0,0);});
 updateThemeButton(); syncSidebarAccess();
 $('#theme-toggle').addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;try{localStorage.setItem('hit-theme',theme);}catch{}updateThemeButton();});
