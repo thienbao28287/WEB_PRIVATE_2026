@@ -642,3 +642,10 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 .back-to-top:hover{background:var(--primary-hover);transform:translateY(-2px)}.back-to-top svg{width:24px;height:24px;stroke-width:2}
 body:has(dialog[open]) .back-to-top,body:has(.sidebar.open) .back-to-top{visibility:hidden}
 @media(prefers-reduced-motion:reduce){.back-to-top{transition:none}}
+/* Sidebar handle stays outside the translating drawer so it remains reachable. */
+#menu-toggle{position:fixed;left:calc(var(--sidebar) - 22px);top:calc(50dvh + var(--header)/2);transform:translateY(-50%);z-index:32;width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--hairline);box-shadow:0 2px 8px #0002;transition:left 320ms var(--ease),background 200ms,color 200ms}
+#menu-toggle:hover{color:var(--primary);background:var(--soft)}
+.sidebar-collapsed #menu-toggle{left:8px}
+.intro-mode #menu-toggle{display:none}
+@media(max-width:767px){#menu-toggle{left:max(8px,env(safe-area-inset-left))}body:has(.sidebar.open) #menu-toggle{left:calc(min(18rem,100vw - 1rem) - 22px)}}
+@media(prefers-reduced-motion:reduce){#menu-toggle{transition:none}}
