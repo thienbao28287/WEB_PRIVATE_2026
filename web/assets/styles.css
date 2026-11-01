@@ -649,4 +649,5 @@ body:has(dialog[open]) .back-to-top,body:has(.sidebar.open) .back-to-top{visibil
 .intro-mode #menu-toggle{display:none}
 @media(max-width:767px){#menu-toggle{left:max(8px,env(safe-area-inset-left))}body:has(.sidebar.open) #menu-toggle{left:calc(min(18rem,100vw - 1rem) - 22px)}}
 @media(prefers-reduced-motion:reduce){#menu-toggle{transition:none}}
-#menu-toggle{font:400 30px/1 Arial,sans-serif}
+#menu-toggle svg{width:20px;height:20px;stroke-width:2;transition:transform 200ms var(--ease)}
+#menu-toggle.points-left svg{transform:rotate(180deg)}
