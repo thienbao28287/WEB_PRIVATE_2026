@@ -1,4 +1,4 @@
-# Sổ tay lỗi · Tuần 2
+# Sổ tay ghi nhớ · Tuần 2
 
 ## Sai đường dẫn hình ảnh (Lỗi 404 Not Found)
 

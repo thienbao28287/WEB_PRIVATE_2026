@@ -1,4 +1,4 @@
-# Sổ tay lỗi · Tuần 1
+# Sổ tay ghi nhớ · Tuần 1
 
 ## Live Server chưa mở đúng trang
 

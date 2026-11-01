@@ -1,4 +1,4 @@
-# Sổ tay lỗi · Tuần 3
+# Sổ tay ghi nhớ · Tuần 3
 
 ## CSS ngoài không được nạp
 
