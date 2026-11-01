@@ -144,3 +144,37 @@ Sổ tay hiện là ghi chú do người học tự viết, theo từng tuần �
 - Tải Markdown xuất chính xác nội dung đang viết, tên so-tay-tuan-N.md.
 - Dữ liệu lưu bằng localStorage theo hit-personal-notes-v1:LessonN, mỗi ghi chú tối đa 100.000 ký tự. Không có tài khoản hay đồng bộ thiết bị; xóa dữ liệu trình duyệt sẽ mất bản lưu. Hãy tải Markdown để sao lưu.
 - Khi storage bị chặn/đầy, hiển thị cảnh báo và giữ bản nháp trong phiên đang mở; không báo Đã lưu khi ghi thất bại.
+
+## Quiz cuối buổi từ Markdown
+
+Mỗi bài có thể thêm LessonN/quiz.md. Build tự gắn quiz vào cuối trang Lý thuyết, sau phần thực hành và trước nút hoàn thành; không cần chèn marker hay viết lại câu hỏi trong JavaScript. Bài 1–3 hiện có 5 câu mỗi bài, một đáp án đúng, không đếm giờ.
+
+Một câu hỏi có ID ổn định ở heading cấp 2 và đủ bốn mục như mẫu:
+
+```markdown
+# Quiz cuối Buổi 2
+
+## label-input
+
+### Câu hỏi
+for của label cần trùng thuộc tính nào của input?
+
+### Lựa chọn
+- [ ] name
+- [x] id
+- [ ] type
+- [ ] class
+
+### Giải thích
+for liên kết tới id. name đặt tên dữ liệu khi gửi form.
+
+### Ôn tập
+[Thẻ biểu mẫu (Form)](theory.md#7-the-bieu-mau-form)
+```
+
+- Mỗi câu cần 2–6 lựa chọn, đánh dấu đúng một dòng [x]; các dòng khác dùng [ ]. Heading ID dùng chữ thường ASCII, số, dấu gạch ngang và không trùng trong file.
+- Liên kết Ôn tập phải tới một heading có thật trong theory.md của cùng bài. Build kiểm tra ID và báo rõ file/câu hỏi khi sai.
+- Chọn đáp án rồi bấm Kiểm tra để xem đúng/sai và giải thích. Câu sai có link Ôn lại mở tab mới; lượt làm hiện tại được giữ.
+- Cuối quiz hiện điểm, các phần cần ôn và nút Làm lại câu sai / Làm lại tất cả. Quiz không tự đánh dấu hoàn thành tài liệu.
+- Tiến độ lưu riêng theo trình duyệt. Sửa quiz.md sẽ đổi revision và bắt đầu lượt mới; không tái sử dụng điểm của bộ câu hỏi cũ. Nếu không lưu được, quiz vẫn dùng được trong phiên.
+- Sửa Markdown rồi lưu để xem local, push để GitHub Pages cập nhật. File quiz.md thiếu/rỗng thì không hiển thị quiz.

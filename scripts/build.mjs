@@ -8,6 +8,7 @@ import hljs from 'highlight.js';
 import { imageSize } from './image-metadata.mjs';
 import { validateExercises } from '../web/assets/exercise-model.js';
 import { parseNotebook } from './notebook.mjs';
+import { parseQuiz } from './quiz.mjs';
 
 export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -44,6 +45,11 @@ export async function collectContent(root) {
       if (!markdown.trim()) continue;
       const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim() || `${type === 'theory' ? 'Lý thuyết' : 'Bài tập'} buổi ${number}`;
       const html = marked.parse(markdown);
+      let quiz;
+      if(type==='theory'){
+        const quizSource=`${dir.name}/quiz.md`;
+        try{quiz=parseQuiz(await readFile(path.join(root,quizSource),'utf8'),quizSource,html,`Lesson${number}/theory`);}catch(error){if(error.code!=='ENOENT')throw error;}
+      }
       const exerciseIds=[...html.matchAll(/data-exercise="([^"]*)"/g)].map(match=>match[1]);
       if(new Set(exerciseIds).size!==exerciseIds.length)throw new Error(`${source}: marker exercise bị trùng`);
       const exercises=exerciseIds.map(id=>{
@@ -63,7 +69,7 @@ export async function collectContent(root) {
           if (size?.width > 0 && size?.height > 0) images[src] = size;
         } catch { /* Missing/unsupported images retain a readable fallback in the UI. */ }
       }));
-      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html, images, ...(exercises.length?{exercises}:{}),
+      lesson.pages.push({ id: `Lesson${number}/${type}`, source, type, title, html, images, ...(quiz?{quiz}:{}), ...(exercises.length?{exercises}:{}),
         text: markdown.replace(/^```[^\n]*$/gm, ' ').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/[#*`|_>]/g, '').replace(/\s+/g, ' ').trim(),
         minutes: Math.max(1, Math.ceil(markdown.split(/\s+/).length / 220)) });
     }
@@ -97,6 +103,11 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await writeFile(notebookFile,(await readFile(notebookFile,'utf8')).replace("'./note-model.js'",`'./note-model.js?v=${noteModelVersion}'`));
   const notebookVersion=createHash('sha256').update(await readFile(path.join(out,'assets/notebook.js'))).digest('hex').slice(0,12);
   app=app.replace("'./notebook.js'",`'./notebook.js?v=${notebookVersion}'`);
+  const quizModelVersion=createHash('sha256').update(await readFile(path.join(out,'assets/quiz-model.js'))).digest('hex').slice(0,12);
+  const quizFile=path.join(out,'assets/quiz.js');
+  await writeFile(quizFile,(await readFile(quizFile,'utf8')).replace("'./quiz-model.js'",`'./quiz-model.js?v=${quizModelVersion}'`));
+  const quizVersion=createHash('sha256').update(await readFile(quizFile)).digest('hex').slice(0,12);
+  app=app.replace("'./quiz.js'",`'./quiz.js?v=${quizVersion}'`);
   const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
   await Promise.all(illustrations.map(async name=>{
     const original=path.join(out,'assets',name+'.png');
