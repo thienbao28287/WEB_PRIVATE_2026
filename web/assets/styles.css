@@ -651,3 +651,24 @@ body:has(dialog[open]) .back-to-top,body:has(.sidebar.open) .back-to-top{visibil
 @media(prefers-reduced-motion:reduce){#menu-toggle{transition:none}}
 #menu-toggle svg{width:20px;height:20px;stroke-width:2;transition:transform 200ms var(--ease)}
 #menu-toggle.points-left svg{transform:rotate(180deg)}
+/* Personal notebook: one calm writing surface, independent for each lesson. */
+.personal-note-body{display:flex;flex-direction:column;min-height:0;flex:1;padding:0 32px 16px;overflow:auto}
+.personal-note-tip{color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0}
+.personal-note-tabs{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;flex-shrink:0}
+.personal-note-tabs button,.personal-note-tools button{min-height:44px;padding:8px 12px;border-radius:6px;background:transparent;color:var(--body);font:600 14px/1.4 var(--font)}
+.personal-note-tabs [role=tab]{border-radius:0;border-bottom:2px solid transparent}
+.personal-note-tabs [aria-selected=true]{color:var(--link);border-bottom-color:var(--primary)}
+.personal-note-tabs button:hover,.personal-note-tools button:hover{background:var(--subtle);color:var(--link)}
+#note-export{margin-left:auto;color:var(--link)}
+#note-edit-panel{display:flex;flex-direction:column;flex:1;min-height:260px}
+.personal-note-tools{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding-block:8px;flex-shrink:0}
+.personal-note-tools span{font-size:12px;color:var(--muted);margin-left:auto}
+#personal-note-editor{font:16px/1.8 var(--font);color:var(--body);background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:16px;width:100%;min-height:240px;flex:1;resize:vertical;tab-size:2}
+#personal-note-editor::placeholder{color:var(--muted)}
+#personal-note-editor:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#note-preview-panel{padding-block:16px;overflow-wrap:anywhere;min-height:240px;overflow:auto;flex:1}
+#note-preview-panel pre{white-space:pre;overflow:auto}
+.personal-note-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);flex-shrink:0}
+#note-save-status{flex:1;min-width:180px}
+@media(max-width:600px){.personal-note-body{padding:0 16px 16px}.personal-note-tabs{gap:0}.personal-note-tabs button{font-size:13px;padding-inline:10px}.personal-note-tools span{display:none}.personal-note-tools button{font-size:13px}#personal-note-editor{padding:12px}#note-export{margin-left:0}.personal-note-tip{font-size:12px}}
+.personal-note-tablist{display:flex;align-items:center;min-width:0}

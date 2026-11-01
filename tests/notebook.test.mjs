@@ -14,8 +14,8 @@ test('notebook entries come from lesson Markdown and code remains escaped',async
  assert.equal(list.length,6);assert.ok(list.some(item=>item.title.includes('Label')));
  assert.ok(lesson.notebookSource.endsWith('/notebook.md'));
  const html=renderNotebookDialog(lesson,lesson.pages[0],list);
- assert.match(html,/notebook-dialog/);assert.match(html,/notes-content/);assert.doesNotMatch(html,/notebook-3d-stage|flip-next-btn/);
- assert.match(html.replace(/<[^>]*>/g,''),/&lt;img/);assert.match(html,/class="code-toolbar"/);assert.doesNotMatch(html,/notes-code|notes-copy/);assert.match(list[0].badCode,/Banner"> <!-- Sai/);assert.doesNotMatch(html,/<img src="\/images\/banner/);
+ assert.match(html,/notebook-dialog/);assert.match(html,/personal-note-editor/);assert.doesNotMatch(html,/notebook-3d-stage|flip-next-btn/);
+ assert.doesNotMatch(html,/Banner|Dấu hiệu|Mã sai/);assert.match(html,/note-export/);
  assert.deepEqual(getLessonPitfalls({number:99}),[]);
 });
 test('editing Markdown changes notebook data; absent notes have no unrelated fallback',async()=>{
@@ -37,8 +37,8 @@ test('notebook Markdown reports missing required sections',()=>{
 test('notebook selector offers every lesson and selects the current lesson',()=>{
  const lessons=[{number:1,title:'Bắt đầu',pages:[{type:'theory',html:'<h1>Start</h1>'}],notebook:[]},{number:2,title:'Form',pages:[{type:'theory',html:'<h1>Form</h1>'}],notebook:[{title:'Lỗi',badCode:'',goodCode:'',symptomHTML:'',explanationHTML:''}]}];
  const html=renderNotebookDialog(lessons[1],{},[],lessons);
- assert.match(html,/value="1"[^>]*>Tuần 1 · Bắt đầu — Chưa có ghi chú/);
- assert.match(html,/value="2" selected>Tuần 2 · Form — 1 ghi chú/);
+ assert.match(html,/value="1"[^>]*>Tuần 1 · Bắt đầu/);
+ assert.match(html,/value="2" selected>Tuần 2 · Form/);
  assert.match(html,/label for="notebook-lesson"/);
 });
 

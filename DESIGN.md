@@ -101,3 +101,5 @@ Toàn bộ bài thực hành Form dùng chung workspace HTML đầy đủ: nội
 Responsive: khung thực hành chọn số cột theo chiều rộng khả dụng (mỗi cột tối thiểu 22rem), tablet/điện thoại <=1100px xếp dọc. Nội dung và phản hồi không bị nhốt trong vùng cuộn ngắn trên mobile; editor/preview có chiều cao theo viewport và code cuộn riêng. Điện thoại dùng chữ editor 16px, nút từ 44px. Dialog sổ tay dùng flex với vùng đọc tự co, không trừ chiều cao header cố định. Kiểm tra 320/390/768/1024/1440px cùng intro, tổng quan và bài học.
 
 Quy tắc mới: mỗi bài lý thuyết chỉ hiển thị một workspace thực hành tổng hợp ở cuối bài. Bài 1: HTML đầu tiên và công cụ/Git; Bài 2: HTML Form; Bài 3: CSS. Không hiển thị ba bài Form riêng lẻ hoặc tiến độ 0/3 nữa.
+
+Sổ tay cá nhân thay giao diện đọc ghi chú soạn sẵn: bộ chọn tuần, tab Soạn thảo/Xem trước, toolbar Markdown nhỏ, vùng viết rộng và trạng thái lưu ở chân. Trống khi mở lần đầu, không hiển thị badge đếm lỗi cũ. Giữ nhãn (demo). Lưu cá nhân theo trình duyệt, nút tải Markdown luôn hiện, mobile tự xuống dòng và dùng textarea 16px. Preview dùng marked + DOMPurify, không chạy script hay tải ảnh.

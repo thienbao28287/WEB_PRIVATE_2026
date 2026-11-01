@@ -134,3 +134,13 @@ Bài 3 dùng code fence playground-css cho thực hành CSS: sửa HTML và th�
 
 ### Quy tắc thực hành hiện tại
 Mỗi bài lý thuyết chỉ có một khung thực hành tổng hợp ở cuối. Bài 1 dùng playground-intro (HTML và quy trình công cụ/Git), Bài 2 dùng playground (HTML Form), Bài 3 dùng playground-css (CSS). Không chèn nhóm ba bài Form nhỏ vào bài học nữa. Mã trong code fence là mẫu khởi đầu, thay đổi Markdown sẽ cập nhật website sau build/deploy.
+
+## Sổ tay ghi nhớ cá nhân
+
+Sổ tay hiện là ghi chú do người học tự viết, theo từng tuần đã có lý thuyết. Bắt đầu trống; không dùng nội dung notebook.md cũ để điền sẵn. Các file notebook.md cũ chỉ còn là tài liệu tham khảo trong repo.
+
+- Mở Sổ tay ghi nhớ, chọn tuần, soạn Markdown hoặc dùng các nút Tiêu đề/Đậm/Danh sách/Code.
+- Tự lưu sau 500ms ngừng gõ, trước khi đổi tuần, đóng sổ hoặc rời trang. Xem trước không chạy HTML/script người học nhập.
+- Tải Markdown xuất chính xác nội dung đang viết, tên so-tay-tuan-N.md.
+- Dữ liệu lưu bằng localStorage theo hit-personal-notes-v1:LessonN, mỗi ghi chú tối đa 100.000 ký tự. Không có tài khoản hay đồng bộ thiết bị; xóa dữ liệu trình duyệt sẽ mất bản lưu. Hãy tải Markdown để sao lưu.
+- Khi storage bị chặn/đầy, hiển thị cảnh báo và giữ bản nháp trong phiên đang mở; không báo Đã lưu khi ghi thất bại.

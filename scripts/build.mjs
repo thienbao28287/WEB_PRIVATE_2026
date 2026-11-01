@@ -91,6 +91,10 @@ export async function build(root = projectRoot, out = path.join(root, 'dist')) {
   await writeFile(exerciseFile,(await readFile(exerciseFile,'utf8')).replace("'./exercise-model.js'",`'./exercise-model.js?v=${modelVersion}'`));
   const exerciseVersion=createHash('sha256').update(await readFile(exerciseFile)).digest('hex').slice(0,12);
   app=app.replace("'./exercises.js'",`'./exercises.js?v=${exerciseVersion}'`);
+  await cp(path.join(projectRoot,'node_modules/marked/lib/marked.esm.js'),path.join(out,'assets/marked.mjs'));
+  const noteModelVersion=createHash('sha256').update(await readFile(path.join(out,'assets/note-model.js'))).digest('hex').slice(0,12);
+  const notebookFile=path.join(out,'assets/notebook.js');
+  await writeFile(notebookFile,(await readFile(notebookFile,'utf8')).replace("'./note-model.js'",`'./note-model.js?v=${noteModelVersion}'`));
   const notebookVersion=createHash('sha256').update(await readFile(path.join(out,'assets/notebook.js'))).digest('hex').slice(0,12);
   app=app.replace("'./notebook.js'",`'./notebook.js?v=${notebookVersion}'`);
   const illustrations=['student-daily','student-practice','student-retry-white','student-together-white','author-standing-flat'];
