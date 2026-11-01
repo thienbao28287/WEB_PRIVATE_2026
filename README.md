@@ -174,7 +174,7 @@ for liên kết tới id. name đặt tên dữ liệu khi gửi form.
 
 - Mỗi câu cần 2–6 lựa chọn, đánh dấu đúng một dòng [x]; các dòng khác dùng [ ]. Heading ID dùng chữ thường ASCII, số, dấu gạch ngang và không trùng trong file.
 - Liên kết Ôn tập phải tới một heading có thật trong theory.md của cùng bài. Build kiểm tra ID và báo rõ file/câu hỏi khi sai.
-- Chọn đáp án rồi bấm Kiểm tra để xem đúng/sai và giải thích. Câu sai có link Ôn lại mở tab mới; lượt làm hiện tại được giữ.
+- Chọn đáp án rồi bấm Kiểm tra để xem đúng/sai và giải thích. Câu sai có link Ôn lại cuộn tới đúng mục lý thuyết trong cùng trang; lượt làm hiện tại được giữ. Bấm lại cùng liên kết vẫn cuộn tới mục đó.
 - Cuối quiz hiện điểm, các phần cần ôn và nút Làm lại câu sai / Làm lại tất cả. Quiz không tự đánh dấu hoàn thành tài liệu.
 - Tiến độ lưu riêng theo trình duyệt. Sửa quiz.md sẽ đổi revision và bắt đầu lượt mới; không tái sử dụng điểm của bộ câu hỏi cũ. Nếu không lưu được, quiz vẫn dùng được trong phiên.
 - Sửa Markdown rồi lưu để xem local, push để GitHub Pages cập nhật. File quiz.md thiếu/rỗng thì không hiển thị quiz.
