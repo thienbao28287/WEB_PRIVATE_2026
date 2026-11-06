@@ -56,8 +56,8 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 | :---: | --- | :---: | :---: |
 | 1 | Cài IDE, Extensions, Git/GitHub, tổng quan HTML/CSS/JavaScript | [Lý thuyết](Lesson1/theory.md) | Chưa có |
 | 2 | HTML cơ bản, Semantic HTML, Form, bảng, liên kết và hình ảnh | [Lý thuyết](Lesson2/theory.md) | [Bài tập](Lesson2/homework.md) |
-| 3 | CSS cơ bản, selector, cascade, specificity, BEM | [Lý thuyết](Lesson3/theory.md) | Chưa có |
-| 4 | Box model, đơn vị CSS, typography, nhúng icon và font | Chưa có | Chưa có |
+| 3 | CSS cơ bản, selector, cascade, specificity, BEM | [Lý thuyết](Lesson3/theory.md) | [Bài tập](Lesson3/homework.md) |
+| 4 | Box model, đơn vị CSS, typography, nhúng icon và font | [Lý thuyết](Lesson4/theory.md) | Chưa có |
 | 5 | Flexbox, Position, Grid, Responsive Design | Chưa có | Chưa có |
 | 6 | Kiểm tra HTML/CSS | — | — |
 | 7 | JavaScript: biến, kiểu dữ liệu, toán tử, rẽ nhánh, vòng lặp | Chưa có | Chưa có |
@@ -155,7 +155,7 @@ Sổ tay hiện là ghi chú do người học tự viết, theo từng tuần �
 
 ## Quiz cuối buổi từ Markdown
 
-Mỗi bài có thể thêm LessonN/quiz.md. Build tự gắn quiz vào cuối trang Lý thuyết, sau phần thực hành và trước nút hoàn thành; không cần chèn marker hay viết lại câu hỏi trong JavaScript. Bài 1–3 hiện có 5 câu mỗi bài, một đáp án đúng, không đếm giờ.
+Mỗi bài có thể thêm LessonN/quiz.md. Build tự gắn quiz vào cuối trang Lý thuyết, sau phần thực hành và trước nút hoàn thành; không cần chèn marker hay viết lại câu hỏi trong JavaScript. Bài 1 hiện có 5 câu; bài 2–4 có 20 câu mỗi bài, một đáp án đúng, không đếm giờ.
 
 Một câu hỏi có ID ổn định ở heading cấp 2 và đủ bốn mục như mẫu:
 
@@ -177,7 +177,7 @@ for của label cần trùng thuộc tính nào của input?
 for liên kết tới id. name đặt tên dữ liệu khi gửi form.
 
 ### Ôn tập
-[Thẻ biểu mẫu (Form)](theory.md#7-the-bieu-mau-form)
+[Thẻ biểu mẫu (Forms)](theory.md#2-6-the-bieu-mau-forms)
 ```
 
 - Mỗi câu cần 2–6 lựa chọn, đánh dấu đúng một dòng [x]; các dòng khác dùng [ ]. Heading ID dùng chữ thường ASCII, số, dấu gạch ngang và không trùng trong file.

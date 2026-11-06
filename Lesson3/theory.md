@@ -1,611 +1,408 @@
-# Buổi 3: CSS cơ bản, Selector, Cascade, Specificity và BEM
+# TÀI LIỆU HỌC TẬP: CSS CƠ BẢN, SELECTOR, CASCADE VÀ BEM
 
-## I. CSS cơ bản
+## 1. Tổng quan và Lý thuyết
 
-CSS (Cascading Style Sheets) là ngôn ngữ định kiểu, dùng để mô tả cách hiển thị của tài liệu HTML: màu sắc, chữ viết, khoảng cách, bố cục…
+### 1.1. CSS là gì?
 
-- HTML xây dựng cấu trúc và nội dung.
-- CSS định dạng cách nội dung được hiển thị.
-- JavaScript xử lý hành vi và tương tác.
+- **Khái niệm:** CSS (Cascading Style Sheets) là ngôn ngữ định kiểu, được sử dụng để mô tả cách hiển thị của tài liệu HTML (màu sắc, chữ viết, khoảng cách, bố cục, v.v.).
 
-**Mục tiêu buổi học:** Viết được CSS cơ bản, chọn đúng phần tử, giải thích được quy tắc nào được áp dụng khi có xung đột và đặt tên class theo BEM.
+- **Bản chất:** Nếu HTML là bộ khung xương xây dựng cấu trúc nội dung, thì CSS chính là lớp da thịt và quần áo quyết định hình thức bên ngoài của trang web.
 
-Buổi này tập trung vào cách CSS hoạt động. Box model, đơn vị và typography sẽ học ở Buổi 4; Flexbox, Grid và responsive ở Buổi 5.
+> Lưu ý: CSS không phải là ngôn ngữ lập trình, mà là ngôn ngữ định dạng (style sheet language).
 
-### 1. Cú pháp cơ bản
+### 1.2. Cú pháp cơ bản
+
+Một khối lệnh CSS tiêu chuẩn bao gồm Selector (Bộ chọn) và Declaration block (Khối khai báo).
 
 ```css
 /* Định dạng các phần tử có class title */
 .title {
-    color: blue;
-    background-color: lightyellow;
+  color: blue;
+  background-color: lightyellow;
 }
 ```
 
-| Thành phần | Ý nghĩa |
-| --- | --- |
-| `.title` | Selector: chọn phần tử cần định dạng. |
-| `color`, `background-color` | Property: thuộc tính cần thay đổi. |
-| `blue`, `lightyellow` | Value: giá trị của thuộc tính. |
-| `color: blue;` | Declaration: một khai báo CSS. |
-| `{ ... }` | Khối chứa các khai báo. |
+| Thành phần      | Ví dụ trong code | Ý nghĩa                                                         |
+| --------------- | ---------------- | --------------------------------------------------------------- |
+| **Selector**    | `.title`         | Bộ chọn: Xác định phần tử HTML nào sẽ được định dạng.           |
+| **Property**    | `color`          | Thuộc tính: Đặc điểm cần thay đổi (VD: màu chữ).                |
+| **Value**       | `blue`           | Giá trị: Giá trị cụ thể áp dụng cho thuộc tính đó.              |
+| **Declaration** | `color: blue;`   | Khai báo: Một cặp thuộc tính và giá trị, kết thúc bằng dấu `;`. |
 
-Mỗi khai báo có dấu `:` giữa thuộc tính và giá trị; dùng `;` để phân tách các khai báo. Comment CSS viết bằng `/* ... */`, khác comment HTML `<!-- ... -->`.
+### 1.3. Các cách thêm CSS vào HTML
 
-### 2. Ba cách thêm CSS vào HTML
+Có 3 phương pháp chính để tích hợp CSS vào trang web:
 
-**Inline CSS:** Viết trong thuộc tính `style` của phần tử.
+1. **Inline CSS:** Viết trực tiếp vào thuộc tính `style` của thẻ HTML. (Chỉ tác động đến một thẻ duy nhất).
 
-```html
-<p style="color: red;">Đoạn văn màu đỏ.</p>
-```
+2. **Internal CSS:** Viết bên trong thẻ `<style>` đặt ở phần `<head>` của file HTML. (Tác động trong phạm vi một trang).
 
-**Internal CSS:** Viết trong thẻ `<style>` ở phần `<head>`.
+3. **External CSS:** Viết vào một file `.css` riêng biệt và liên kết vào HTML bằng thẻ `<link>`. (Tái sử dụng được cho nhiều trang).
 
-```html
-<style>
-    p {
-        color: green;
-    }
-</style>
-```
+> Best Practice: Luôn ưu tiên sử dụng External CSS để mã nguồn gọn gàng, dễ bảo trì và tối ưu hiệu suất tải trang.
 
-**External CSS:** Viết trong file riêng và liên kết từ HTML.
+## 2. Hướng dẫn triển khai (Selectors & Thuộc tính)
 
-Tạo hai file cùng thư mục:
+Selector (Bộ chọn) là công cụ để "nhắm mục tiêu" đến các phần tử HTML cần định dạng.
 
-```text
-lesson3/
-├── index.html
-└── style.css
-```
+### 2.1. DOM Selectors (Bộ chọn cơ bản)
 
-File `index.html`:
+Đây là các bộ chọn dựa trên thuộc tính sẵn có của thẻ HTML.
 
 ```html
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thực hành CSS</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1 class="title">Xin chào CSS!</h1>
-    <p>Tôi đang học cách định dạng trang web.</p>
-</body>
-</html>
-```
-
-File `style.css`:
-
-```css
-.title {
-    color: blue;
-}
-
-p {
-    background-color: lightyellow;
-}
-```
-
-**Kết quả:** Tiêu đề màu xanh dương; đoạn văn có nền vàng nhạt. Mở bằng Live Server và sửa file CSS để quan sát thay đổi.
-
-Ưu tiên external CSS khi thực hành để dễ quản lý và tái sử dụng. File `.css` chỉ chứa mã CSS, không bọc bằng thẻ `<style>`.
-
-### 3. Một số thuộc tính dùng trong buổi học
-
-| Thuộc tính | Tác dụng | Ví dụ |
-| --- | --- | --- |
-| `color` | Màu chữ. | `color: red;` |
-| `background-color` | Màu nền. | `background-color: lightblue;` |
-| `border` | Đường viền. | `border: 1px solid black;` |
-| `text-decoration` | Trang trí văn bản. | `text-decoration: underline;` |
-
-## II. Selector — Bộ chọn CSS
-
-Selector xác định phần tử được áp dụng một quy tắc CSS.
-
-```css
-p {
-    color: blue;
-}
-```
-
-Ở đây, `p` chọn các đoạn văn. Theo cách tổ chức của [bài CSS Selectors trên Viblo](https://viblo.asia/p/css-selectors-XogBG2bGxnLd), có thể học theo ba nhóm: **DOM selectors**, **Pseudo selectors** và **Combinator**. Đây là cách nhóm nội dung để học, không phải phân loại đầy đủ của đặc tả.
-
-### 1. DOM selectors — Chọn theo phần tử và thuộc tính
-
-#### a. Các bộ chọn cơ bản
-
-| Loại | Cú pháp | Ví dụ |
-| --- | --- | --- |
-| Type | `E` | `p`: chọn thẻ `p`. |
-| Class | `.class` | `.notice`: chọn phần tử có class `notice`. |
-| ID | `#id` | `#intro`: chọn phần tử có id `intro`. |
-| Universal | `*` | `*`: chọn mọi phần tử. |
-
-```html
+<!-- Cấu trúc HTML mẫu -->
 <h2 id="intro">Giới thiệu</h2>
-<p class="notice">Thông báo học HTML.</p>
-<p class="notice important">Nhớ mang laptop.</p>
+<p class="notice">Thông báo quan trọng.</p>
 ```
 
 ```css
-#intro { color: navy; }
-.notice { color: green; }
-.notice.important { color: red; }
+/* 1. Universal Selector (Chọn tất cả) */
+* {
+  margin: 0;
+}
+
+/* 2. Type Selector (Chọn theo tên thẻ) */
+p {
+  color: black;
+}
+
+/* 3. Class Selector (Chọn theo class - Dùng dấu chấm) */
+.notice {
+  color: green;
+}
+
+/* 4. ID Selector (Chọn theo ID - Dùng dấu thăng) */
+#intro {
+  color: navy;
+}
 ```
 
-**Kết quả:** Tiêu đề xanh đậm, thông báo đầu xanh lá, thông báo cuối đỏ.
+### 2.2. Pseudo Selectors (Bộ chọn giả)
 
-Class có thể dùng lại; một phần tử có thể có nhiều class. ID phải duy nhất trong trang. `.notice.important` yêu cầu cùng một phần tử có cả hai class.
+Sử dụng để định dạng phần tử dựa trên trạng thái hoặc vị trí của nó.
 
-#### b. Attribute selectors — Bộ chọn thuộc tính
+- **Pseudo-class (`:`):** Chọn trạng thái (VD: di chuột, focus) hoặc vị trí.
 
-| Selector | Điều kiện |
-| --- | --- |
-| `[title]` | Có thuộc tính `title`. |
-| `[type="email"]` | `type` bằng `email`. |
-| `[class~="notice"]` | Danh sách từ trong `class` có từ `notice`. |
-| `[lang|="en"]` | `lang` bằng `en` hoặc bắt đầu bằng `en-`, như `en-US`. |
-| `[href^="https://"]` | `href` bắt đầu bằng `https://`. |
-| `[href$=".pdf"]` | `href` kết thúc bằng `.pdf`. |
-| `[href*="example"]` | `href` chứa chuỗi `example`. |
-
-Có thể thêm tên thẻ phía trước, ví dụ `input[type="email"]`.
-
-```html
-<label>Email: <input type="email" name="email"></label>
-<a href="huong-dan.pdf">Tải hướng dẫn</a>
-```
+- **Pseudo-element (`::`):** Định dạng một phần nhỏ của phần tử hoặc tạo nội dung ảo.
 
 ```css
-input[type="email"] { background-color: lightyellow; }
-a[href$=".pdf"] { color: red; }
-```
+/* Khi người dùng di chuột (hover) vào thẻ a */
+a:hover {
+  color: red;
+}
 
-**Kết quả:** Ô email nền vàng nhạt; liên kết PDF màu đỏ.
+/* Chọn thẻ li lẻ (1, 3, 5...) */
+li:nth-child(odd) {
+  background-color: lightgray;
+}
 
-**Phân biệt:** `[class~="note"]` khớp `class="note active"`, nhưng không khớp `class="notebook"`; `[class*="note"]` khớp cả hai.
-
-### 2. Pseudo selectors — Bộ chọn giả
-
-#### a. Pseudo-class — Lớp giả
-
-Dùng một dấu `:` để chọn theo trạng thái hoặc vị trí.
-
-| Nhóm | Selector thường gặp |
-| --- | --- |
-| Liên kết | `:link`, `:visited` |
-| Tương tác | `:hover`, `:active`, `:focus` |
-| Biểu mẫu | `:enabled`, `:disabled`, `:checked` |
-| Vị trí | `:first-child`, `:last-child`, `:nth-child(n)` |
-| Theo loại thẻ | `:first-of-type`, `:last-of-type`, `:nth-of-type(n)` |
-| Đếm từ cuối | `:nth-last-child(n)`, `:nth-last-of-type(n)` |
-| Duy nhất | `:only-child`, `:only-of-type` |
-| Khác | `:root`, `:empty`, `:target`, `:lang(vi)`, `:not(.active)` |
-
-```css
-a:hover { color: red; }
-input:focus { background-color: lightyellow; }
-input:checked + label { color: green; }
-li:nth-child(odd) { color: blue; }
-```
-
-`:active` là trạng thái đang kích hoạt, ví dụ đang nhấn chuột; `:focus` là nhận tiêu điểm nhập liệu. Với ví dụ checkbox, dùng HTML sau:
-
-```html
-<input type="checkbox" id="practice" name="practice">
-<label for="practice">Tham gia thực hành</label>
-```
-
-**Phân biệt cách đếm:**
-
-```html
-<section>
-    <h2>Danh sách</h2>
-    <p>Đoạn A</p>
-    <p>Đoạn B</p>
-</section>
-```
-
-- `p:nth-child(2)` chọn đoạn A: phần tử con thứ hai là `p`.
-- `p:nth-of-type(2)` chọn đoạn B: thẻ `p` thứ hai.
-- Vị trí bắt đầu từ 1; `even` hoặc `2n` chọn vị trí chẵn, `odd` hoặc `2n+1` chọn vị trí lẻ.
-
-`:empty` không khớp phần tử có văn bản, kể cả khoảng trắng, theo hành vi trình duyệt thông dụng. `:target` khớp phần tử có ID trùng fragment trên URL, ví dụ `#intro`. `:lang(vi)` còn xét ngôn ngữ kế thừa từ cha.
-
-#### b. Pseudo-element — Phần tử giả
-
-Dùng hai dấu `::` để định dạng một phần nội dung hoặc nội dung được tạo thêm.
-
-| Selector | Tác dụng |
-| --- | --- |
-| `p::first-line` | Chọn dòng hiển thị đầu tiên. |
-| `p::first-letter` | Chọn chữ cái đầu tiên. |
-| `.notice::before` | Tạo nội dung trước nội dung phần tử. |
-| `.notice::after` | Tạo nội dung sau nội dung phần tử. |
-
-```html
-<p class="notice">Đăng ký trước buổi học.</p>
-```
-
-```css
+/* Tạo thêm một ký tự ngôi sao ảo trước nội dung của class notice */
 .notice::before {
-    content: "★ ";
-    color: orange;
-}
-
-.notice::after {
-    content: " ✓";
-    color: green;
+  content: "★ ";
+  color: orange;
 }
 ```
 
-**Kết quả:** Ngôi sao xuất hiện trước thông báo, dấu tích xuất hiện sau. Nội dung chính vẫn viết trong HTML; không dùng pseudo-element để chứa thông tin thiết yếu. `::before` và `::after` trong ví dụ cần `content` để hiển thị.
+### 2.3. Combinators (Bộ chọn kết hợp)
 
-### 3. Combinator — Kết hợp theo quan hệ giữa phần tử
-
-| Cú pháp | Quan hệ |
-| --- | --- |
-| `E F` | `F` là hậu duệ của `E`, ở bất kỳ độ sâu nào. |
-| `E > F` | `F` là con trực tiếp của `E`. |
-| `E + F` | `F` là phần tử anh em ngay sau `E`. |
-| `E ~ F` | `F` là phần tử anh em phía sau `E`, không cần liền kề. |
+Dùng để nhắm mục tiêu dựa trên mối quan hệ họ hàng (Cha-con, anh-em) trong cây DOM.
 
 ```html
 <div class="content">
-    <h3>Tiêu đề</h3>
-    <p>Đoạn A</p>
-    <div><p>Đoạn B</p></div>
-    <p>Đoạn C</p>
+  <p>Đoạn A (Con trực tiếp)</p>
+  <div><p>Đoạn B (Cháu)</p></div>
+  <p>Đoạn C (Con trực tiếp)</p>
 </div>
 ```
 
-Thử từng selector riêng:
-
-- `.content p`: chọn A, B, C.
-- `.content > p`: chọn A, C.
-- `h3 + p`: chọn A.
-- `h3 ~ p`: chọn A, C.
-
-Các phần tử anh em phải cùng cha. `~` không chọn phần tử đứng trước và không chọn đoạn B nằm trong `div` con.
-
-### 4. Nhóm selector và lỗi dễ nhầm
-
 ```css
-h1, h2, h3 {
-    color: navy;
+/* Descendant (Khoảng trắng): Chọn tất cả thẻ p nằm trong .content (Chọn A, B, C) */
+.content p {
+  color: blue;
+}
+
+/* Child (>): Chỉ chọn thẻ p là con trực tiếp của .content (Chọn A, C) */
+.content > p {
+  color: red;
+}
+
+/* Adjacent Sibling (+): Chọn thẻ p ngay lập tức theo sau thẻ div khác */
+div + p {
+  font-weight: bold;
 }
 ```
 
-Dấu phẩy tạo danh sách selector để dùng chung khai báo, không phải combinator.
+### 2.4. Các thuộc tính CSS giao diện cơ bản
 
-| Selector | Ý nghĩa |
-| --- | --- |
-| `.menu.active` | Một phần tử có cả hai class. |
-| `.menu .active` | Phần tử `.active` nằm bên trong `.menu`. |
-| `.menu, .active` | Chọn các phần tử `.menu` hoặc `.active`. |
+Dù chưa cần dùng đến các kỹ thuật Layout, Box Model hay Typography, bạn vẫn có thể trang trí website bằng các thuộc tính thị giác mạnh mẽ sau:
 
-**Tham khảo kỹ thuật:** [Selectors Level 4](https://www.w3.org/TR/selectors-4/) và [CSS Pseudo-Elements](https://www.w3.org/TR/css-pseudo-4/) của W3C.
+**a. Nhóm Nền (Background) và Độ trong suốt**
 
-## III. Cascade — Cơ chế xếp tầng trong CSS
+- `background-color`: Chỉnh màu nền của phần tử (VD: `red`, `#ff0000`, `rgba(0,0,0, 0.5)`).
+- `background-image`: Đặt hình ảnh làm nền (VD: `url('anh-nen.jpg')`).
+- `background-size`: Điều chỉnh kích thước ảnh nền (VD: `cover` để phủ kín, `contain` để hiển thị trọn vẹn ảnh).
+- `background-position`: Vị trí của ảnh nền (VD: `center`, `top left`).
+- `opacity`: Chỉnh độ trong suốt của toàn bộ phần tử, giá trị từ `0.0` (vô hình) đến `1.0` (hiển thị 100%).
 
-Cascade giúp chọn giá trị khi nhiều khai báo cùng tác động đến một thuộc tính của một phần tử.
+**b. Nhóm Hiệu ứng thị giác (Visual Effects)**
 
-Phần này theo mạch **Importance → Specificity → Source Order** của [bài “Cascading” trên Viblo](https://viblo.asia/p/cascading-trong-css-OeVKBdb2lkW). Ví dụ chưa dùng cascade layers, `@scope`, animation hoặc transition.
+- `border-radius`: Bo tròn các góc của phần tử (VD: `5px` để bo nhẹ, `50%` để tạo hình tròn hoàn hảo).
+- `box-shadow`: Tạo hiệu ứng đổ bóng cho phần tử (VD: `2px 2px 10px rgba(0,0,0, 0.2)`).
+- `cursor`: Thay đổi hình dáng con trỏ chuột khi di chuột vào phần tử (VD: `pointer` (hình bàn tay), `not-allowed` (hình cấm), `help` (dấu chấm hỏi)).
 
-### 1. Importance — Nguồn gốc và mức quan trọng
+**c. Nhóm Trạng thái hiển thị cơ bản (Display)**
+Quyết định cách phần tử hiển thị trên một dòng (Flexbox và Grid sẽ được học chuyên sâu ở bài sau).
 
-| Nguồn CSS | Ý nghĩa |
-| --- | --- |
-| User Agent | Kiểu mặc định của trình duyệt. |
-| User | Kiểu do người dùng thiết lập. |
-| Author | Kiểu do người xây dựng trang viết. |
+- `display: block`: Hiển thị thành một khối, tự động xuống dòng và chiếm 100% chiều ngang khả dụng.
+- `display: inline`: Hiển thị trên cùng một dòng, kích thước bọc vừa đủ nội dung (không thể chỉnh width/height).
+- `display: inline-block`: Nằm trên cùng một dòng như `inline`, nhưng cho phép thiết lập kích thước như `block`.
+- `display: none`: Ẩn phần tử hoàn toàn khỏi trang web (không chiếm không gian).
 
-Với khai báo thông thường, ưu tiên tăng dần:
+**d. Nhóm Định dạng danh sách (List)**
 
-```text
-User Agent < User < Author
-```
+- `list-style-type`: Đổi ký hiệu đầu dòng của danh sách `<ul>` hoặc `<ol>` (VD: `none` để xóa dấu chấm, `square` để đổi thành hình vuông, `circle`...).
 
-Với khai báo `!important`, thứ tự nguồn đảo ngược:
+## 3. Các lỗi thường gặp
 
-```text
-Author !important < User !important < User Agent !important
-```
+### 3.1. Lỗi viết sai Selector nhóm và Class kết hợp
 
-Các khai báo important ưu tiên hơn khai báo thông thường. Vì vậy, CSS của tác giả không phải lúc nào cũng thắng CSS người dùng hoặc trình duyệt. Xem [quy tắc cascade của W3C](https://www.w3.org/TR/css-cascade-5/#cascade-sort).
+Sinh viên thường nhầm lẫn giữa việc chọn nhiều class trên một phần tử và chọn phần tử con.
 
-```html
-<p class="message" style="color: purple;">Thông báo lớp học</p>
-```
+❌ **Code sai (Nhầm lẫn ý nghĩa):**
 
 ```css
-.message {
-    color: red !important;
+/* Viết như thế này nghĩa là chọn phần tử .active nằm BÊN TRONG phần tử .menu */
+.menu .active {
+  color: red;
 }
 ```
 
-**Kết quả:** Chữ đỏ; khai báo important thắng inline thông thường.
-
-`!important` không tăng specificity. Hạn chế dùng để vá xung đột CSS.
-
-### 2. Specificity — Độ ưu tiên của selector
-
-Sau khi các yếu tố ở bước trước ngang nhau, so sánh selector. Trong ví dụ thông thường:
-
-```text
-ID > Class / Attribute / Pseudo-class > Type / Pseudo-element
-```
-
-```html
-<h1 id="heading" class="heading">Học CSS</h1>
-```
+✅ **Code đúng (Chọn phần tử có ĐỒNG THỜI cả 2 class):**
 
 ```css
-#heading { color: orange; }
-.heading { color: red; }
-h1 { color: blue; }
-```
-
-**Kết quả:** Màu cam do selector ID ưu tiên hơn. Cách tính chi tiết nằm ở phần IV.
-
-Inline thông thường ưu tiên hơn khai báo thông thường trong stylesheet của tác giả; không thể hiểu rằng inline luôn thắng mọi khai báo.
-
-### 3. Source Order — Thứ tự xuất hiện
-
-Khi các yếu tố trước bằng nhau, khai báo sau thắng.
-
-```css
-.heading {
-    color: orange;
-    color: gray;
+/* Viết liền nhau không có khoảng trắng */
+.menu.active {
+  color: red;
 }
 ```
 
-**Kết quả:** Chữ xám. Điều này cũng áp dụng giữa các quy tắc hoặc file:
+### 3.2. Quên thuộc tính `content` ở Pseudo-element
 
-```html
-<link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="custom.css">
-```
+Khi sử dụng `::before` hoặc `::after`, nếu thiếu thuộc tính `content`, phần tử ảo sẽ không được trình duyệt tạo ra.
 
-```css
-/* base.css */
-.heading { color: blue; }
-
-/* custom.css */
-.heading { color: green; }
-```
-
-**Kết quả:** Chữ xanh lá. File sau chỉ thắng trong trường hợp các yếu tố trước ngang nhau; không phụ thuộc tốc độ tải file.
-
-**Ghi nhớ:** Không mặc định “viết sau là thắng”. Xét nguồn và mức quan trọng trước, rồi specificity, cuối cùng mới đến thứ tự. Internal CSS cũng không tự động ưu tiên hơn external CSS.
-
-## IV. Specificity — Độ ưu tiên của selector
-
-Theo mạch của [bài CSS Specificity trên Viblo](https://viblo.asia/p/css-specificity-la-gi-vay-XL6lA2GD5ek), phần này đi từ tình huống xung đột đến cách đếm, so sánh và các trường hợp dễ nhầm.
-
-### 1. Specificity là gì?
-
-Specificity là trọng số của selector, dùng trong cascade khi các yếu tố ưu tiên trước đó đã ngang nhau.
-
-```html
-<p id="welcome" class="text">Chào mừng đến lớp Web!</p>
-```
+❌ **Code sai:**
 
 ```css
-p { color: red; }
-.text { color: green; }
-#welcome { color: blue; }
-```
-
-**Kết quả:** Chữ xanh dương vì selector ID có trọng số lớn nhất.
-
-### 2. Cách tính và so sánh
-
-Đếm theo ba cột **(A, B, C)**:
-
-| Cột | Thành phần |
-| --- | --- |
-| A | ID selector |
-| B | Class, attribute selector, pseudo-class thông thường |
-| C | Type selector, pseudo-element |
-
-| Selector | Trọng số |
-| --- | --- |
-| `*` | `(0, 0, 0)` |
-| `p` | `(0, 0, 1)` |
-| `.text` | `(0, 1, 0)` |
-| `#welcome` | `(1, 0, 0)` |
-| `[id="welcome"]` | `(0, 1, 0)` |
-| `ul > li` | `(0, 0, 2)` |
-| `.menu li.active` | `(0, 2, 1)` |
-| `a.link:hover` | `(0, 2, 1)` |
-| `.notice::before` | `(0, 1, 1)` |
-| `#main .card p` | `(1, 1, 1)` |
-
-So sánh từ trái sang phải; cột khác nhau đầu tiên quyết định:
-
-```text
-(1, 0, 0) > (0, 10, 0)
-(0, 2, 0) > (0, 1, 5)
-(0, 1, 2) > (0, 1, 1)
-```
-
-Không đổi thành điểm thập phân. `[id="welcome"]` vẫn là selector thuộc tính, không phải ID selector.
-
-### 3. Khi trọng số bằng nhau
-
-```css
-body h1 { color: green; }
-html h1 { color: purple; }
-```
-
-Cả hai có trọng số `(0, 0, 2)`. Trong phạm vi ví dụ không dùng `@scope`, khi các yếu tố trước ngang nhau, khai báo sau thắng: tiêu đề màu tím.
-
-Việc `body` gần `h1` hơn `html` trong cây DOM không làm tăng specificity.
-
-### 4. Các trường hợp cần nhớ
-
-- `*` và combinator như khoảng trắng, `>`, `+`, `~` không cộng trọng số.
-- Inline style được xét riêng; không đếm vào bộ ba của selector.
-- `!important` thuộc bước xét mức quan trọng, không phải specificity.
-- Giá trị kế thừa không cạnh tranh trọng số với khai báo áp dụng trực tiếp lên phần tử.
-
-**Đọc thêm về selector hàm:** Theo [Selectors Level 4 của W3C](https://www.w3.org/TR/selectors-4/#specificity), `:is()`, `:not()` và `:has()` lấy trọng số lớn nhất trong danh sách đối số; `:where()` cùng đối số luôn đóng góp 0.
-
-```css
-/* (1, 1, 0): .card cộng đối số mạnh nhất #featured */
-.card:is(.basic, #featured) { color: blue; }
-
-/* (0, 1, 1): button cộng .disabled */
-button:not(.disabled) { color: green; }
-
-/* (0, 1, 0): chỉ tính .title */
-:where(#main) .title { color: purple; }
-```
-
-Trọng số của `:is()` không thay đổi theo nhánh nào khớp và không cộng tất cả các nhánh.
-
-### 5. Áp dụng khi viết CSS
-
-Ưu tiên class và selector đơn giản để dễ ghi đè. Ví dụ `.card__title` có `(0, 1, 0)`, còn `.card .title` có `(0, 2, 0)`. Đây là một lợi ích của cách đặt tên BEM ở phần tiếp theo.
-
-Khi giao diện không đúng dự kiến, mở **Inspect → Styles** để xem khai báo bị ghi đè trước khi tăng specificity hoặc thêm `!important`.
-
-## V. BEM — Quy ước đặt tên class
-
-### 1. BEM là gì?
-
-BEM viết tắt của **Block – Element – Modifier**, là quy ước tổ chức và đặt tên class trong HTML/CSS. Phần này tham khảo mạch giải thích của [bài BEM trên Viblo](https://viblo.asia/p/tim-hieu-ve-bem-trong-15-phut-924lJOk65PM).
-
-### 2. Quy ước đặt tên
-
-| Thành phần | Vai trò | Ví dụ |
-| --- | --- | --- |
-| Block | Thành phần độc lập, có thể tái sử dụng. | `.card`, `.button` |
-| Element | Bộ phận thuộc một block. | `.card__title` |
-| Modifier | Biến thể hoặc trạng thái của block/element. | `.card--featured`, `.card__title--highlighted` |
-
-```css
-.block { }
-.block__element { }
-.block--modifier { }
-.block__element--modifier { }
-```
-
-Dùng `__` cho element, `--` cho modifier. Block trong BEM không đồng nghĩa với cách hiển thị `display: block` của CSS.
-
-### 3. Ví dụ áp dụng
-
-#### a. Block và Modifier
-
-```html
-<button type="button" class="button">Nút thường</button>
-<button type="button" class="button button--primary">Nút chính</button>
-```
-
-```css
-.button {
-    color: white;
-    background-color: gray;
-    border: 1px solid black;
-}
-
-.button--primary {
-    background-color: navy;
+.title::after {
+  background-color: red; /* Không hiển thị gì cả */
 }
 ```
 
-**Kết quả:** Hai nút có chung kiểu cơ bản; nút chính đổi nền sang xanh đậm. Modifier đi cùng class gốc, không thay thế class gốc.
+✅ **Code đúng:**
 
-#### b. Element
+```css
+.title::after {
+  content: ""; /* Bắt buộc phải có, dù là chuỗi rỗng */
+  display: block; /* Thường phải kết hợp với display: block hoặc inline-block */
+  background-color: red;
+}
+```
+
+## 4. Kiến thức nâng cao
+
+### 4.1. Cơ chế Cascade (Xếp tầng)
+
+Khi có nhiều quy tắc CSS cùng tác động lên một phần tử, CSS sử dụng cơ chế Cascade để quyết định quy tắc nào sẽ "thắng". Trình tự ưu tiên như sau:
+
+1. **Importance (Tầm quan trọng):** Khai báo có `!important` sẽ thắng tất cả.
+
+2. **Specificity (Độ đặc hiệu - Trọng số):** Selector nào chi tiết hơn sẽ thắng.
+
+3. **Source Order (Thứ tự mã nguồn):** Nếu 2 yếu tố trên bằng nhau, đoạn code viết sau (dưới cùng) sẽ thắng.
+
+### 4.2. Tính toán Specificity (Độ ưu tiên của Selector)
+
+Trọng số được tính theo 3 cột `(A, B, C)`:
+
+- **Cột A:** Số lượng ID.
+
+- **Cột B:** Số lượng Class, Attribute, Pseudo-class.
+
+- **Cột C:** Số lượng Type (Tên thẻ), Pseudo-element.
+
+| Selector        | Điểm (A, B, C) | Giải thích           |
+| --------------- | -------------- | -------------------- |
+| `p`             | `(0, 0, 1)`    | 1 thẻ `p`            |
+| `.text`         | `(0, 1, 0)`    | 1 class              |
+| `#welcome`      | `(1, 0, 0)`    | 1 ID                 |
+| `#main .card p` | `(1, 1, 1)`    | 1 ID, 1 class, 1 thẻ |
+
+> So sánh từ trái sang phải, ID mạnh hơn Class, Class mạnh hơn Thẻ. VD: `(1, 0, 0)` luôn thắng `(0, 10, 0)`.
+
+### 4.3. Quy ước đặt tên BEM (Block - Element - Modifier)
+
+BEM là một tiêu chuẩn Clean Code trong CSS giúp đặt tên class rõ ràng, dễ bảo trì và hạn chế xung đột Specificity.
+
+- **Block:** Thành phần độc lập (VD: `.card`, `.button`).
+
+- **Element:** Bộ phận con của Block, ngăn cách bởi `__` (VD: `.card__title`).
+
+- **Modifier:** Biến thể/trạng thái, ngăn cách bởi `--` (VD: `.button--primary`).
+
+**Cấu trúc chuẩn BEM:**
 
 ```html
+<!-- HTML -->
 <article class="card">
-    <h2 class="card__title">HTML cơ bản</h2>
-    <p class="card__description">Xây dựng trang web đầu tiên.</p>
+  <h2 class="card__title card__title--highlight">Tiêu đề</h2>
+  <button class="button button--primary">Đọc tiếp</button>
 </article>
 ```
 
 ```css
+/* CSS */
 .card {
-    background-color: whitesmoke;
-    border: 1px solid gray;
+  background: white;
 }
-
 .card__title {
-    color: navy;
+  color: black;
 }
 
-.card__description {
-    color: darkslategray;
+/* Modifier giữ nguyên class gốc và ghi đè phần cần thay đổi */
+.card__title--highlight {
+  color: red;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+}
+.button--primary {
+  background: blue;
+  color: white;
 }
 ```
 
-`card` là block; `card__title` và `card__description` là các element. Tên class thể hiện quan hệ, nhưng không tự tạo CSS kế thừa hay bố cục.
+**Lợi ích:**
 
-#### c. Modifier của Element
+- Tên class nói lên rõ vai trò của phần tử.
+
+- Điểm Specificity luôn thấp và phẳng `(0, 1, 0)`, cực kỳ dễ ghi đè khi cần thiết, không bao giờ phải lạm dụng `!important`.
+
+## 5. Bài tập và Ôn tập
+
+### 5.1. Câu hỏi trắc nghiệm
+
+**Câu 1:** Selector nào sau đây có trọng số Specificity cao nhất?
+
+- A. `ul li .active`
+
+- B. `#header .nav`
+
+- C. `div.container > p`
+
+- D. `header .nav.active`
+
+**Câu 2:** Thuộc tính nào sau đây giúp loại bỏ hoàn toàn một phần tử khỏi trang web mà không để lại khoảng trống?
+
+- A. `opacity: 0;`
+
+- B. `display: none;`
+
+- C. `background-color: transparent;`
+
+- D. `display: inline;`
+
+**Câu 3:** Theo chuẩn BEM, cách viết nào sau đây là sai khi đặt tên một tiêu đề nằm trong block `menu`?
+
+- A. `.menu__title`
+
+- B. `.menu-title`
+
+- C. `.menu--title`
+
+- D. Cả B và C đều sai chuẩn BEM.
+
+### 5.2. Câu hỏi lý thuyết
+
+1. Sự khác biệt giữa `opacity: 0` và `display: none` là gì?
+
+2. Tại sao việc lạm dụng `!important` lại được coi là Bad Practice (Thực hành xấu) trong dự án thực tế?
+
+### 5.3. Bài tập thực hành BEM & Các thuộc tính cơ bản
+
+**Yêu cầu:**
+Sử dụng HTML và CSS (theo chuẩn BEM), hãy xây dựng một Component Thông báo (Alert) với các yêu cầu:
+
+1. Block cơ bản có class là `.alert`, bo tròn góc (`border-radius`), và có hiệu ứng đổ bóng (`box-shadow`).
+
+2. Đổi biểu tượng con trỏ chuột thành hình bàn tay (`cursor: pointer`) khi di chuột vào khối Alert.
+
+3. Có một icon và một đoạn chữ bên trong (áp dụng quy tắc Element).
+
+4. Tạo 2 biến thể (Modifier): `.alert--success` (Nền màu xanh nhạt) và `.alert--error` (Nền màu đỏ nhạt).
+
+### 5.4. Đáp án
+
+**Trắc nghiệm:**
+
+- Câu 1: **B** (Vì chứa ID, trọng số là `(1, 1, 0)`. Các phương án khác không có ID).
+
+- Câu 2: **B** (`display: none` loại bỏ hoàn toàn phần tử khỏi layout. `opacity: 0` chỉ làm trong suốt nhưng phần tử vẫn chiếm diện tích).
+
+- Câu 3: **D** (Chuẩn BEM dùng `__` cho Element. `-` không phải chuẩn, `--` là dành cho Modifier).
+
+**Gợi ý code Bài tập thực hành:**
 
 ```html
-<h2 class="card__title card__title--highlighted">Khóa học nổi bật</h2>
+<!-- Thành công -->
+<div class="alert alert--success">
+  <span class="alert__icon">✔️</span>
+  <p class="alert__message">Lưu dữ liệu thành công!</p>
+</div>
+
+<!-- Lỗi -->
+<div class="alert alert--error">
+  <span class="alert__icon">❌</span>
+  <p class="alert__message">Lưu dữ liệu thất bại!</p>
+</div>
 ```
 
 ```css
-.card__title--highlighted {
-    color: darkred;
+/* Block */
+.alert {
+  display: inline-block; /* Chỉnh hiển thị theo khối trên cùng dòng */
+  border-radius: 8px; /* Bo góc tròn */
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  cursor: pointer; /* Chuột hình bàn tay */
+}
+
+/* Elements */
+.alert__icon {
+  /* CSS cho icon nếu cần */
+}
+
+.alert__message {
+  display: inline; /* Chữ nằm cùng dòng với icon */
+}
+
+/* Modifiers */
+.alert--success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert--error {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 ```
 
-Thêm class modifier để đổi màu tiêu đề, giữ class `card__title` để nhận kiểu cơ bản.
+## 6. Thực hành tương tác cuối bài
 
-### 4. Vì sao sử dụng BEM?
+Dựa vào mục 5.3, tạo hai thông báo theo BEM: alert alert--success và alert alert--error. Viết CSS cho block, element và modifier; thử selector kết hợp, trạng thái hover và thứ tự cascade.
 
-- Tên class cho biết thành phần thuộc block nào.
-- Dùng lại component và thêm biến thể dễ hơn.
-- Selector class đơn giản giúp hạn chế xung đột và dễ ghi đè.
-
-```css
-/* Specificity: (0, 1, 0) */
-.card__title { color: navy; }
-
-/* Specificity: (0, 2, 0) */
-.card .title { color: navy; }
-```
-
-BEM không tự ngăn xung đột; vẫn cần tuân thủ cách tổ chức CSS.
-
-### 5. Các bước thực hiện và lưu ý
-
-1. Xác định thành phần độc lập: card, menu, button…
-2. Đặt tên cho các bộ phận bên trong.
-3. Thêm modifier khi có biến thể hoặc trạng thái.
-4. Viết kiểu chung trước, kiểu modifier sau; kiểm tra khả năng tái sử dụng.
-
-Theo [hướng dẫn đặt tên BEM](https://getbem.com/naming/), giữ selector chủ yếu theo class. Không cần viết `.card .card__title` khi `.card__title` đã đủ.
-
-Element có thể nằm sâu trong HTML; dùng `.card__title`, tránh chuỗi `.card__body__title`. Tên nên mô tả vai trò, như `button--primary`, để không phụ thuộc một màu cố định.
-
-### 6. Biến thể BEM trong bài tham khảo
-
-Bài Viblo còn giới thiệu cách viết `class="button -primary"`. Đây là một biến thể đặt tên, không phải cú pháp bắt buộc của BEM. Trong buổi học này, thống nhất dùng `class="button button--primary"`.
-
-Các ví dụ trên dùng CSS thuần. Không cần học Sass/SCSS để sử dụng BEM.
-
-## VI. Thực hành CSS ngay trong bài
-
-Dùng khung dưới đây để thực hành các mục **Selector, Cascade, Specificity và BEM** vừa học. Viết HTML trong body, CSS trong style; chuyển sang **Trình duyệt** hoặc bấm **Chạy code** để xem kết quả. Có thể dùng Ctrl + Enter (macOS: ⌘ + Enter).
-
-1. **Selector và specificity:** tạo một tiêu đề có cả id và class; so sánh rule theo thẻ, class và ID.
-2. **Pseudo-class và combinator:** thử đổi màu mục danh sách lẻ, trạng thái hover và phân biệt con trực tiếp với hậu duệ.
-3. **Cascade:** viết hai quy tắc cùng selector rồi đổi thứ tự, quan sát quy tắc thắng.
-4. **BEM:** tạo nút có cả class gốc và modifier; giữ kiểu chung và thêm biến thể màu cam.
-
-Khung bắt đầu với body trống. Mã nháp lưu riêng theo bài trên trình duyệt; **Khôi phục** trả về mẫu ban đầu. Chỉ chạy HTML/CSS nội bộ, không chạy JavaScript hay nạp file CSS bên ngoài.
+Viết HTML trong body; với bài CSS, viết kiểu trong style. Bấm **Chạy code** hoặc tab **Trình duyệt** để xem kết quả. Bản nháp tự lưu trên trình duyệt; **Khôi phục** đưa code về mẫu trống. Khung này không chấm điểm tự động và chỉ chạy HTML/CSS nội bộ.
 
 ```playground-css
 <!DOCTYPE html>

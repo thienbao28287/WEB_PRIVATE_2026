@@ -53,7 +53,7 @@ test('exercise authoring rejects duplicate IDs, missing blanks and unknown field
 });
 test('each published lesson has one practice workspace at the end',async()=>{
  const content=await collectContent(projectRoot);
- for(const number of [1,2,3]){
+ for(const number of [1,2,3,4]){
   const page=content.lessons.find(l=>l.number===number).pages.find(p=>p.type==='theory');
   assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,1);
   assert.equal(page.exercises,undefined);
