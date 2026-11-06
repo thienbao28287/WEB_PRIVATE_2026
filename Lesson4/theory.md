@@ -45,24 +45,9 @@ Typography trong CSS là tập hợp các thuộc tính dùng để định dạ
 
 Mặc định, thuộc tính `width` và `height` trong CSS **chỉ áp dụng cho vùng Content**. Điều này dẫn đến cơ chế cộng dồn kích thước rất dễ gây vỡ Layout.
 
-**Sơ đồ Box Model:**
+![Sơ đồ Box Model: Content nằm trong Padding, Border và Margin](img/box-model.png)
 
-```text
-+----------------------------------------------------+
-|                      MARGIN                        |
-|   +--------------------------------------------+   |
-|   |                  BORDER                    |   |
-|   |   +------------------------------------+   |   |
-|   |   |              PADDING               |   |   |
-|   |   |   +----------------------------+   |   |   |
-|   |   |   |                            |   |   |   |
-|   |   |   |          CONTENT           |   |   |   |
-|   |   |   |   (width x height mặc định)|   |   |   |
-|   |   |   +----------------------------+   |   |   |
-|   |   +------------------------------------+   |   |
-|   +--------------------------------------------+   |
-+----------------------------------------------------+
-```
+*Nguồn ảnh: [GeeksforGeeks](https://media.geeksforgeeks.org/wp-content/uploads/20241210112354236207/Screenshot-2024-12-10-105714.png).*
 
 **Bài toán:** Bạn có 1 thẻ `<div>` thiết lập `width: 300px`, `padding: 20px`, `border: 5px solid black`.
 
