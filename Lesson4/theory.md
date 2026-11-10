@@ -49,20 +49,321 @@ Typography trong CSS là tập hợp các thuộc tính dùng để định dạ
 
 ## 2. Cú pháp cơ bản
 
+Phần này trình bày **thuộc tính riêng (longhand) trước, thuộc tính viết tắt (shorthand) sau**. Mỗi ví dụ viết tắt đi kèm cách đọc để bạn biết chính xác cạnh nào đang được thay đổi.
+
+### 2.1. Kích thước của hộp
+
+| Thuộc tính | Công dụng | Ví dụ |
+| --- | --- | --- |
+| `width` | Đặt chiều rộng | `width: 300px;` |
+| `height` | Đặt chiều cao | `height: 200px;` |
+| `min-width` | Chiều rộng nhỏ nhất | `min-width: 200px;` |
+| `max-width` | Chiều rộng lớn nhất | `max-width: 100%;` |
+| `min-height` | Chiều cao nhỏ nhất | `min-height: 120px;` |
+| `max-height` | Chiều cao lớn nhất | `max-height: 400px;` |
+
+`width` và `height` tính cho vùng nào phụ thuộc vào `box-sizing` ở mục 2.5. Với khối văn bản thông thường, nên để chiều cao tự tính theo nội dung khi không cần cố định chiều cao.
+
+```css
+.card {
+  width: 300px;
+  max-width: 100%; /* Giới hạn theo chiều rộng khối chứa */
+  min-height: 120px; /* Vẫn được cao thêm khi nội dung dài */
+}
+```
+
+Không có shorthand gộp `width` và `height` thành một khai báo.
+
+### 2.2. Padding: viết riêng từng cạnh
+
+Padding tạo khoảng đệm **giữa nội dung và đường viền**, nằm bên trong hộp.
+
+| Thuộc tính | Vị trí | Ví dụ |
+| --- | --- | --- |
+| `padding-top` | Đệm trên | `padding-top: 8px;` |
+| `padding-right` | Đệm phải | `padding-right: 16px;` |
+| `padding-bottom` | Đệm dưới | `padding-bottom: 24px;` |
+| `padding-left` | Đệm trái | `padding-left: 32px;` |
+
+```css
+.card {
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-bottom: 24px;
+  padding-left: 32px;
+}
+```
+
+Nội dung cách viền trên 8px, phải 16px, dưới 24px và trái 32px. Nền của phần tử thường được vẽ cả trong vùng padding.
+
+**Giá trị:** Padding nhận độ dài như `px`, `rem` hoặc phần trăm; không nhận giá trị âm hoặc `auto`. Trong chế độ viết ngang thông thường, phần trăm padding của cả bốn cạnh tính theo chiều rộng khối chứa.
+
+### 2.3. Margin: viết riêng từng cạnh
+
+Margin tạo khoảng lề **bên ngoài đường viền**, dùng để tạo khoảng cách với phần tử xung quanh.
+
+| Thuộc tính | Vị trí | Ví dụ |
+| --- | --- | --- |
+| `margin-top` | Lề trên | `margin-top: 8px;` |
+| `margin-right` | Lề phải | `margin-right: 16px;` |
+| `margin-bottom` | Lề dưới | `margin-bottom: 24px;` |
+| `margin-left` | Lề trái | `margin-left: 32px;` |
+
+```css
+.card {
+  margin-top: 8px;
+  margin-right: 16px;
+  margin-bottom: 24px;
+  margin-left: 32px;
+}
+```
+
+Khối có lề trên 8px, phải 16px, dưới 24px và trái 32px. Margin trong suốt, không được tô bởi nền của chính phần tử.
+
+**Giá trị:** Margin nhận độ dài, phần trăm, giá trị âm và `auto`. Margin âm có thể làm các phần tử gần hoặc chồng lên nhau. Margin dọc có thể bị gộp trong luồng block thông thường (mục 6.2).
+
+Để căn giữa một phần tử block theo chiều ngang trong luồng thông thường, đặt chiều rộng nhỏ hơn khối chứa rồi dùng hai lề ngang tự động:
+
+```css
+.card {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+```
+
+Hai lề tự động chia đều khoảng trống ngang còn lại. Cách này không tự căn giữa theo chiều dọc.
+
+### 2.4. Border: viết riêng từng thành phần và từng cạnh
+
+Mỗi cạnh viền gồm **độ dày (width), kiểu nét (style), màu (color)**.
+
+| Cạnh | Độ dày | Kiểu nét | Màu |
+| --- | --- | --- | --- |
+| Trên | `border-top-width` | `border-top-style` | `border-top-color` |
+| Phải | `border-right-width` | `border-right-style` | `border-right-color` |
+| Dưới | `border-bottom-width` | `border-bottom-style` | `border-bottom-color` |
+| Trái | `border-left-width` | `border-left-style` | `border-left-color` |
+
+```css
+.card {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: red;
+
+  border-right-width: 2px;
+  border-right-style: dashed;
+  border-right-color: green;
+
+  border-bottom-width: 3px;
+  border-bottom-style: dotted;
+  border-bottom-color: blue;
+
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: black;
+}
+```
+
+Kết quả: viền trên đỏ liền nét dày 1px; phải xanh lá đứt nét dày 2px; dưới xanh dương chấm nét dày 3px; trái đen liền nét dày 4px.
+
+- Độ dày: độ dài không âm như `1px`, `0.125rem`, hoặc `thin`, `medium`, `thick`; không nhận phần trăm.
+- Kiểu nét: `solid` (liền), `dashed` (đứt), `dotted` (chấm), `double` (kép), `none` (không có viền).
+- Màu: tên màu, hex hoặc hàm màu, ví dụ `red`, `#333333`, `rgb(0 0 0 / 50%)`.
+
+> **Lưu ý:** Chỉ đặt độ dày và màu chưa đủ để thấy viền nếu kiểu nét vẫn là `none`. Cần chọn kiểu như `solid`.
+
+### 2.5. Box-sizing: chọn cách tính kích thước
+
+`box-sizing` là thuộc tính riêng, không phải shorthand.
+
+```css
+.content-box-example {
+  box-sizing: content-box;
+}
+
+.border-box-example {
+  box-sizing: border-box;
+}
+```
+
+- `content-box`: `width`, `height` đặt kích thước vùng nội dung; padding và border cộng thêm bên ngoài.
+- `border-box`: kích thước khai báo bao gồm nội dung, padding và border.
+- Margin nằm ngoài kích thước khai báo trong cả hai cách.
+
+Xem phép tính cụ thể ở mục 3.1.
+
+### 2.6. Shorthand: cách viết tắt
+
+Sau khi hiểu các thuộc tính riêng, bạn có thể gộp lại. Các đoạn code dưới đây là những **cách viết thay thế**, không cần chép tất cả vào cùng một selector.
+
+#### Padding: gộp bốn cạnh
+
+Viết đầy đủ:
+
+```css
+.card {
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-bottom: 24px;
+  padding-left: 32px;
+}
+```
+
+Viết tắt tương đương:
+
+```css
+.card {
+  padding: 8px 16px 24px 32px;
+}
+```
+
+| Số giá trị | Cú pháp | Cách đọc |
+| --- | --- | --- |
+| 1 | `padding: 16px;` | Cả bốn cạnh 16px |
+| 2 | `padding: 8px 16px;` | Trên/dưới 8px; phải/trái 16px |
+| 3 | `padding: 8px 16px 24px;` | Trên 8px; phải/trái 16px; dưới 24px |
+| 4 | `padding: 8px 16px 24px 32px;` | Trên 8px; phải 16px; dưới 24px; trái 32px |
+
+Nhớ thứ tự theo chiều kim đồng hồ: **trên → phải → dưới → trái**.
+
+#### Margin: cùng quy tắc một đến bốn giá trị
+
+Bốn khai báo riêng ở mục 2.3 tương đương:
+
+```css
+.card {
+  margin: 8px 16px 24px 32px;
+}
+```
+
+| Số giá trị | Cú pháp | Cách đọc |
+| --- | --- | --- |
+| 1 | `margin: 16px;` | Cả bốn lề 16px |
+| 2 | `margin: 8px 16px;` | Trên/dưới 8px; phải/trái 16px |
+| 3 | `margin: 8px 16px 24px;` | Trên 8px; phải/trái 16px; dưới 24px |
+| 4 | `margin: 8px 16px 24px 32px;` | Trên 8px; phải 16px; dưới 24px; trái 32px |
+
+Ví dụ căn giữa với lề trên và dưới bằng 0:
+
+```css
+.card {
+  width: 300px;
+  margin: 0 auto;
+}
+```
+
+Tương đương `margin-top: 0`, `margin-right: auto`, `margin-bottom: 0`, `margin-left: auto`.
+
+#### Border: gộp theo từng cạnh
+
+Ba thuộc tính `border-top-width`, `border-top-style`, `border-top-color` có thể gộp thành `border-top`. Tương tự cho ba cạnh còn lại:
+
+```css
+.card {
+  border-top: 1px solid red;
+  border-right: 2px dashed green;
+  border-bottom: 3px dotted blue;
+  border-left: 4px solid black;
+}
+```
+
+Đoạn này tương đương 12 khai báo ở mục 2.4. Quy ước dễ đọc là **độ dày → kiểu nét → màu**.
+
+#### Border: gộp theo độ dày, kiểu hoặc màu
+
+Một cách khác để viết cùng ví dụ:
+
+```css
+.card {
+  border-width: 1px 2px 3px 4px;
+  border-style: solid dashed dotted solid;
+  border-color: red green blue black;
+}
+```
+
+`border-width`, `border-style`, `border-color` nhận từ một đến bốn giá trị theo quy tắc phân bố cạnh giống `padding` và `margin`.
+
+#### Border: gộp cả bốn cạnh giống nhau
+
+Nếu cả bốn cạnh cùng độ dày, kiểu và màu:
+
+```css
+.card {
+  border: 2px solid #333333;
+}
+```
+
+Tương đương:
+
+```css
+.card {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #333333;
+}
+```
+
+> **Lưu ý:** `border: 1px 2px 3px 4px` không phải cách đặt bốn độ dày. Hãy dùng `border-width`.
+
+#### Kết hợp longhand và shorthand: chú ý thứ tự
+
+Shorthand thiết lập các thuộc tính con của nó. Với các khai báo cùng mức ưu tiên trong cùng quy tắc, khai báo sau quyết định giá trị bị trùng:
+
+```css
+.card {
+  padding: 16px;
+  padding-left: 32px; /* Trái 32px; ba cạnh còn lại 16px */
+}
+
+.other-card {
+  padding-left: 32px;
+  padding: 16px; /* Cả bốn cạnh trở về 16px */
+}
+```
+
+Với `border`, thành phần bị bỏ qua trong shorthand trở về giá trị khởi tạo, không giữ giá trị đã khai báo trước đó:
+
+```css
+.card {
+  border: 2px solid red;
+  border: 1px; /* Style trở về none nên không thấy viền */
+}
+```
+
+Muốn chỉ thay đổi một phần, dùng thuộc tính riêng như `padding-top`, `margin-bottom` hoặc `border-left-color`.
+
+### 2.7. Định dạng chữ và ví dụ kết hợp
+
+Các thuộc tính chữ viết riêng để dễ theo dõi:
+
+```css
+.card {
+  font-family: Arial, sans-serif; /* Font ưu tiên và dự phòng */
+  font-size: 1rem; /* Cỡ chữ theo phần tử gốc */
+  font-weight: 400; /* Độ đậm bình thường */
+  line-height: 1.6; /* Chiều cao dòng bằng 1,6 lần cỡ chữ */
+  text-align: left; /* Căn chữ về trái */
+}
+```
+
+Kết hợp các thuộc tính Box Model đã học:
+
 ```css
 .card {
   box-sizing: border-box;
   width: 300px;
-  padding: 20px;
-  border: 5px solid black;
-  margin: 16px;
+  max-width: 100%;
+  padding: 16px 24px;
+  border: 2px solid #333333;
+  margin: 24px auto;
   font-family: Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
 }
 ```
 
-`width` đặt chiều rộng, vùng được tính phụ thuộc `box-sizing`. `padding` tạo khoảng đệm bên trong viền; `margin` tạo lề bên ngoài. `border` ghép độ dày, kiểu và màu. `font-family` có font ưu tiên và dự phòng; `line-height: 1.6` bằng 1,6 lần cỡ chữ.
+Khi đủ chỗ, hộp rộng 300px tính cả padding và border; padding trên/dưới 16px, phải/trái 24px; viền đều 2px. Lề trên/dưới 24px và hai lề ngang tự động để căn giữa trong luồng block thông thường.
 
 ## 3. Cách hoạt động
 
