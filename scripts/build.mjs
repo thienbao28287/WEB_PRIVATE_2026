@@ -20,7 +20,7 @@ marked.use({ renderer: { code({ text, lang }) {
   return `<pre data-language="${escape(language || 'text')}"><code class="hljs">${code}</code></pre>`;
 } } });
 
-export async function collectContent(root) {
+export async function collectContent(root, {includeQuizzes=false}={}) {
   const readme = await readFile(path.join(root, 'README.md'), 'utf8');
   const lessons = new Map();
   for (const line of readme.split(/\r?\n/)) {
@@ -47,7 +47,7 @@ export async function collectContent(root) {
       const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim() || `${type === 'theory' ? 'Lý thuyết' : 'Bài tập'} buổi ${number}`;
       const html = marked.parse(markdown);
       let quiz;
-      if(type==='theory'){
+      if(type==='theory'&&includeQuizzes){
         const quizSource=`${dir.name}/quiz.md`;
         try{quiz=parseQuiz(await readFile(path.join(root,quizSource),'utf8'),quizSource,html,`Lesson${number}/theory`);}catch(error){if(error.code!=='ENOENT')throw error;}
       }

@@ -141,7 +141,7 @@ Các bài HTML Form có chấm điểm cũng dùng editor HTML đầy đủ và 
 Code fence playground-css hỗ trợ thực hành CSS: sửa HTML và thẻ style trong cùng file index.html. Preview giữ CSS nội bộ sau khi làm sạch, cô lập bằng sandbox/CSP; không chạy JS hay tải CSS ngoài. Nội dung hướng dẫn bám selector, cascade, specificity và BEM; mã nháp tách biệt giữa các bài.
 
 ### Quy tắc thực hành hiện tại
-Tuần 1 giữ khung playground-intro. Các mục 6 và 7 trong lý thuyết tuần 2–4 đã được bỏ theo yêu cầu; các bài này hiện không có editor tương tác. Nếu cần thêm lại, dùng playground cho HTML hoặc playground-css cho HTML/CSS, tối đa một khung mỗi bài. Mã trong code fence là mẫu khởi đầu, thay đổi Markdown sẽ cập nhật website sau build/deploy.
+Trang lý thuyết tuần 1–4 chỉ giữ nội dung học: không gắn editor thực hành hoặc các mục Bài tập và Ôn tập, Thực hành cuối bài. Mã xử lý editor vẫn giữ để tham khảo nhưng không được gọi trong trang đọc hiện tại.
 
 ## Sổ tay ghi nhớ cá nhân
 
@@ -155,7 +155,7 @@ Sổ tay hiện là ghi chú do người học tự viết, theo từng tuần �
 
 ## Quiz cuối buổi từ Markdown
 
-Mỗi bài có thể thêm LessonN/quiz.md. Build tự gắn quiz vào cuối trang Lý thuyết, sau phần thực hành và trước nút hoàn thành; không cần chèn marker hay viết lại câu hỏi trong JavaScript. Bài 1 hiện có 5 câu; bài 2–4 có 20 câu mỗi bài, một đáp án đúng, không đếm giờ.
+Quiz cuối bài đã được tắt theo yêu cầu: build mặc định không đưa quiz vào content.json và trang đọc không gắn component quiz. Các file LessonN/quiz.md được giữ làm ngân hàng câu hỏi tham khảo. Công cụ kiểm tra có thể đọc chúng bằng collectContent(root, {includeQuizzes:true}); các mục dưới mô tả định dạng lưu trữ.
 
 Một câu hỏi có ID ổn định ở heading cấp 2 và đủ bốn mục như mẫu:
 
@@ -185,4 +185,4 @@ for liên kết tới id. name đặt tên dữ liệu khi gửi form.
 - Chọn đáp án rồi bấm Kiểm tra để xem đúng/sai và giải thích. Câu sai có link Ôn lại cuộn tới đúng mục lý thuyết trong cùng trang; lượt làm hiện tại được giữ. Bấm lại cùng liên kết vẫn cuộn tới mục đó.
 - Cuối quiz hiện điểm, các phần cần ôn và nút Làm lại câu sai / Làm lại tất cả. Quiz không tự đánh dấu hoàn thành tài liệu.
 - Tiến độ lưu riêng theo trình duyệt. Sửa quiz.md sẽ đổi revision và bắt đầu lượt mới; không tái sử dụng điểm của bộ câu hỏi cũ. Nếu không lưu được, quiz vẫn dùng được trong phiên.
-- Sửa Markdown rồi lưu để xem local, push để GitHub Pages cập nhật. File quiz.md thiếu/rỗng thì không hiển thị quiz.
+- Quiz hiện không xuất bản trên website, kể cả khi file quiz.md có nội dung.

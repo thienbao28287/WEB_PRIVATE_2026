@@ -55,7 +55,7 @@ test('practice workspaces follow the current lesson content',async()=>{
  const content=await collectContent(projectRoot);
  for(const number of [1,2,3,4]){
   const page=content.lessons.find(l=>l.number===number).pages.find(p=>p.type==='theory');
-  assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,number===1?1:0);
+  assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,0);
   assert.equal(page.exercises,undefined);
   const position=page.html.indexOf('data-language="playground');
   if(position>=0)assert.doesNotMatch(page.html.slice(position),/<h[1-6][ >]/);

@@ -252,7 +252,7 @@ Thuộc tính `for` của thẻ `<label>` phải trùng giá trị với thuộc
 
 ### Ôn tập
 
-[5.4. Đáp án và giải thích chi tiết](theory.md#5-4-dap-an-va-giai-thich-chi-tiet)
+[2.6. Thẻ biểu mẫu (Forms)](theory.md#2-6-the-bieu-mau-forms)
 
 ## html-cau-13
 
