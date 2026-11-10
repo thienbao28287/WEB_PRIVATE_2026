@@ -51,14 +51,14 @@ test('exercise authoring rejects duplicate IDs, missing blanks and unknown field
     copy=>{copy.groups[0].exercises[0].fields[0].target='script';},
   ]){const copy=structuredClone(data);mutate(copy);assert.throws(()=>validateExercises(copy,'Lesson2/exercises.json'),/Lesson2\/exercises.json/);}
 });
-test('each published lesson has one practice workspace at the end',async()=>{
+test('practice workspaces follow the current lesson content',async()=>{
  const content=await collectContent(projectRoot);
  for(const number of [1,2,3,4]){
   const page=content.lessons.find(l=>l.number===number).pages.find(p=>p.type==='theory');
-  assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,1);
+  assert.equal((page.html.match(/data-language="playground(?:-css|-intro)?"/g)||[]).length,number===1?1:0);
   assert.equal(page.exercises,undefined);
   const position=page.html.indexOf('data-language="playground');
-  assert.doesNotMatch(page.html.slice(position),/<h[1-6][ >]/);
+  if(position>=0)assert.doesNotMatch(page.html.slice(position),/<h[1-6][ >]/);
  }
 });
 
@@ -74,11 +74,9 @@ test('build reports missing and duplicate exercise markers with the Markdown pat
   }finally{await rm(root,{recursive:true,force:true});}
 });
 
-test('all Form exercises start from the same empty HTML document as free practice',async()=>{
- const theory=await readFile(new URL('../Lesson2/theory.md',import.meta.url),'utf8');
+test('Form exercise templates start from an empty HTML document',async()=>{
  const initial=data.groups[0].starterCode;
  assert.match(initial,/<!DOCTYPE html>/);assert.match(initial,/<body>\s*<\/body>/);
- assert.equal(theory.match(/```playground\r?\n([\s\S]*?)```/)[1].trim(),initial.trim());
  const copy=structuredClone(data);delete copy.groups[0].starterCode;
  assert.throws(()=>validateExercises(copy,'exercises.json'),/starterCode/);
 });

@@ -397,25 +397,3 @@ Sử dụng HTML và CSS (theo chuẩn BEM), hãy xây dựng một Component Th
   color: #721c24;
 }
 ```
-
-## 6. Thực hành tương tác cuối bài
-
-Dựa vào mục 5.3, tạo hai thông báo theo BEM: alert alert--success và alert alert--error. Viết CSS cho block, element và modifier; thử selector kết hợp, trạng thái hover và thứ tự cascade.
-
-Viết HTML trong body; với bài CSS, viết kiểu trong style. Bấm **Chạy code** hoặc tab **Trình duyệt** để xem kết quả. Bản nháp tự lưu trên trình duyệt; **Khôi phục** đưa code về mẫu trống. Khung này không chấm điểm tự động và chỉ chạy HTML/CSS nội bộ.
-
-```playground-css
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Thực hành CSS · Bài 3</title>
-  <style>
-    /* Viết CSS tại đây */
-  </style>
-</head>
-<body>
- 
-</body>
-</html>
-```

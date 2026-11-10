@@ -380,22 +380,3 @@ Thẻ ngữ nghĩa là các thẻ mang ý nghĩa rõ ràng về vai trò của n
   </body>
 </html>
 ```
-
-## 6. Thực hành tương tác cuối bài
-
-Dựa vào mục 5.3, tạo form đăng nhập gồm tên tài khoản, mật khẩu bắt buộc tối thiểu 8 ký tự, checkbox ghi nhớ và nút đăng nhập. Liên kết label với input bằng for/id.
-
-Viết HTML trong body; với bài CSS, viết kiểu trong style. Bấm **Chạy code** hoặc tab **Trình duyệt** để xem kết quả. Bản nháp tự lưu trên trình duyệt; **Khôi phục** đưa code về mẫu trống. Khung này không chấm điểm tự động và chỉ chạy HTML/CSS nội bộ.
-
-```playground
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Form đăng ký học Web</title>
-</head>
-<body>
- 
-</body>
-</html>
-```

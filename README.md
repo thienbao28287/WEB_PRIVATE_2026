@@ -79,7 +79,7 @@ Build tự thu nhỏ 5 minh họa trong `web/assets/` và xuất WebP có nền 
 
 ### Bài tập tương tác trong Markdown
 
-Buổi 2 có 3 bài điền code tại phần HTML Form, với kiểm tra từng ô, xem form kết quả, 2 mức gợi ý và làm lại. Tiến độ thực hành tách riêng khỏi nút hoàn thành tài liệu.
+Công cụ hỗ trợ bài tập HTML Form qua exercises.json và marker exercise. Các bài này hiện không gắn vào lý thuyết tuần 2; chỉ hiển thị khi người viết thêm marker tương ứng.
 
 Để thêm một nhóm bài, tạo `LessonN/exercises.json` theo cấu trúc mẫu trong `Lesson2/exercises.json`, rồi đặt marker tại vị trí mong muốn trong Markdown:
 
@@ -134,14 +134,14 @@ Sổ tay chỉ viết sau khi bài có lý thuyết. Mỗi lỗi cần bám mộ
 
 ### Khung thực hành HTML trực tiếp
 
-Trong phần Form của Lesson2/theory.md, code fence có ngôn ngữ playground chứa mã HTML khởi đầu. Khi lưu Markdown/build, web chuyển khối đó thành vùng Nội dung / Trình duyệt và editor index.html có số dòng. Người học sửa toàn bộ HTML, chạy bằng nút hoặc Ctrl/Command + Enter; bản xem trước tự cập nhật sau 300ms dừng gõ. Mã nháp lưu riêng theo bài và vị trí khung trong trình duyệt; Khôi phục trả về code từ Markdown. Hướng dẫn hiện tại dành cho bài HTML Form. Khung tự do không chấm điểm, ba bài điền code bên dưới vẫn lưu tiến độ riêng. Preview dùng iframe sandbox, loại script/tài nguyên mạng và chặn gửi form.
+Có thể thêm code fence ngôn ngữ playground chứa mã HTML khởi đầu vào Markdown để bật editor. Khi lưu Markdown/build, web chuyển khối đó thành vùng Nội dung / Trình duyệt và editor index.html có số dòng. Người học sửa toàn bộ HTML, chạy bằng nút hoặc Ctrl/Command + Enter; bản xem trước tự cập nhật sau 300ms dừng gõ. Mã nháp lưu riêng theo bài và vị trí khung trong trình duyệt; Khôi phục trả về code từ Markdown. Hướng dẫn được lấy từ nội dung Markdown ngay trước khung. Khung tự do không chấm điểm tự động. Preview dùng iframe sandbox, loại script/tài nguyên mạng và chặn gửi form.
 
 Các bài HTML Form có chấm điểm cũng dùng editor HTML đầy đủ và tab Nội dung/Trình duyệt. Mỗi field khai báo target (label/input) và attribute (for/id/type/required) để lấy đáp án từ DOM đã làm sạch, không so chuỗi toàn bộ code. Mỗi bài giữ một form, label và input. Mã cũ từ ô điền tự chuyển sang editor; thay đổi code sau khi đúng yêu cầu chấm lại.
 
-Bài 3 dùng code fence playground-css cho thực hành CSS: sửa HTML và thẻ style trong cùng file index.html. Preview giữ CSS nội bộ sau khi làm sạch, cô lập bằng sandbox/CSP; không chạy JS hay tải CSS ngoài. Nội dung hướng dẫn bám selector, cascade, specificity và BEM; mã nháp tách biệt giữa các bài.
+Code fence playground-css hỗ trợ thực hành CSS: sửa HTML và thẻ style trong cùng file index.html. Preview giữ CSS nội bộ sau khi làm sạch, cô lập bằng sandbox/CSP; không chạy JS hay tải CSS ngoài. Nội dung hướng dẫn bám selector, cascade, specificity và BEM; mã nháp tách biệt giữa các bài.
 
 ### Quy tắc thực hành hiện tại
-Mỗi bài lý thuyết chỉ có một khung thực hành tổng hợp ở cuối. Bài 1 dùng playground-intro (HTML và quy trình công cụ/Git), Bài 2 dùng playground (HTML Form), Bài 3 dùng playground-css (CSS). Không chèn nhóm ba bài Form nhỏ vào bài học nữa. Mã trong code fence là mẫu khởi đầu, thay đổi Markdown sẽ cập nhật website sau build/deploy.
+Tuần 1 giữ khung playground-intro. Các mục 6 và 7 trong lý thuyết tuần 2–4 đã được bỏ theo yêu cầu; các bài này hiện không có editor tương tác. Nếu cần thêm lại, dùng playground cho HTML hoặc playground-css cho HTML/CSS, tối đa một khung mỗi bài. Mã trong code fence là mẫu khởi đầu, thay đổi Markdown sẽ cập nhật website sau build/deploy.
 
 ## Sổ tay ghi nhớ cá nhân
 
