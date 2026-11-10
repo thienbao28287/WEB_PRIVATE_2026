@@ -27,7 +27,7 @@
   --header: 76px;
   --sidebar: 264px;
   --shadow: 0 12px 32px #1e293b0a;
-  --font: Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+  --font: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"
 }
 
 :root[data-theme=dark] {

@@ -6,7 +6,7 @@ Tiêu chí rà soát dựa trên hướng dẫn do người dùng cung cấp. B�
 
 ## Foundation
 
-HTML, Tailwind CSS 4 và JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, Roboto và các bề mặt sạch.
+HTML, Tailwind CSS 4 và JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, font hệ thống và các bề mặt sạch.
 
 Tailwind được biên dịch bằng PostCSS trong bước build. Entry `web/assets/styles.css` khai báo theme HIT và nguồn quét class; component dùng `@apply` trong `web/styles/components.css`, token nằm trong `web/styles/tokens.css`, keyframe trong `web/styles/motion.css`. Không bật Preflight để giữ cách trình bày Markdown, code và biểu mẫu hiện tại. Utility viết trực tiếp trong HTML/JS có thể tùy biến component; các trạng thái ẩn phải dùng `hidden`, `intro:hidden` hoặc selector tương ứng để không bị utility display ghi đè. Xem `web/styles/README.md` để tái sử dụng component.
 
@@ -32,7 +32,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Typography & spacing
 
-- Tiêu đề dùng Lora, weight 600–700; fallback Georgia/serif. Nội dung, sidebar, mục lục và nút vẫn dùng Roboto/system sans-serif. Code dùng Consolas/monospace.
+- Tiêu đề dùng Lora, weight 600–700; fallback Georgia/serif. Nội dung, sidebar, mục lục và nút vẫn dùng font hệ thống (-apple-system, Segoe UI, Noto Sans, Helvetica, Arial). Code dùng Consolas/monospace.
 - Bài đọc 1rem/1.75; h1 1.875rem (mobile 1.625rem), h2 1.4375rem, h3 1.1875rem. Giới hạn nội dung bài khoảng 72ch.
 - Navigation .875rem, chú thích .75rem. Các kích thước đọc bài mở rộng từ mẫu trang đăng nhập 12px; dùng rem để hỗ trợ phóng to chữ.
 - Spacing unit 4px: 4, 8, 12, 16, 24, 32, 40px.
@@ -75,7 +75,7 @@ Có skip link, landmark, focus-visible, aria-current, aria-pressed, nhãn ảnh,
 
 ## Course intro
 
-Intro đặt trên roadmap, dùng Lora cho tiêu đề lớn, Roboto cho nội dung, nút cam HIT và nền grid mờ. Nút bắt đầu/tiếp tục mở bài gần nhất hợp lệ hoặc bài đầu tiên. Số buổi lấy từ curriculum; không hiển thị số câu hỏi hay thời gian giả. Nội dung xuất hiện lần lượt trong 650ms, hai khối minh họa trôi nhẹ theo chu kỳ 7s; tắt animation với reduced-motion. Mobile bỏ các khối trang trí, thông tin khóa học xếp dọc. Theme tối dùng semantic surface/body/hairline của website.
+Intro đặt trên roadmap, dùng Lora cho tiêu đề lớn, font hệ thống cho nội dung, nút cam HIT và nền grid mờ. Nút bắt đầu/tiếp tục mở bài gần nhất hợp lệ hoặc bài đầu tiên. Số buổi lấy từ curriculum; không hiển thị số câu hỏi hay thời gian giả. Nội dung xuất hiện lần lượt trong 650ms, hai khối minh họa trôi nhẹ theo chu kỳ 7s; tắt animation với reduced-motion. Mobile bỏ các khối trang trí, thông tin khóa học xếp dọc. Theme tối dùng semantic surface/body/hairline của website.
 
 ## Standalone intro (updated)
 
