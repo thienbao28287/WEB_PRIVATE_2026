@@ -126,7 +126,7 @@ Trong các dự án React/TS hiện đại, lập trình viên ưa chuộng Inli
 
 ### Ôn tập
 
-[5.1. SVG vs Font Icons (Tại sao React thích SVG?)](theory.md#5-1-svg-vs-font-icons-tai-sao-react-thich-svg)
+[5.1. SVG vs Font Icons (Tại sao React thích SVG?)](theory.md#5-5-lua-chon-svg-va-font-icon)
 
 ## css-cau-07
 
@@ -147,7 +147,7 @@ Mặc định, cơ chế của Box Model là `box-sizing: content-box`, khiến 
 
 ### Ôn tập
 
-[2.1. Cơ chế tính toán kích thước Box Model](theory.md#2-1-co-che-tinh-toan-kich-thuoc-box-model)
+[2.1. Cơ chế tính toán kích thước Box Model](theory.md#3-1-co-che-tinh-toan-kich-thuoc-box-model)
 
 ## css-cau-08
 
@@ -168,7 +168,7 @@ Hàm `clamp()` của CSS hiện đại giúp chữ tự to nhỏ theo màn hình
 
 ### Ôn tập
 
-[5.3. Fluid Typography (Chữ tự động co giãn)](theory.md#5-3-fluid-typography-chu-tu-dong-co-gian)
+[5.3. Fluid Typography (Chữ tự động co giãn)](theory.md#5-7-fluid-typography-chu-tu-dong-co-gian)
 
 ## css-cau-09
 
@@ -210,7 +210,7 @@ Khi người dùng khiếm thị tăng cỡ chữ mặc định trong cài đặ
 
 ### Ôn tập
 
-[2.2. Cơ chế hoạt động của rem](theory.md#2-2-co-che-hoat-dong-cua-rem)
+[2.2. Cơ chế hoạt động của rem](theory.md#3-2-co-che-hoat-dong-cua-rem)
 
 ## css-cau-11
 
@@ -252,7 +252,7 @@ Thuộc tính này báo cho trình duyệt hiển thị chữ bằng font mặc 
 
 ### Ôn tập
 
-[5.2. Tối ưu tải Font (Font Display)](theory.md#5-2-toi-uu-tai-font-font-display)
+[5.2. Tối ưu tải Font (Font Display)](theory.md#5-6-toi-uu-tai-font-font-display)
 
 ## css-cau-13
 
@@ -273,7 +273,7 @@ SVG tối ưu hiệu năng (chỉ tải icon được dùng), dễ tùy biến m
 
 ### Ôn tập
 
-[5.1. SVG vs Font Icons (Tại sao React thích SVG?)](theory.md#5-1-svg-vs-font-icons-tai-sao-react-thich-svg)
+[5.1. SVG vs Font Icons (Tại sao React thích SVG?)](theory.md#5-5-lua-chon-svg-va-font-icon)
 
 ## css-cau-14
 
@@ -294,7 +294,7 @@ Với `border-box`, trình duyệt ép Padding và Border lùi vào bên trong c
 
 ### Ôn tập
 
-[2.1. Cơ chế tính toán kích thước Box Model](theory.md#2-1-co-che-tinh-toan-kich-thuoc-box-model)
+[2.1. Cơ chế tính toán kích thước Box Model](theory.md#3-1-co-che-tinh-toan-kich-thuoc-box-model)
 
 ## css-cau-15
 
@@ -315,7 +315,7 @@ Margin Collapse xảy ra khi hai khối trên-dưới chạm nhau, khoảng các
 
 ### Ôn tập
 
-[4.2. Margin Collapse (Sụp lún Margin)](theory.md#4-2-margin-collapse-sup-lun-margin)
+[4.2. Margin Collapse (Sụp lún Margin)](theory.md#6-2-margin-collapse-sup-lun-margin)
 
 ## css-cau-16
 
@@ -336,7 +336,7 @@ Bộ chọn `*` và các pseudo-elements của nó (`*::before`, `*::after`) đ�
 
 ### Ôn tập
 
-[Bước 1: Khởi tạo Global Styles & Thiết lập Box Model](theory.md#buoc-1-khoi-tao-global-styles-thiet-lap-box-model)
+[Bước 1: Khởi tạo Global Styles & Thiết lập Box Model](theory.md#5-1-thiet-lap-box-model-dung-chung)
 
 ## css-cau-17
 
@@ -357,7 +357,7 @@ Tổng chiều rộng = Width (200) + Padding Left (10) + Padding Right (10) + B
 
 ### Ôn tập
 
-[2.1. Cơ chế tính toán kích thước Box Model](theory.md#2-1-co-che-tinh-toan-kich-thuoc-box-model)
+[2.1. Cơ chế tính toán kích thước Box Model](theory.md#3-1-co-che-tinh-toan-kich-thuoc-box-model)
 
 ## css-cau-18
 
@@ -378,7 +378,7 @@ Giả sử trình duyệt đang có kích thước font chữ mặc định ở 
 
 ### Ôn tập
 
-[2.2. Cơ chế hoạt động của rem](theory.md#2-2-co-che-hoat-dong-cua-rem)
+[2.2. Cơ chế hoạt động của rem](theory.md#3-2-co-che-hoat-dong-cua-rem)
 
 ## css-cau-19
 
@@ -399,7 +399,7 @@ Do Margin Collapse, khoảng cách giữa hai phần tử không cộng dồn (6
 
 ### Ôn tập
 
-[4.2. Margin Collapse (Sụp lún Margin)](theory.md#4-2-margin-collapse-sup-lun-margin)
+[4.2. Margin Collapse (Sụp lún Margin)](theory.md#6-2-margin-collapse-sup-lun-margin)
 
 ## css-cau-20
 
@@ -420,4 +420,4 @@ Cú pháp của clamp là `clamp(nhỏ nhất, lý tưởng, lớn nhất)`. Fon
 
 ### Ôn tập
 
-[5.3. Fluid Typography (Chữ tự động co giãn)](theory.md#5-3-fluid-typography-chu-tu-dong-co-gian)
+[5.3. Fluid Typography (Chữ tự động co giãn)](theory.md#5-7-fluid-typography-chu-tu-dong-co-gian)

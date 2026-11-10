@@ -42,7 +42,7 @@ Selector (Bộ chọn) có ý nghĩa là xác định phần tử HTML nào sẽ
 
 ### Ôn tập
 
-[1.2. Cú pháp cơ bản](theory.md#1-2-cu-phap-co-ban)
+[1.2. Cú pháp cơ bản](theory.md#2-1-cau-truc-quy-tac-css)
 
 ## css-cau-03
 
@@ -63,7 +63,7 @@ Internal CSS là cách viết bên trong thẻ `<style>` đặt ở phần `<hea
 
 ### Ôn tập
 
-[1.3. Các cách thêm CSS vào HTML](theory.md#1-3-cac-cach-them-css-vao-html)
+[1.3. Các cách thêm CSS vào HTML](theory.md#2-2-cac-cach-them-css-vao-html)
 
 ## css-cau-04
 
@@ -84,7 +84,7 @@ ID Selector (Chọn theo ID) sử dụng dấu thăng (`#`). Ví dụ: `#intro`.
 
 ### Ôn tập
 
-[2.1. DOM Selectors (Bộ chọn cơ bản)](theory.md#2-1-dom-selectors-bo-chon-co-ban)
+[2.1. DOM Selectors (Bộ chọn cơ bản)](theory.md#5-1-dom-selectors-bo-chon-co-ban)
 
 ## css-cau-05
 
@@ -105,7 +105,7 @@ Pseudo-element (Bộ chọn giả phần tử) `::before` có chức năng gì?
 
 ### Ôn tập
 
-[2.2. Pseudo Selectors (Bộ chọn giả)](theory.md#2-2-pseudo-selectors-bo-chon-gia)
+[2.2. Pseudo Selectors (Bộ chọn giả)](theory.md#5-2-pseudo-selectors-bo-chon-gia)
 
 ## css-cau-06
 
@@ -126,7 +126,7 @@ Thuộc tính CSS nào sau đây được dùng để bo tròn các góc của p
 
 ### Ôn tập
 
-[2.4. Các thuộc tính CSS giao diện cơ bản](theory.md#2-4-cac-thuoc-tinh-css-giao-dien-co-ban)
+[2.4. Các thuộc tính CSS giao diện cơ bản](theory.md#5-4-cac-thuoc-tinh-css-giao-dien-co-ban)
 
 ## css-cau-07
 
@@ -147,7 +147,7 @@ Trong trình tự ưu tiên của cơ chế Cascade, khai báo có `!important` 
 
 ### Ôn tập
 
-[4.1. Cơ chế Cascade (Xếp tầng)](theory.md#4-1-co-che-cascade-xep-tang)
+[4.1. Cơ chế Cascade (Xếp tầng)](theory.md#3-2-co-che-cascade-xep-tang)
 
 ## css-cau-08
 
@@ -168,7 +168,7 @@ BEM là viết tắt của Block - Element - Modifier, là quy ước đặt tê
 
 ### Ôn tập
 
-[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#4-3-quy-uoc-dat-ten-bem-block-element-modifier)
+[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#5-5-quy-uoc-dat-ten-bem-block-element-modifier)
 
 ## css-cau-09
 
@@ -189,7 +189,7 @@ External CSS viết vào file `.css` riêng biệt, liên kết bằng `<link>`,
 
 ### Ôn tập
 
-[1.3. Các cách thêm CSS vào HTML](theory.md#1-3-cac-cach-them-css-vao-html)
+[1.3. Các cách thêm CSS vào HTML](theory.md#2-2-cac-cach-them-css-vao-html)
 
 ## css-cau-10
 
@@ -210,7 +210,7 @@ Descendant (Khoảng trắng) chọn tất cả các phần tử nằm trong ph�
 
 ### Ôn tập
 
-[2.3. Combinators (Bộ chọn kết hợp)](theory.md#2-3-combinators-bo-chon-ket-hop)
+[2.3. Combinators (Bộ chọn kết hợp)](theory.md#5-3-combinators-bo-chon-ket-hop)
 
 ## css-cau-11
 
@@ -231,7 +231,7 @@ Một phần tử được thiết lập thuộc tính `display: block` sẽ có
 
 ### Ôn tập
 
-[2.4. Các thuộc tính CSS giao diện cơ bản](theory.md#2-4-cac-thuoc-tinh-css-giao-dien-co-ban)
+[2.4. Các thuộc tính CSS giao diện cơ bản](theory.md#5-4-cac-thuoc-tinh-css-giao-dien-co-ban)
 
 ## css-cau-12
 
@@ -252,7 +252,7 @@ Viết liền nhau không có khoảng trắng là để nhắm tới phần t�
 
 ### Ôn tập
 
-[3.1. Lỗi viết sai Selector nhóm và Class kết hợp](theory.md#3-1-loi-viet-sai-selector-nhom-va-class-ket-hop)
+[3.1. Lỗi viết sai Selector nhóm và Class kết hợp](theory.md#6-1-loi-viet-sai-selector-nhom-va-class-ket-hop)
 
 ## css-cau-13
 
@@ -273,7 +273,7 @@ Khi sử dụng `::before` hoặc `::after`, nếu thiếu thuộc tính `conten
 
 ### Ôn tập
 
-[3.2. Quên thuộc tính content ở Pseudo-element](theory.md#3-2-quen-thuoc-tinh-content-o-pseudo-element)
+[3.2. Quên thuộc tính content ở Pseudo-element](theory.md#6-2-quen-thuoc-tinh-content-o-pseudo-element)
 
 ## css-cau-14
 
@@ -294,7 +294,7 @@ Yếu tố Source Order (Thứ tự mã nguồn): Nếu 2 yếu tố Importance 
 
 ### Ôn tập
 
-[4.1. Cơ chế Cascade (Xếp tầng)](theory.md#4-1-co-che-cascade-xep-tang)
+[4.1. Cơ chế Cascade (Xếp tầng)](theory.md#3-2-co-che-cascade-xep-tang)
 
 ## css-cau-15
 
@@ -315,7 +315,7 @@ So sánh từ trái sang phải theo 3 cột (A, B, C): ID mạnh hơn Class, Cl
 
 ### Ôn tập
 
-[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#4-2-tinh-toan-specificity-do-uu-tien-cua-selector)
+[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#3-3-tinh-toan-specificity-do-uu-tien-cua-selector)
 
 ## css-cau-16
 
@@ -336,7 +336,7 @@ BEM giúp tên class nói lên rõ vai trò của phần tử, có điểm Speci
 
 ### Ôn tập
 
-[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#4-3-quy-uoc-dat-ten-bem-block-element-modifier)
+[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#5-5-quy-uoc-dat-ten-bem-block-element-modifier)
 
 ## css-cau-17
 
@@ -371,7 +371,7 @@ Bộ chọn Child (`>`) chỉ nhắm tới thẻ `p` là con trực tiếp của
 
 ### Ôn tập
 
-[2.3. Combinators (Bộ chọn kết hợp)](theory.md#2-3-combinators-bo-chon-ket-hop)
+[2.3. Combinators (Bộ chọn kết hợp)](theory.md#5-3-combinators-bo-chon-ket-hop)
 
 ## css-cau-18
 
@@ -399,7 +399,7 @@ Selector `p` có điểm là `(0, 0, 1)`. Selector `.text` có điểm `(0, 1, 0
 
 ### Ôn tập
 
-[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#4-2-tinh-toan-specificity-do-uu-tien-cua-selector)
+[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#3-3-tinh-toan-specificity-do-uu-tien-cua-selector)
 
 ## css-cau-19
 
@@ -420,7 +420,7 @@ Bộ chọn `#main .card p` bao gồm: 1 ID (`#main`), 1 Class (`.card`), và 1 
 
 ### Ôn tập
 
-[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#4-2-tinh-toan-specificity-do-uu-tien-cua-selector)
+[4.2. Tính toán Specificity (Độ ưu tiên của Selector)](theory.md#3-3-tinh-toan-specificity-do-uu-tien-cua-selector)
 
 ## css-cau-20
 
@@ -441,4 +441,4 @@ Theo cấu trúc BEM, Modifier (Biến thể/trạng thái) được ngăn cách
 
 ### Ôn tập
 
-[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#4-3-quy-uoc-dat-ten-bem-block-element-modifier)
+[4.3. Quy ước đặt tên BEM (Block - Element - Modifier)](theory.md#5-5-quy-uoc-dat-ten-bem-block-element-modifier)

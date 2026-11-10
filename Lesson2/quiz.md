@@ -42,7 +42,7 @@ Một phần tử HTML tiêu chuẩn được cấu tạo bởi 3 thành phần 
 
 ### Ôn tập
 
-[1.2. Cú pháp cơ bản của HTML](theory.md#1-2-cu-phap-co-ban-cua-html)
+[1.2. Cú pháp cơ bản của HTML](theory.md#2-1-the-noi-dung-va-thuoc-tinh)
 
 ## html-cau-03
 
@@ -63,7 +63,7 @@ Thẻ tự đóng là thẻ không có nội dung bên trong nên không cần t
 
 ### Ôn tập
 
-[1.2. Cú pháp cơ bản của HTML](theory.md#1-2-cu-phap-co-ban-cua-html)
+[1.2. Cú pháp cơ bản của HTML](theory.md#2-1-the-noi-dung-va-thuoc-tinh)
 
 ## html-cau-04
 
@@ -84,7 +84,7 @@ Khai báo `<!DOCTYPE html>` ở đầu file HTML có tác dụng gì?
 
 ### Ôn tập
 
-[2.1. Cấu trúc cơ bản của một file HTML](theory.md#2-1-cau-truc-co-ban-cua-mot-file-html)
+[2.1. Cấu trúc cơ bản của một file HTML](theory.md#2-2-cau-truc-co-ban-cua-mot-file-html)
 
 ## html-cau-05
 
@@ -105,7 +105,7 @@ Thẻ `<ol>` được sử dụng để tạo danh sách có thứ tự (đánh 
 
 ### Ôn tập
 
-[2.4. Thẻ danh sách (Lists)](theory.md#2-4-the-danh-sach-lists)
+[2.4. Thẻ danh sách (Lists)](theory.md#5-3-the-danh-sach-lists)
 
 ## html-cau-06
 
@@ -126,7 +126,7 @@ Thẻ `<a>` bắt buộc cần thuộc tính `href` để chỉ định đườn
 
 ### Ôn tập
 
-[2.3. Thẻ liên kết và Hình ảnh](theory.md#2-3-the-lien-ket-va-hinh-anh)
+[2.3. Thẻ liên kết và Hình ảnh](theory.md#5-2-the-lien-ket-va-hinh-anh)
 
 ## html-cau-07
 
@@ -147,7 +147,7 @@ JavaScript được đặt trong thẻ `<script>` ngay trước thẻ đóng `</
 
 ### Ôn tập
 
-[2.7. Nhúng CSS và JavaScript](theory.md#2-7-nhung-css-va-javascript)
+[2.7. Nhúng CSS và JavaScript](theory.md#5-6-nhung-css-va-javascript)
 
 ## html-cau-08
 
@@ -168,7 +168,7 @@ Thẻ `<aside>` đại diện cho phần nội dung phụ trợ (ví dụ: thanh
 
 ### Ôn tập
 
-[4.2. Thẻ ngữ nghĩa (Semantic HTML)](theory.md#4-2-the-ngu-nghia-semantic-html)
+[4.2. Thẻ ngữ nghĩa (Semantic HTML)](theory.md#5-7-the-ngu-nghia-semantic-html)
 
 ## html-cau-09
 
@@ -210,7 +210,7 @@ Thẻ `<head>` chứa siêu dữ liệu, tiêu đề trang, liên kết CSS và 
 
 ### Ôn tập
 
-[2.1. Cấu trúc cơ bản của một file HTML](theory.md#2-1-cau-truc-co-ban-cua-mot-file-html)
+[2.1. Cấu trúc cơ bản của một file HTML](theory.md#2-2-cau-truc-co-ban-cua-mot-file-html)
 
 ## html-cau-11
 
@@ -231,7 +231,7 @@ Thiếu `alt` làm giảm khả năng tiếp cận (Accessibility) đối với 
 
 ### Ôn tập
 
-[3.3. Bỏ qua thuộc tính alt trong thẻ hình ảnh](theory.md#3-3-bo-qua-thuoc-tinh-alt-trong-the-hinh-anh)
+[3.3. Bỏ qua thuộc tính alt trong thẻ hình ảnh](theory.md#6-3-bo-qua-thuoc-tinh-alt-trong-the-hinh-anh)
 
 ## html-cau-12
 
@@ -252,7 +252,7 @@ Thuộc tính `for` của thẻ `<label>` phải trùng giá trị với thuộc
 
 ### Ôn tập
 
-[2.6. Thẻ biểu mẫu (Forms)](theory.md#2-6-the-bieu-mau-forms)
+[2.6. Thẻ biểu mẫu (Forms)](theory.md#5-5-the-bieu-mau-forms)
 
 ## html-cau-13
 
@@ -273,7 +273,7 @@ Phần tử Inline nằm cùng dòng với nội dung xung quanh, chỉ chiếm 
 
 ### Ôn tập
 
-[4.1. Phân biệt phần tử Block và Inline](theory.md#4-1-phan-biet-phan-tu-block-va-inline)
+[4.1. Phân biệt phần tử Block và Inline](theory.md#3-2-phan-biet-phan-tu-block-va-inline)
 
 ## html-cau-14
 
@@ -294,7 +294,7 @@ Thẻ ngữ nghĩa mang ý nghĩa rõ ràng về vai trò nội dung, giúp code
 
 ### Ôn tập
 
-[4.2. Thẻ ngữ nghĩa (Semantic HTML)](theory.md#4-2-the-ngu-nghia-semantic-html)
+[4.2. Thẻ ngữ nghĩa (Semantic HTML)](theory.md#5-7-the-ngu-nghia-semantic-html)
 
 ## html-cau-15
 
@@ -315,7 +315,7 @@ Clean Code trong HTML khuyên dùng chữ in thường (lowercase) cho tất c�
 
 ### Ôn tập
 
-[4.3. Clean Code trong HTML](theory.md#4-3-clean-code-trong-html)
+[4.3. Clean Code trong HTML](theory.md#5-8-clean-code-trong-html)
 
 ## html-cau-16
 
@@ -336,7 +336,7 @@ JavaScript nên được đặt trong thẻ `<script>` ngay trước thẻ đón
 
 ### Ôn tập
 
-[2.7. Nhúng CSS và JavaScript](theory.md#2-7-nhung-css-va-javascript)
+[2.7. Nhúng CSS và JavaScript](theory.md#5-6-nhung-css-va-javascript)
 
 ## html-cau-17
 
@@ -357,7 +357,7 @@ Thẻ dạng Inline (như `<span>`) không được phép chứa thẻ dạng Bl
 
 ### Ôn tập
 
-[3.2. Lồng các thẻ Khối (Block) và Nội tuyến (Inline) sai quy tắc](theory.md#3-2-long-cac-the-khoi-block-va-noi-tuyen-inline-sai-quy-tac)
+[3.2. Lồng các thẻ Khối (Block) và Nội tuyến (Inline) sai quy tắc](theory.md#6-2-long-cac-the-khoi-block-va-noi-tuyen-inline-sai-quy-tac)
 
 ## html-cau-18
 
@@ -378,7 +378,7 @@ Theo cấu trúc mã Form, thẻ `<select>` kết hợp với các thẻ `<optio
 
 ### Ôn tập
 
-[2.6. Thẻ biểu mẫu (Forms)](theory.md#2-6-the-bieu-mau-forms)
+[2.6. Thẻ biểu mẫu (Forms)](theory.md#5-5-the-bieu-mau-forms)
 
 ## html-cau-19
 
@@ -399,7 +399,7 @@ Thẻ `<tr>` tạo ra 1 hàng, bên trong chứa thẻ `<td>` tạo ra 1 ô dữ
 
 ### Ôn tập
 
-[2.5. Thẻ bảng (Tables)](theory.md#2-5-the-bang-tables)
+[2.5. Thẻ bảng (Tables)](theory.md#5-4-the-bang-tables)
 
 ## html-cau-20
 
@@ -420,4 +420,4 @@ Trình duyệt sẽ hiển thị sai lệch toàn bộ cấu trúc phần dướ
 
 ### Ôn tập
 
-[3.1. Quên thẻ đóng hoặc viết sai cú pháp](theory.md#3-1-quen-the-dong-hoac-viet-sai-cu-phap)
+[3.1. Quên thẻ đóng hoặc viết sai cú pháp](theory.md#6-1-quen-the-dong-hoac-viet-sai-cu-phap)

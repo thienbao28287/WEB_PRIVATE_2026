@@ -141,7 +141,7 @@ Các bài HTML Form có chấm điểm cũng dùng editor HTML đầy đủ và 
 Code fence playground-css hỗ trợ thực hành CSS: sửa HTML và thẻ style trong cùng file index.html. Preview giữ CSS nội bộ sau khi làm sạch, cô lập bằng sandbox/CSP; không chạy JS hay tải CSS ngoài. Nội dung hướng dẫn bám selector, cascade, specificity và BEM; mã nháp tách biệt giữa các bài.
 
 ### Quy tắc thực hành hiện tại
-Trang lý thuyết tuần 1–4 chỉ giữ nội dung học: không gắn editor thực hành hoặc các mục Bài tập và Ôn tập, Thực hành cuối bài. Mã xử lý editor vẫn giữ để tham khảo nhưng không được gọi trong trang đọc hiện tại.
+Mỗi file `LessonN/theory.md` gồm: tên chủ đề, Mục tiêu (kèm kiến thức cần biết trước), 1. Khái niệm và mục đích, 2. Cú pháp cơ bản, 3. Cách hoạt động, 4. Ví dụ minh họa (Yêu cầu, Code, Giải thích và kết quả), 5. Các trường hợp thường dùng, 6. Lỗi thường gặp và lưu ý, 7. Tóm tắt, 8. Bài tập thực hành, Tài liệu tham khảo. Bài tập trong lý thuyết là yêu cầu ngắn bằng Markdown; bài tập chi tiết vẫn ở `homework.md`. Không gắn editor tương tác trong lý thuyết tuần 1–4. Khi đổi heading, cập nhật liên kết ôn tập tương ứng trong `quiz.md`.
 
 ## Sổ tay ghi nhớ cá nhân
 

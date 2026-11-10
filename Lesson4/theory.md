@@ -1,6 +1,16 @@
-# TÀI LIỆU HỌC TẬP: BOX MODEL, ĐƠN VỊ CSS, TYPOGRAPHY VÀ TÀI NGUYÊN (FONTS & ICONS)
+# Buổi 4: Box Model, đơn vị CSS, typography, font và icon
 
-## 1. Tổng quan và Lý thuyết
+## Mục tiêu
+
+Sau bài này, bạn có thể:
+
+- Tính kích thước với `content-box` và `border-box`.
+- Chọn đơn vị CSS và định dạng văn bản dễ đọc.
+- Nhúng font, dùng SVG và nhận biết lỗi khoảng cách.
+
+**Kiến thức cần biết trước:** Biết HTML, selector và cách nhúng CSS (buổi 2–3).
+
+## 1. Khái niệm và mục đích
 
 ### 1.1. Box Model là gì?
 
@@ -18,8 +28,8 @@ CSS cung cấp nhiều đơn vị đo lường để xác định kích thước
 - **Đơn vị tuyệt đối (Absolute):** Kích thước cố định, không thay đổi theo môi trường (VD: `px` - pixel).
 - **Đơn vị tương đối (Relative):** Kích thước thay đổi dựa trên một yếu tố khác (phần tử cha, kích thước màn hình).
   - `rem`: Tương đối theo font-size của thẻ gốc `<html>` (root).
-  - `em`: Tương đối theo font-size của chính phần tử đó hoặc phần tử cha gần nhất.
-  - `%`: Tương đối theo kích thước (width/height) của phần tử cha.
+  - `em`: Với `font-size`, tính theo cỡ chữ kế thừa từ cha; với padding, tính theo cỡ chữ của chính phần tử.
+  - `%`: Mốc tham chiếu tùy thuộc tính; `width` theo chiều rộng khối chứa, `font-size` theo cỡ chữ của cha.
   - `vh`, `vw`: Tương đối theo 1% chiều cao (viewport height) hoặc chiều rộng (viewport width) của cửa sổ trình duyệt.
 
 ### 1.3. Typography (Nghệ thuật sắp chữ)
@@ -37,11 +47,26 @@ Typography trong CSS là tập hợp các thuộc tính dùng để định dạ
 - **Fonts:** Sử dụng các dịch vụ như Google Fonts để tải các phông chữ đẹp thay vì chỉ dùng phông chữ mặc định của hệ điều hành.
 - **Icons:** Sử dụng thư viện icon (như FontAwesome) hoặc file ảnh Vector (SVG) để hiển thị các biểu tượng (nút search, giỏ hàng...) giúp UI trực quan hơn.
 
----
+## 2. Cú pháp cơ bản
 
-## 2. Cơ chế hoạt động
+```css
+.card {
+  box-sizing: border-box;
+  width: 300px;
+  padding: 20px;
+  border: 5px solid black;
+  margin: 16px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+```
 
-### 2.1. Cơ chế tính toán kích thước Box Model
+`width` đặt chiều rộng, vùng được tính phụ thuộc `box-sizing`. `padding` tạo khoảng đệm bên trong viền; `margin` tạo lề bên ngoài. `border` ghép độ dày, kiểu và màu. `font-family` có font ưu tiên và dự phòng; `line-height: 1.6` bằng 1,6 lần cỡ chữ.
+
+## 3. Cách hoạt động
+
+### 3.1. Cơ chế tính toán kích thước Box Model
 
 Mặc định, thuộc tính `width` và `height` trong CSS **chỉ áp dụng cho vùng Content**. Điều này dẫn đến cơ chế cộng dồn kích thước rất dễ gây vỡ Layout.
 
@@ -56,20 +81,60 @@ Mặc định, thuộc tính `width` và `height` trong CSS **chỉ áp dụng c
 - **Cơ chế hiện đại (`box-sizing: border-box`):**
   Trình duyệt sẽ tự động ép Padding và Border lùi vào bên trong. Tổng chiều rộng thực tế vẫn được giữ nguyên là **300px**. (Content sẽ tự động nhỏ lại còn 250px).
 
-### 2.2. Cơ chế hoạt động của `rem`
+### 3.2. Cơ chế hoạt động của `rem`
 
-Mặc định, trình duyệt thiết lập kích thước chữ của thẻ `<html>` là `16px`.
+Cỡ chữ gốc thường là `16px` nếu người dùng và stylesheet chưa thay đổi.
 
 - Nếu bạn set `font-size: 2rem` -> Kích thước thực tế = 2 \* 16px = `32px`.
-- Khi người dùng vào cài đặt trình duyệt tăng cỡ chữ mặc định lên `20px` (để dễ nhìn hơn), thẻ dùng `2rem` sẽ tự động tăng thành `40px`, đảm bảo tính trợ năng (Accessibility). Đơn vị `px` không làm được điều này.
+- Nếu stylesheet giữ cỡ chữ gốc theo mặc định trình duyệt, tăng mặc định từ `16px` lên `20px` sẽ khiến `2rem` tăng từ `32px` lên `40px`. Cố định cỡ chữ gốc bằng `px` làm mất sự phụ thuộc này. Zoom trang vẫn phóng to cả chữ dùng `px`.
 
----
+## 4. Ví dụ minh họa
 
-## 3. Hướng dẫn triển khai
+### Yêu cầu
 
-Dưới đây là một quy trình chuẩn để thiết lập Layout, Typography và Tài nguyên cho một dự án.
+Tạo thẻ rộng tối đa 300px, có padding và viền nhưng không vượt chiều rộng đã đặt.
 
-### Bước 1: Khởi tạo Global Styles & Thiết lập Box Model
+### Code
+
+Lưu thành `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thẻ giới thiệu</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; line-height: 1.6; }
+    .card {
+      width: 300px;
+      max-width: 100%;
+      padding: 20px;
+      border: 5px solid black;
+      margin: 24px auto;
+    }
+    .card__title { margin: 0 0 16px; font-size: 1.5rem; }
+    .card__desc { margin: 0; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <article class="card">
+    <h1 class="card__title">Nguyễn An</h1>
+    <p class="card__desc">Thành viên lớp Web HIT.</p>
+  </article>
+</body>
+</html>
+```
+
+### Giải thích và kết quả
+
+Khi đủ chỗ, chiều rộng gồm content, padding và border là 300px. Vùng content rộng `300 − 2 × 20 − 2 × 5 = 250px`; margin nằm ngoài. Khi vùng chứa hẹp hơn, `max-width: 100%` giới hạn thẻ. Nếu cỡ chữ gốc là 16px, tiêu đề `1.5rem` tương ứng 24px.
+
+## 5. Các trường hợp thường dùng
+
+### 5.1. Thiết lập Box Model dùng chung
 
 Luôn luôn bắt đầu file CSS của bạn với đoạn code Reset CSS này để thống nhất cơ chế `border-box` cho mọi phần tử.
 
@@ -84,12 +149,12 @@ Luôn luôn bắt đầu file CSS của bạn với đoạn code Reset CSS này 
 }
 
 html {
-  /* Đặt cơ sở để dùng rem. Mặc định 1rem = 16px */
-  font-size: 16px;
+  /* Theo cỡ chữ người dùng chọn; thường 1rem = 16px */
+  font-size: 100%;
 }
 ```
 
-### Bước 2: Nhúng Google Fonts
+### 5.2. Nhúng Google Fonts
 
 Truy cập Google Fonts, chọn phông chữ (VD: Roboto) và nhúng vào file HTML.
 
@@ -113,7 +178,7 @@ body {
 }
 ```
 
-### Bước 3: Sử dụng đơn vị tương đối và Typography
+### 5.3. Sử dụng đơn vị tương đối và typography
 
 Thay vì dùng `px`, hãy tập thói quen dùng `rem` cho kích thước chữ và khoảng cách.
 
@@ -140,7 +205,7 @@ Thay vì dùng `px`, hãy tập thói quen dùng `rem` cho kích thước chữ 
 }
 ```
 
-### Bước 4: Nhúng và sử dụng Icon (SVG)
+### 5.4. Nhúng và sử dụng icon SVG
 
 Trong các dự án hiện đại (đặc biệt khi code ReactJS sau này), sử dụng trực tiếp mã `<svg>` được ưu tiên hơn vì không phải tải thêm toàn bộ thư viện font icon cồng kềnh.
 
@@ -176,36 +241,7 @@ Trong các dự án hiện đại (đặc biệt khi code ReactJS sau này), s�
 }
 ```
 
----
-
-## 4. Các lỗi thường gặp
-
-### 4.1. Vỡ giao diện do quên thiết lập `border-box`
-
-Đây là lỗi kinh điển nhất của người mới học. Set khối rộng 50%, sau đó thêm `padding`, kết quả khối chiếm hơn 50% màn hình và đẩy khối khác rớt dòng.
-
-❌ **Nguyên nhân:** Dùng `box-sizing` mặc định (content-box).
-✅ **Khắc phục:** Luôn khai báo đoạn code Reset CSS bằng thẻ `*` (đã cung cấp ở Bước 1).
-
-### 4.2. Margin Collapse (Sụp lún Margin)
-
-Khi hai khối trên-dưới chạm nhau, nếu khối trên có `margin-bottom: 30px` và khối dưới có `margin-top: 20px`, khoảng cách thực tế giữa chúng **không phải là 50px**, mà bị gộp lại lấy giá trị lớn hơn (là **30px**).
-
-❌ **Hiểu sai:** Nghĩ rằng margin sẽ cộng dồn.
-✅ **Khắc phục:** Nên thống nhất chỉ dùng margin một chiều (ví dụ: luôn dùng `margin-bottom` để tạo khoảng cách giữa các phần tử) để tránh nhầm lẫn.
-
-### 4.3. Dùng `px` cho `font-size` làm mất tính trợ năng (Accessibility)
-
-Người dùng khiếm thị thường cài đặt cỡ chữ hệ thống lớn hơn. Nếu bạn set cứng `font-size: 14px`, text sẽ không thể tự phóng to.
-
-❌ **Code sai:** `.text { font-size: 14px; }`
-✅ **Code đúng:** `.text { font-size: 0.875rem; }` (Tính bằng 14 / 16 = 0.875).
-
----
-
-## 5. Kiến thức nâng cao (Chuẩn bị cho ReactJS)
-
-### 5.1. SVG vs Font Icons (Tại sao React thích SVG?)
+### 5.5. Lựa chọn SVG và font icon
 
 Trong quá khứ, FontAwesome (dùng thẻ `<i class="fas fa-home"></i>`) rất thịnh hành. Tuy nhiên, ở các dự án React/TS hiện đại, lập trình viên ưa chuộng **Inline SVG** (sử dụng thư viện như `lucide-react` hoặc `react-icons`) bởi vì:
 
@@ -213,11 +249,11 @@ Trong quá khứ, FontAwesome (dùng thẻ `<i class="fas fa-home"></i>`) rất 
 - **Tùy biến dễ dàng:** Có thể đổi màu SVG trực tiếp bằng thuộc tính CSS `color` hoặc `fill` kế thừa từ text.
 - **Không bị chớp nháy (FOIT):** SVG render cùng lúc với HTML, không bị delay như việc chờ tải file font từ server.
 
-### 5.2. Tối ưu tải Font (Font Display)
+### 5.6. Tối ưu tải font (Font Display)
 
 Khi nhúng Google Fonts, luôn đảm bảo URL có tham số `&display=swap`. Điều này báo cho trình duyệt: _Hãy hiển thị chữ bằng font mặc định trước, khi nào tải xong font Google thì mới tráo đổi (swap) sang._ Giúp người dùng không phải nhìn thấy "màn hình trống rỗng" lúc mạng chậm.
 
-### 5.3. Fluid Typography (Chữ tự động co giãn)
+### 5.7. Fluid Typography (Chữ tự động co giãn)
 
 Sử dụng hàm `clamp()` của CSS hiện đại để chữ tự to nhỏ theo màn hình mà không cần viết quá nhiều Media Queries:
 
@@ -230,4 +266,51 @@ h1 {
 
 _Giải thích:_ Font size sẽ thay đổi theo 5% chiều rộng màn hình, nhưng không bao giờ nhỏ hơn `1.5rem` và không lớn quá `3rem`.
 
----
+## 6. Lỗi thường gặp và lưu ý
+
+### 6.1. Vỡ giao diện do quên thiết lập `border-box`
+
+Đây là lỗi kinh điển nhất của người mới học. Set khối rộng 50%, sau đó thêm `padding`, kết quả khối chiếm hơn 50% màn hình và đẩy khối khác rớt dòng.
+
+❌ **Nguyên nhân:** Dùng `box-sizing` mặc định (content-box).
+✅ **Khắc phục:** Luôn khai báo đoạn code Reset CSS bằng thẻ `*` (đã cung cấp ở mục 5.1).
+
+### 6.2. Margin Collapse (Sụp lún Margin)
+
+Trong luồng block thông thường, khi các margin dọc liền kề đủ điều kiện gộp và đều không âm, nếu khối trên có `margin-bottom: 30px` và khối dưới có `margin-top: 20px`, khoảng cách thực tế giữa chúng **không phải là 50px**, mà bị gộp lại lấy giá trị lớn hơn (là **30px**).
+
+❌ **Hiểu sai:** Nghĩ rằng margin sẽ cộng dồn.
+✅ **Khắc phục:** Nên thống nhất chỉ dùng margin một chiều (ví dụ: luôn dùng `margin-bottom` để tạo khoảng cách giữa các phần tử) để tránh nhầm lẫn.
+
+### 6.3. Cỡ chữ không theo thiết lập mặc định của người dùng
+
+**Biểu hiện:** Chữ dùng `px` không đổi theo cỡ chữ mặc định trình duyệt.
+
+**Nguyên nhân:** Kích thước cố định không phụ thuộc cỡ chữ gốc. Zoom trang vẫn phóng to chữ dùng `px`.
+
+**Cách sửa:** Dùng `rem` và giữ cỡ chữ gốc theo thiết lập trình duyệt.
+
+**Kích thước cố định:** `.text { font-size: 14px; }`
+**Theo cỡ chữ gốc:** `.text { font-size: 0.875rem; }` (Tính bằng 14 / 16 = 0.875).
+
+## 7. Tóm tắt
+
+- Box Model gồm content, padding, border và margin.
+- `border-box` tính padding và border trong kích thước khai báo; margin ở ngoài.
+- `rem` dựa vào cỡ chữ gốc; chọn đơn vị theo đại lượng cần đo.
+- Khai báo font dự phòng và kiểm tra khi font ngoài chưa tải.
+
+## 8. Bài tập thực hành
+
+1. Tạo thẻ giới thiệu với tiêu đề, mô tả và nút có SVG.
+2. Đặt `width: 320px`, `padding: 24px`, `border: 2px solid`; so sánh `content-box` và `border-box`.
+3. Dùng `rem` cho cỡ chữ và `line-height` không đơn vị.
+4. Giữ cỡ chữ gốc theo mặc định trình duyệt, sau đó tăng mặc định và quan sát.
+
+**Tiêu chí hoàn thành:** Khi đủ chỗ, `border-box` tạo chiều rộng ngoài viền 320px, vùng content 268px; giải thích được cách tính và chữ vẫn dễ đọc khi tăng cỡ mặc định.
+
+## Tài liệu tham khảo
+
+- [MDN: Box Model](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model)
+- [MDN: Đơn vị độ dài CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/length)
+- [Google Fonts](https://fonts.google.com/)

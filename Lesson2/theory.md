@@ -1,6 +1,16 @@
-# BUỔI 2: HTML CƠ BẢN
+# Buổi 2: HTML cơ bản
 
-## 1. Tổng quan và Lý thuyết
+## Mục tiêu
+
+Sau bài này, bạn có thể:
+
+- Viết cấu trúc HTML và giải thích thẻ, thuộc tính.
+- Sử dụng văn bản, ảnh, liên kết, danh sách, bảng và biểu mẫu.
+- Chọn thẻ ngữ nghĩa và nhận biết lỗi lồng thẻ.
+
+**Kiến thức cần biết trước:** Đã chuẩn bị trình soạn thảo và biết mở file HTML (buổi 1).
+
+## 1. Khái niệm và mục đích
 
 ### 1.1. HTML là gì?
 
@@ -9,7 +19,15 @@
 
 > Lưu ý: Nói một cách đơn giản, nếu ví website như một ngôi nhà, thì HTML chính là bộ khung xương, nền móng và các bức tường.
 
-### 1.2. Cú pháp cơ bản của HTML
+### 1.2. Viết HTML ở đâu?
+
+- Mã HTML là văn bản thuần túy (plain text), có thể viết bằng bất kỳ trình soạn thảo nào (Notepad, Visual Studio Code...).
+- Tệp cần được lưu với phần mở rộng là `.html` (ví dụ: `index.html`).
+- Mã HTML được đọc và hiển thị (render) bởi các trình duyệt web (Chrome, Edge, Safari...).
+
+## 2. Cú pháp cơ bản
+
+### 2.1. Thẻ, nội dung và thuộc tính
 
 Một phần tử (element) HTML tiêu chuẩn được cấu tạo bởi 3 thành phần chính:
 
@@ -24,21 +42,9 @@ Cú pháp tổng quát:
 ```
 
 - **Thuộc tính (Attributes):** Cung cấp thông tin bổ sung cho thẻ, luôn nằm ở thẻ mở.
-- **Thẻ tự đóng (Self-closing tags):** Một số thẻ không có nội dung bên trong nên không cần thẻ đóng, ví dụ: `<img>`, `<br>`, `<hr>`.
+- **Phần tử rỗng (void elements):** Các phần tử như `<img>`, `<br>`, `<hr>` không chứa nội dung và không có thẻ đóng. Dấu `/` cuối thẻ không tạo cơ chế tự đóng trong HTML.
 
-### 1.3. Viết HTML ở đâu?
-
-- Mã HTML là văn bản thuần túy (plain text), có thể viết bằng bất kỳ trình soạn thảo nào (Notepad, Visual Studio Code...).
-- Tệp cần được lưu với phần mở rộng là `.html` (ví dụ: `index.html`).
-- Mã HTML được đọc và hiển thị (render) bởi các trình duyệt web (Chrome, Edge, Safari...).
-
----
-
-## 2. Hướng dẫn triển khai
-
-Phần này hướng dẫn bạn cách xây dựng cấu trúc HTML từ trắng đến khi hoàn thiện các thành phần cơ bản.
-
-### 2.1. Cấu trúc cơ bản của một file HTML
+### 2.2. Cấu trúc cơ bản của một file HTML
 
 Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau:
 
@@ -66,7 +72,70 @@ Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau
 - `<title>`: Tiêu đề trang web, hiển thị trên tab của trình duyệt.
 - `<body>`: Chứa toàn bộ nội dung hiển thị cho người dùng xem (văn bản, hình ảnh, video...).
 
-### 2.2. Các thẻ định dạng văn bản
+## 3. Cách hoạt động
+
+### 3.1. Từ HTML đến trang hiển thị
+
+Trình duyệt phân tích HTML thành cây DOM theo quan hệ cha–con. Nội dung trong `body` tạo thành trang hiển thị; `title` đặt tên tab. Trình duyệt có thể tự sửa một số lỗi cú pháp nên trang mở được chưa có nghĩa mã đã đúng.
+
+### 3.2. Phân biệt phần tử Block và Inline
+
+Nắm vững cơ chế hiển thị Block và Inline là chìa khóa để làm chủ CSS Layout (Bố cục giao diện).
+
+| Đặc điểm                          | Block (Khối)                                          | Inline (Nội tuyến)                                      |
+| :-------------------------------- | :---------------------------------------------------- | :------------------------------------------------------ |
+| **Xuống dòng**                    | Luôn bắt đầu ở một dòng mới.                          | Nằm cùng dòng với nội dung xung quanh.                  |
+| **Chiều rộng**                    | Mặc định chiếm 100% chiều rộng của phần tử cha.       | Chỉ chiếm không gian vừa đủ chứa nội dung.              |
+| **Kích thước (`width`/`height`)** | Có thể thiết lập dễ dàng bằng CSS.                    | Không có tác dụng (ngoại trừ thẻ thay thế như `<img>`). |
+| **Thẻ tiêu biểu**                 | `<div>`, `<p>`, `<h1>` - `<h6>`, `<ul>`, `<table>`... | `<span>`, `<a>`, `<strong>`, `<em>`, `<img>`...         |
+
+### 3.3. Khi gửi biểu mẫu
+
+`label` nối với ô nhập qua `for` và `id`. Khi gửi, trình duyệt kiểm tra ràng buộc như `required`, rồi gửi dữ liệu các trường đủ điều kiện có `name` đến `action` theo `method`. HTML không tự lưu dữ liệu; ví dụ đăng ký cần phía máy chủ để xử lý thật.
+
+## 4. Ví dụ minh họa
+
+### Yêu cầu
+
+Tạo trang giới thiệu lớp có nội dung chính, danh sách và liên kết liên hệ. Các thẻ thành phần được giải thích thêm ở mục 5.
+
+### Code
+
+Lưu thành `index.html` rồi mở trong trình duyệt:
+
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lớp Web HIT</title>
+</head>
+<body>
+  <header><h1>Lớp Web HIT</h1></header>
+  <main>
+    <section>
+      <h2>Nội dung học</h2>
+      <p>Làm quen với cấu trúc trang Web.</p>
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+      </ul>
+    </section>
+  </main>
+  <footer><a href="mailto:lopweb@example.com">Liên hệ lớp</a></footer>
+</body>
+</html>
+```
+
+### Giải thích và kết quả
+
+Tab có tên “Lớp Web HIT”. Trang có tiêu đề chính, mục “Nội dung học”, đoạn mô tả, danh sách ba mục và liên kết email. `header`, `main`, `section`, `footer` diễn đạt vai trò nội dung. Giao diện dùng kiểu mặc định của trình duyệt.
+
+## 5. Các trường hợp thường dùng
+
+### 5.1. Các thẻ định dạng văn bản
 
 ```html
 <h1>Tiêu đề cấp 1 (Lớn nhất)</h1>
@@ -82,7 +151,7 @@ Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau
 <p>Chữ bị <del>gạch bỏ</del> và chữ được <mark>tô sáng (highlight)</mark>.</p>
 ```
 
-### 2.3. Thẻ liên kết và Hình ảnh
+### 5.2. Thẻ liên kết và Hình ảnh
 
 ```html
 <!-- Thẻ liên kết (Anchor) -->
@@ -94,7 +163,7 @@ Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau
 
 > Thẻ `<a>` bắt buộc cần thuộc tính `href` (đường dẫn đích). Thẻ `<img>` bắt buộc cần thuộc tính `src` (đường dẫn ảnh) và nên có thuộc tính `alt` (văn bản thay thế khi ảnh lỗi).
 
-### 2.4. Thẻ danh sách (Lists)
+### 5.3. Thẻ danh sách (Lists)
 
 ```html
 <!-- Danh sách không thứ tự (dấu chấm tròn) -->
@@ -110,7 +179,7 @@ Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau
 </ol>
 ```
 
-### 2.5. Thẻ bảng (Tables)
+### 5.4. Thẻ bảng (Tables)
 
 ```html
 <table border="1">
@@ -137,7 +206,7 @@ Mọi file HTML đều phải tuân theo một bộ khung chuẩn mực như sau
 - `<th>` (Table Header): Tạo ô tiêu đề (chữ đậm, căn giữa).
 - `<td>` (Table Data): Tạo ô dữ liệu thường.
 
-### 2.6. Thẻ biểu mẫu (Forms)
+### 5.5. Thẻ biểu mẫu (Forms)
 
 Dùng để thu thập dữ liệu người dùng.
 
@@ -165,7 +234,7 @@ Dùng để thu thập dữ liệu người dùng.
 </form>
 ```
 
-### 2.7. Nhúng CSS và JavaScript
+### 5.6. Nhúng CSS và JavaScript
 
 - **CSS:** Đặt trong thẻ `<style>` ở phần `<head>` hoặc file `.css` ngoài.
 - **JavaScript:** Đặt trong thẻ `<script>` ngay trước thẻ đóng `</body>`.
@@ -192,11 +261,27 @@ Dùng để thu thập dữ liệu người dùng.
 </body>
 ```
 
----
+### 5.7. Thẻ ngữ nghĩa (Semantic HTML)
 
-## 3. Các lỗi thường gặp
+Thẻ ngữ nghĩa là các thẻ mang ý nghĩa rõ ràng về vai trò của nội dung bên trong nó (thay vì lạm dụng quá nhiều thẻ `<div>` vô nghĩa). Giúp code dễ bảo trì và tối ưu cho SEO.
 
-### 3.1. Quên thẻ đóng hoặc viết sai cú pháp
+- `<header>`: Phần đầu trang (Logo, thanh điều hướng).
+- `<nav>`: Khu vực chứa các liên kết điều hướng chính (Menu).
+- `<main>`: Nội dung cốt lõi của trang web.
+- `<section>`: Một phần nội dung độc lập, thường có tiêu đề riêng.
+- `<article>`: Nội dung hoàn chỉnh, có thể đứng độc lập (tin tức, bài blog).
+- `<aside>`: Nội dung phụ trợ (thanh bên, quảng cáo).
+- `<footer>`: Phần chân trang (bản quyền, liên hệ).
+
+### 5.8. Clean Code trong HTML
+
+- Sử dụng chữ in thường (lowercase) cho tất cả các tên thẻ và thuộc tính (`<p>` thay vì `<P>`).
+- Thụt lề (indentation) rõ ràng theo từng cấp độ thẻ cha - thẻ con (thường lùi vào 2 hoặc 4 dấu cách).
+- Luôn đặt tên `id` hoặc `class` có ý nghĩa, không viết tắt khó hiểu.
+
+## 6. Lỗi thường gặp và lưu ý
+
+### 6.1. Quên thẻ đóng hoặc viết sai cú pháp
 
 Trình duyệt sẽ hiển thị sai lệch toàn bộ cấu trúc phần dưới của trang nếu bạn quên đóng một thẻ cần thiết.
 
@@ -216,9 +301,9 @@ Trình duyệt sẽ hiển thị sai lệch toàn bộ cấu trúc phần dướ
 <p>Đoạn văn hiển thị bình thường.</p>
 ```
 
-### 3.2. Lồng các thẻ Khối (Block) và Nội tuyến (Inline) sai quy tắc
+### 6.2. Lồng các thẻ Khối (Block) và Nội tuyến (Inline) sai quy tắc
 
-Thẻ dạng Inline (như `<span>`, `<a>`, `<strong>`) không được phép chứa thẻ dạng Block (như `<div>`, `<p>`, `<h1>`).
+Quy tắc lồng thẻ phụ thuộc mô hình nội dung của từng phần tử. `<span>` chỉ chứa nội dung phrasing nên không chứa `<div>`. Không suy ra tính hợp lệ chỉ từ block/inline; `<a>` có thể bọc nội dung dạng khối trong ngữ cảnh phù hợp nhưng không chứa liên kết khác hoặc nội dung tương tác như nút.
 
 ❌ **Mã sai:**
 
@@ -236,7 +321,7 @@ Thẻ dạng Inline (như `<span>`, `<a>`, `<strong>`) không được phép ch�
 </div>
 ```
 
-### 3.3. Bỏ qua thuộc tính `alt` trong thẻ hình ảnh
+### 6.3. Bỏ qua thuộc tính `alt` trong thẻ hình ảnh
 
 Việc thiếu `alt` làm giảm khả năng tiếp cận (Accessibility) đối với người khiếm thị dùng trình đọc màn hình, đồng thời ảnh hưởng xấu đến SEO.
 
@@ -252,37 +337,24 @@ Việc thiếu `alt` làm giảm khả năng tiếp cận (Accessibility) đối
 <img src="banner.jpg" alt="Banner quảng cáo khóa học lập trình Web" />
 ```
 
----
+## 7. Tóm tắt
 
-## 4. Kiến thức nâng cao
+- HTML mô tả cấu trúc; thuộc tính bổ sung thông tin cho phần tử.
+- Chọn cấp tiêu đề và thẻ ngữ nghĩa theo nội dung.
+- Liên kết dùng `href`; ảnh dùng `src` và `alt`; trường form dùng `name` khi gửi dữ liệu.
 
-### 4.1. Phân biệt phần tử Block và Inline
+## 8. Bài tập thực hành
 
-Nắm vững cơ chế hiển thị Block và Inline là chìa khóa để làm chủ CSS Layout (Bố cục giao diện).
+1. Tạo trang cá nhân với một `h1`, đoạn giới thiệu và danh sách sở thích.
+2. Thêm ảnh có `alt`, liên kết và bảng lịch học.
+3. Thêm form có nhãn, ô tên, ô email và nút gửi; hai ô nhập có `required`.
+4. Tổ chức trang bằng `header`, `main`, `footer`.
 
-| Đặc điểm                          | Block (Khối)                                          | Inline (Nội tuyến)                                      |
-| :-------------------------------- | :---------------------------------------------------- | :------------------------------------------------------ |
-| **Xuống dòng**                    | Luôn bắt đầu ở một dòng mới.                          | Nằm cùng dòng với nội dung xung quanh.                  |
-| **Chiều rộng**                    | Mặc định chiếm 100% chiều rộng của phần tử cha.       | Chỉ chiếm không gian vừa đủ chứa nội dung.              |
-| **Kích thước (`width`/`height`)** | Có thể thiết lập dễ dàng bằng CSS.                    | Không có tác dụng (ngoại trừ thẻ thay thế như `<img>`). |
-| **Thẻ tiêu biểu**                 | `<div>`, `<p>`, `<h1>` - `<h6>`, `<ul>`, `<table>`... | `<span>`, `<a>`, `<strong>`, `<em>`, `<img>`...         |
+**Tiêu chí hoàn thành:** Nội dung hiển thị đúng; bấm nhãn sẽ focus vào ô nhập; để trống trường bắt buộc thì trình duyệt chặn gửi. Chưa yêu cầu lưu dữ liệu form.
 
-### 4.2. Thẻ ngữ nghĩa (Semantic HTML)
+[Bài tập chi tiết buổi 2](homework.md).
 
-Thẻ ngữ nghĩa là các thẻ mang ý nghĩa rõ ràng về vai trò của nội dung bên trong nó (thay vì lạm dụng quá nhiều thẻ `<div>` vô nghĩa). Giúp code dễ bảo trì và tối ưu cho SEO.
+## Tài liệu tham khảo
 
-- `<header>`: Phần đầu trang (Logo, thanh điều hướng).
-- `<nav>`: Khu vực chứa các liên kết điều hướng chính (Menu).
-- `<main>`: Nội dung cốt lõi của trang web.
-- `<section>`: Một phần nội dung độc lập, thường có tiêu đề riêng.
-- `<article>`: Nội dung hoàn chỉnh, có thể đứng độc lập (tin tức, bài blog).
-- `<aside>`: Nội dung phụ trợ (thanh bên, quảng cáo).
-- `<footer>`: Phần chân trang (bản quyền, liên hệ).
-
-### 4.3. Clean Code trong HTML
-
-- Sử dụng chữ in thường (lowercase) cho tất cả các tên thẻ và thuộc tính (`<p>` thay vì `<P>`).
-- Thụt lề (indentation) rõ ràng theo từng cấp độ thẻ cha - thẻ con (thường lùi vào 2 hoặc 4 dấu cách).
-- Luôn đặt tên `id` hoặc `class` có ý nghĩa, không viết tắt khó hiểu.
-
----
+- [MDN: HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [HTML Living Standard](https://html.spec.whatwg.org/)
