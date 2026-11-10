@@ -10,6 +10,20 @@
 @custom-variant intro (&:where(.intro-mode, .intro-mode *));
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+@font-face {
+  font-family: "Mona Sans VF";
+  src: url("./fonts/mona-sans-vf.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mona Sans VF";
+  src: url("./fonts/mona-sans-vf-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
 @theme inline {
   --color-hit-primary: var(--primary);
   --color-hit-primary-hover: var(--primary-hover);

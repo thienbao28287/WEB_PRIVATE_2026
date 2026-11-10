@@ -6,7 +6,7 @@ Tiêu chí rà soát dựa trên hướng dẫn do người dùng cung cấp. B�
 
 ## Foundation
 
-HTML, Tailwind CSS 4 và JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, font hệ thống và các bề mặt sạch.
+HTML, Tailwind CSS 4 và JavaScript thuần. Giao diện dành cho việc đọc tài liệu dài; chuyển động nhẹ, nội dung là trọng tâm. Nhận diện HIT được thể hiện qua cam thương hiệu, navy, Mona Sans VF và các bề mặt sạch.
 
 Tailwind được biên dịch bằng PostCSS trong bước build. Entry `web/assets/styles.css` khai báo theme HIT và nguồn quét class; component dùng `@apply` trong `web/styles/components.css`, token nằm trong `web/styles/tokens.css`, keyframe trong `web/styles/motion.css`. Không bật Preflight để giữ cách trình bày Markdown, code và biểu mẫu hiện tại. Utility viết trực tiếp trong HTML/JS có thể tùy biến component; các trạng thái ẩn phải dùng `hidden`, `intro:hidden` hoặc selector tương ứng để không bị utility display ghi đè. Xem `web/styles/README.md` để tái sử dụng component.
 
@@ -32,7 +32,7 @@ Liên kết dùng chính xác cam thương hiệu theo yêu cầu. Trên nền t
 
 ## Typography & spacing
 
-- Tiêu đề dùng Lora, weight 600–700; fallback Georgia/serif. Nội dung, sidebar, mục lục và nút vẫn dùng font hệ thống (-apple-system, Segoe UI, Noto Sans, Helvetica, Arial). Code dùng Consolas/monospace.
+- Tiêu đề dùng Mona Sans VF, weight 600–700; fallback theo hệ điều hành. Nội dung, sidebar, mục lục và nút vẫn dùng Mona Sans VF với fallback hệ thống (-apple-system, Segoe UI, Noto Sans, Helvetica, Arial). Code dùng Consolas/monospace.
 - Bài đọc 1rem/1.75; h1 1.875rem (mobile 1.625rem), h2 1.4375rem, h3 1.1875rem. Giới hạn nội dung bài khoảng 72ch.
 - Navigation .875rem, chú thích .75rem. Các kích thước đọc bài mở rộng từ mẫu trang đăng nhập 12px; dùng rem để hỗ trợ phóng to chữ.
 - Spacing unit 4px: 4, 8, 12, 16, 24, 32, 40px.
@@ -75,7 +75,7 @@ Có skip link, landmark, focus-visible, aria-current, aria-pressed, nhãn ảnh,
 
 ## Course intro
 
-Intro đặt trên roadmap, dùng Lora cho tiêu đề lớn, font hệ thống cho nội dung, nút cam HIT và nền grid mờ. Nút bắt đầu/tiếp tục mở bài gần nhất hợp lệ hoặc bài đầu tiên. Số buổi lấy từ curriculum; không hiển thị số câu hỏi hay thời gian giả. Nội dung xuất hiện lần lượt trong 650ms, hai khối minh họa trôi nhẹ theo chu kỳ 7s; tắt animation với reduced-motion. Mobile bỏ các khối trang trí, thông tin khóa học xếp dọc. Theme tối dùng semantic surface/body/hairline của website.
+Intro đặt trên roadmap, dùng Mona Sans VF cho tiêu đề lớn, Mona Sans VF cho nội dung, nút cam HIT và nền grid mờ. Nút bắt đầu/tiếp tục mở bài gần nhất hợp lệ hoặc bài đầu tiên. Số buổi lấy từ curriculum; không hiển thị số câu hỏi hay thời gian giả. Nội dung xuất hiện lần lượt trong 650ms, hai khối minh họa trôi nhẹ theo chu kỳ 7s; tắt animation với reduced-motion. Mobile bỏ các khối trang trí, thông tin khóa học xếp dọc. Theme tối dùng semantic surface/body/hairline của website.
 
 ## Standalone intro (updated)
 
@@ -108,3 +108,5 @@ Quy tắc mới: mỗi bài lý thuyết chỉ hiển thị một workspace th�
 Sổ tay cá nhân thay giao diện đọc ghi chú soạn sẵn: bộ chọn tuần, tab Soạn thảo/Xem trước, toolbar Markdown nhỏ, vùng viết rộng và trạng thái lưu ở chân. Trống khi mở lần đầu, không hiển thị badge đếm lỗi cũ. Giữ nhãn (demo). Lưu cá nhân theo trình duyệt, nút tải Markdown luôn hiện, mobile tự xuống dòng và dùng textarea 16px. Preview dùng marked + DOMPurify, không chạy script hay tải ảnh.
 
 Quiz cuối buổi: một khối duy nhất sau thực hành, mỗi lượt hiện một câu với 3–4 lựa chọn. Radio lớn dễ bấm, nút Kiểm tra chỉ bật sau khi chọn. Sau khi chấm khóa đáp án, hiện giải thích và link Ôn lại cho câu sai; dùng chữ/ký hiệu kèm màu. Có tiến độ, tổng kết điểm và làm lại câu sai/toàn bộ. Layout giữ HIT orange, navy và font hiện có; dưới 600px nút chính toàn chiều rộng, lựa chọn/code tự xuống dòng. Focus chuyển tới phản hồi hoặc câu tiếp theo; không tự thay đổi trạng thái hoàn thành bài học. Nội dung ở LessonN/quiz.md, build kiểm tra link heading, lưu tiến độ theo revision.
+
+Mona Sans VF dùng chung cho tiêu đề và nội dung, gồm file variable WOFF2 thường và nghiêng tại web/assets/fonts. Preload bản thường, font-display: swap; không tải font từ Google Fonts. Giấy phép OFL đi kèm trong OFL-Mona-Sans.txt.
