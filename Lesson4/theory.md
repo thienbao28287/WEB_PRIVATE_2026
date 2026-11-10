@@ -39,7 +39,7 @@ Typography trong CSS là tập hợp các thuộc tính dùng để định dạ
 - `font-family`: Kiểu chữ.
 - `font-size`: Kích thước chữ.
 - `font-weight`: Độ đậm nhạt (400 là bình thường, 700 là in đậm).
-- `line-height`: Khoảng cách giữa các dòng.
+- `line-height`: Chiều cao dòng, ảnh hưởng khoảng cách giữa các dòng chữ.
 - `text-align`: Căn lề văn bản (left, center, right, justify).
 
 ### 1.4. Tài nguyên ngoại vi (Fonts & Icons)
@@ -333,19 +333,202 @@ Với `border`, thành phần bị bỏ qua trong shorthand trở về giá tr�
 
 Muốn chỉ thay đổi một phần, dùng thuộc tính riêng như `padding-top`, `margin-bottom` hoặc `border-left-color`.
 
-### 2.7. Định dạng chữ và ví dụ kết hợp
+### 2.7. Cú pháp định dạng chữ
 
-Các thuộc tính chữ viết riêng để dễ theo dõi:
+#### Font-family: chọn phông chữ
+
+`font-family` xác định danh sách phông chữ ưu tiên cho nội dung văn bản. Trình duyệt thử từ trái sang phải, dùng font có sẵn và có ký tự cần hiển thị.
 
 ```css
-.card {
-  font-family: Arial, sans-serif; /* Font ưu tiên và dự phòng */
-  font-size: 1rem; /* Cỡ chữ theo phần tử gốc */
-  font-weight: 400; /* Độ đậm bình thường */
-  line-height: 1.6; /* Chiều cao dòng bằng 1,6 lần cỡ chữ */
-  text-align: left; /* Căn chữ về trái */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.article {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.code {
+  font-family: Consolas, "Courier New", monospace;
 }
 ```
+
+| Thành phần | Ý nghĩa |
+| --- | --- |
+| `Arial`, `Helvetica` | Tên font cụ thể, cần có trên thiết bị hoặc được tải vào trang |
+| `"Times New Roman"` | Tên font có khoảng trắng; nên đặt trong dấu nháy |
+| `serif` | Nhóm font có chân |
+| `sans-serif` | Nhóm font không chân |
+| `monospace` | Nhóm font có độ rộng ký tự bằng nhau, thường dùng cho mã nguồn |
+
+Các tên font ngăn cách bằng dấu phẩy. Nên đặt một nhóm font chung ở cuối làm dự phòng; tên nhóm như `sans-serif` không đặt trong dấu nháy. Chỉ viết `font-family: "Roboto"` không tự tải Roboto; cách nhúng font nằm ở mục 5.2.
+
+#### Font-size: đặt kích thước chữ
+
+`font-size` đặt cỡ chữ. Có thể dùng độ dài, phần trăm hoặc từ khóa.
+
+```css
+.title {
+  font-size: 2rem;
+}
+
+.description {
+  font-size: 16px;
+}
+
+.note {
+  font-size: 0.875rem;
+}
+```
+
+| Cú pháp | Cách hiểu |
+| --- | --- |
+| `font-size: 16px;` | Cỡ chữ 16 CSS pixel |
+| `font-size: 1.5rem;` | Bằng 1,5 lần cỡ chữ của phần tử gốc `html` |
+| `font-size: 1.5em;` | Bằng 1,5 lần cỡ chữ kế thừa từ phần tử cha |
+| `font-size: 120%;` | Bằng 120% cỡ chữ của phần tử cha |
+| `font-size: small;` | Dùng cỡ chữ theo từ khóa của trình duyệt |
+| `font-size: larger;` | Cỡ chữ lớn hơn so với phần tử cha |
+
+Ví dụ: nếu cỡ chữ gốc là 16px thì `2rem` tương ứng 32px. Nếu cha có cỡ chữ 20px thì `1.5em` ở con tương ứng 30px, còn `120%` tương ứng 24px.
+
+> **Lưu ý:** Thường dùng `rem` cho cỡ chữ để dễ thống nhất theo cỡ chữ gốc. Số khác 0 cần có đơn vị, ví dụ `font-size: 20px`, không viết `font-size: 20`.
+
+#### Font-weight: đặt độ đậm của chữ
+
+`font-weight` chọn độ đậm. Có thể dùng từ khóa hoặc số, nhưng kết quả còn phụ thuộc các mức độ đậm mà font cung cấp.
+
+```css
+.description {
+  font-weight: normal; /* Tương đương 400 */
+}
+
+.subtitle {
+  font-weight: 600;
+}
+
+.title {
+  font-weight: bold; /* Tương đương 700 */
+}
+```
+
+| Giá trị thường gặp | Ý nghĩa thường dùng |
+| --- | --- |
+| `300` | Nét mảnh (light) |
+| `400` hoặc `normal` | Bình thường |
+| `500` | Độ đậm trung bình (medium) |
+| `600` | Hơi đậm (semibold) |
+| `700` hoặc `bold` | In đậm |
+| `900` | Nét rất đậm (black/heavy) |
+| `bolder` | Chọn độ đậm tương đối lớn hơn dựa trên độ đậm kế thừa |
+| `lighter` | Chọn độ đậm tương đối nhỏ hơn dựa trên độ đậm kế thừa |
+
+CSS cho phép giá trị số từ 1 đến 1000. Các font tĩnh thường có một số mức cụ thể; font biến thiên có thể hỗ trợ một dải giá trị. Nếu không có đúng mức yêu cầu, trình duyệt có thể chọn mức khác phù hợp hoặc tổng hợp nét đậm.
+
+> **Lưu ý:** `font-weight` dùng số không có đơn vị. Khi nhúng font, cần tải các mức độ đậm muốn dùng; ví dụ chỉ tải 400 không đảm bảo hiển thị đúng thiết kế của mức 700.
+
+#### Line-height: đặt chiều cao dòng
+
+`line-height` đặt chiều cao dòng dùng để bố trí văn bản, qua đó ảnh hưởng độ thoáng giữa các dòng. Đây không phải một khoảng trống riêng được cộng thêm bên dưới mỗi dòng chữ.
+
+```css
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.title {
+  line-height: 1.2;
+}
+```
+
+Với cỡ chữ 16px và `line-height: 1.5`, chiều cao dòng tính được là `16 × 1.5 = 24px`.
+
+| Cú pháp | Cách hiểu |
+| --- | --- |
+| `line-height: normal;` | Trình duyệt chọn chiều cao dòng dựa vào font |
+| `line-height: 1.5;` | Bằng 1,5 lần cỡ chữ của phần tử |
+| `line-height: 24px;` | Chiều cao dòng cố định 24px |
+| `line-height: 150%;` | Tính thành chiều cao dòng bằng 150% cỡ chữ tại phần tử khai báo |
+
+Nên ưu tiên số không đơn vị như `1.5` hoặc `1.6` cho nội dung nhiều dòng. Khi được kế thừa, hệ số này được tính theo cỡ chữ của từng phần tử con. Giá trị dùng độ dài hoặc phần trăm có thể truyền xuống dưới dạng chiều cao đã tính, làm dòng quá chật khi con có chữ lớn hơn.
+
+```css
+.article {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.article h2 {
+  font-size: 24px;
+  /* Kế thừa hệ số 1.5: chiều cao dòng là 36px */
+}
+```
+
+#### Text-align: căn nội dung văn bản theo chiều ngang
+
+`text-align` căn nội dung nội tuyến, chẳng hạn chữ và liên kết, bên trong hộp chứa nó.
+
+```css
+.title {
+  text-align: center;
+}
+
+.description {
+  text-align: left;
+}
+
+.price {
+  text-align: right;
+}
+
+.article {
+  text-align: justify;
+}
+```
+
+| Giá trị | Tác dụng |
+| --- | --- |
+| `left` | Căn về bên trái |
+| `center` | Căn giữa theo chiều ngang |
+| `right` | Căn về bên phải |
+| `justify` | Căn đều hai bên bằng cách điều chỉnh khoảng cách; dòng cuối mặc định không kéo giãn |
+| `start` | Căn về đầu dòng: thường là trái với tiếng Việt, phải với ngôn ngữ viết từ phải sang trái |
+| `end` | Căn về cuối dòng, ngược với `start` |
+
+> **Lưu ý:** `text-align: center` căn nội dung bên trong, không tự căn giữa chính hộp block. Muốn căn giữa hộp trong luồng block thông thường, xem `margin-left: auto` và `margin-right: auto` ở mục 2.3. Với cột chữ hẹp, `justify` có thể tạo khoảng trắng lớn giữa các từ.
+
+#### Ví dụ kết hợp năm thuộc tính
+
+```html
+<article class="intro">
+  <h2 class="intro__title">Lớp Web HIT</h2>
+  <p class="intro__description">
+    Học cách xây dựng nội dung và trình bày trang Web bằng HTML, CSS.
+  </p>
+</article>
+```
+
+```css
+.intro {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.intro__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+```
+
+Nếu cỡ chữ gốc là 16px, đoạn mô tả có cỡ chữ 16px, chiều cao dòng 25,6px và căn trái. Tiêu đề có cỡ chữ 24px, chiều cao dòng 28,8px, nét đậm và căn giữa. Các thuộc tính chữ trên có tính kế thừa; phần tử con dùng giá trị kế thừa khi không có khai báo khác quyết định giá trị của nó.
+
+### 2.8. Ví dụ kết hợp với Box Model
 
 Kết hợp các thuộc tính Box Model đã học:
 
