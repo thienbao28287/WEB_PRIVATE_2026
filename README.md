@@ -57,7 +57,7 @@ Sửa Markdown trên máy chỉ cập nhật bản local. Bản online thay đ�
 | 1 | Cài IDE, Extensions, Git/GitHub, tổng quan HTML/CSS/JavaScript | [Lý thuyết](Lesson1/theory.md) | Chưa có |
 | 2 | HTML cơ bản, Semantic HTML, Form, bảng, liên kết và hình ảnh | [Lý thuyết](Lesson2/theory.md) | [Bài tập](Lesson2/homework.md) |
 | 3 | CSS cơ bản, selector, cascade, specificity, BEM | [Lý thuyết](Lesson3/theory.md) | [Bài tập](Lesson3/homework.md) |
-| 4 | Box model, đơn vị CSS, typography, nhúng icon và font | [Lý thuyết](Lesson4/theory.md) | Chưa có |
+| 4 | Box model, đơn vị CSS, typography, nhúng icon và font | [Lý thuyết](Lesson4/theory.md) | [Bài tập](Lesson4/homework.md) |
 | 5 | Flexbox, Position, Grid, Responsive Design | Chưa có | Chưa có |
 | 6 | Kiểm tra HTML/CSS | — | — |
 | 7 | JavaScript: biến, kiểu dữ liệu, toán tử, rẽ nhánh, vòng lặp | Chưa có | Chưa có |
