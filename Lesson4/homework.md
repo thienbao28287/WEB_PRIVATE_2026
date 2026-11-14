@@ -4,7 +4,7 @@
 
 Tạo `index.html` và `style.css` bằng HTML và CSS thuần. Dựng toàn bộ giao diện trang Blog theo mẫu, từ thanh điều hướng đến chân trang. [Mẫu Tour Blog của BootstrapMade](https://bootstrapmade.com/content/demo/Tour/blog.html#)
 
-> Bạn nào đi thi thì làm luôn phần menu đa cấp nhé. Buổi sau anh sẽ dạy lại phần này để các bạn chuẩn bị đi thi 😄
+> Bạn nào đi thi thì làm luôn phần menu đa cấp nhé. Buổi sau anh sẽ dạy lại phần này để các bạn chuẩn bị đi thi 😄 😊 😁 😆 🙂
 
 1. **Tiêu đề trang.** Dùng một thẻ `h1` cho tiêu đề Blog và đặt nó phía trên danh sách bài viết.
 2. **Thẻ bài viết.** Mỗi thẻ có ảnh với `alt` mô tả nội dung ảnh, tiêu đề `h2`, ngày đăng kèm icon lịch và một đoạn mô tả ngắn.
