@@ -49,7 +49,9 @@ Grid tổ chức bố cục theo hai chiều hàng và cột, phù hợp cho dan
 - **Grid items** thường là các phần tử con trực tiếp của container.
 - **Track** là một hàng hoặc một cột.
 - **Grid line** là đường phân chia track. Ba cột có bốn đường kẻ dọc.
-- **Grid area** là vùng gồm một hoặc nhiều ô.
+- **Grid cell** là một ô tại giao điểm của một hàng và một cột.
+- **Grid area** là vùng hình chữ nhật gồm một hoặc nhiều ô.
+- **Grid gap** là khoảng cách giữa các hàng hoặc cột.
 
 ### 1.3. Responsive Design
 
@@ -283,71 +285,207 @@ Giá trị là số nguyên, mặc định `0`. Item có số nhỏ hơn đượ
 
 ### 2.3. Thuộc tính cho Grid Container
 
+Các hướng ngang và dọc dưới đây xét với cách viết tiếng Việt thông thường.
+
+#### a. Kích hoạt Grid
+
 ```css
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+}
+```
+
+Các phần tử con trực tiếp trở thành grid items. `inline-grid` cũng tạo bố cục Grid bên trong, với container tham gia luồng ngoài như phần tử inline.
+
+#### b. Khai báo cột và hàng
+
+```css
+.grid {
+    display: grid;
+    grid-template-columns: 100px 200px 100px;
+    grid-template-rows: 150px 150px;
+}
+```
+
+`grid-template-columns` tạo ba cột có chiều rộng lần lượt `100px`, `200px`, `100px`. `grid-template-rows` tạo hai hàng, mỗi hàng cao `150px`. Các item chưa đặt vị trí thường tự lấp đầy từng hàng theo thứ tự HTML.
+
+Khi số item vượt số ô đã khai báo, Grid có thể tạo thêm hàng tự động. Dùng `grid-auto-rows: minmax(100px, auto)` nếu muốn các hàng tự sinh cao ít nhất `100px` và vẫn mở rộng theo nội dung.
+
+#### c. Đơn vị `fr` và hàm `repeat()`
+
+```css
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     gap: 1rem;
 }
 ```
 
-| Thuộc tính | Giá trị minh họa | Chức năng |
-| --- | --- | --- |
-| `grid-template-columns` | `200px 1fr 2fr`, `repeat(3, 1fr)` | Khai báo các cột. |
-| `grid-template-rows` | `100px auto 50px`, `repeat(2, 150px)` | Khai báo các hàng. |
-| `gap` | `10px`, `20px 15px` | Khoảng cách hàng và cột, tương ứng `row-gap` và `column-gap`. |
-| `grid-template-areas` | `"header header" "sidebar main"` | Đặt tên và sắp xếp các vùng. Dấu `.` biểu thị ô trống. |
-| `justify-items` | `stretch`, `start`, `end`, `center` | Căn các item trong vùng của chúng theo trục inline, thường là chiều ngang. |
-| `align-items` | `stretch`, `start`, `end`, `center` | Căn các item trong vùng của chúng theo trục block, thường là chiều dọc. |
-| `justify-content` | `start`, `end`, `center`, `space-between`, `space-around`, `space-evenly` | Phân bố toàn bộ các cột trong container theo trục inline. |
-| `align-content` | `start`, `end`, `center`, `space-between`, `space-around`, `space-evenly` | Phân bố toàn bộ các hàng trong container theo trục block. |
+`fr` phân chia không gian còn lại theo tỷ lệ. Trong ví dụ, cột giữa nhận hai phần, hai cột ngoài mỗi cột nhận một phần, có xét giới hạn nội dung.
 
-Với item thông thường có kích thước tự động, cách căn mặc định thường tạo hiệu ứng `stretch`. Ảnh hoặc item có tỷ lệ nội tại có thể có hành vi khác.
+```css
+.grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+```
 
-`fr` chia không gian còn lại sau khi tính các track cố định và khoảng cách. `1fr 2fr` phân chia phần không gian đó theo tỷ lệ 1:2, có xét giới hạn kích thước nội dung.
+`repeat()` rút gọn phần khai báo lặp lại. Ví dụ tạo ba cột bằng nhau. `minmax(0, 1fr)` cho phép cột thu nhỏ tới 0 khi cần, còn nội dung dài cần được ngắt dòng phù hợp.
+
+#### d. Khoảng cách giữa hàng và cột
+
+```css
+.grid {
+    gap: 10px 20px;
+}
+```
+
+- `row-gap: 10px` tạo khoảng cách dọc giữa các hàng.
+- `column-gap: 20px` tạo khoảng cách ngang giữa các cột.
+- `gap: 10px 20px` viết gộp hai giá trị trên.
+- `gap: 20px` đặt cả hai khoảng cách bằng `20px`.
+
+Các tên `grid-gap`, `grid-row-gap`, `grid-column-gap` xuất hiện trong tài liệu cũ. Trong bài này dùng `gap`, `row-gap`, `column-gap`.
+
+#### e. Đặt tên vùng bằng `grid-template-areas`
+
+```css
+.page {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+        "header header"
+        "main sidebar"
+        "footer footer";
+    gap: 1rem;
+}
+
+.page__header { grid-area: header; }
+.page__main { grid-area: main; }
+.page__sidebar { grid-area: sidebar; }
+.page__footer { grid-area: footer; }
+```
+
+Mỗi chuỗi biểu diễn một hàng. Header và footer chiếm cả hai cột. Main chiếm cột trái, sidebar chiếm cột phải. Mỗi hàng phải có cùng số ô, tên vùng được lặp lại phải tạo hình chữ nhật. Dùng dấu `.` để biểu diễn ô trống.
+
+#### f. Căn item trong vùng Grid
+
+- `justify-items` căn tất cả item theo chiều ngang trong vùng của chúng.
+- `align-items` căn tất cả item theo chiều dọc trong vùng của chúng.
+- Các giá trị thường gặp gồm `start`, `end`, `center`, `stretch`.
+
+```css
+.grid {
+    justify-items: center;
+    align-items: center;
+}
+```
+
+Mỗi item được căn giữa trong vùng đã cấp. `stretch` có thể kéo giãn item có kích thước tự động. Item có kích thước cố định hoặc tỷ lệ nội tại cần được xét riêng.
+
+#### g. Căn toàn bộ các track trong container
+
+- `justify-content` phân bố toàn bộ các cột theo chiều ngang.
+- `align-content` phân bố toàn bộ các hàng theo chiều dọc.
+- Có thể dùng `start`, `end`, `center`, `space-between`, `space-around`, `space-evenly`.
+
+```css
+.grid {
+    display: grid;
+    min-height: 300px;
+    grid-template-columns: repeat(2, 100px);
+    grid-template-rows: repeat(2, 80px);
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+}
+```
+
+Khi container đủ rộng và cao, cả nhóm track nằm giữa container. Cần có không gian dư theo hướng căn để quan sát hiệu ứng này.
 
 ### 2.4. Thuộc tính cho Grid Items
 
-| Thuộc tính | Ví dụ | Chức năng |
-| --- | --- | --- |
-| `grid-column` | `1 / 3`, `span 2` | Đặt vị trí và số cột chiếm dụng. `1 / 3` chiếm hai cột giữa đường 1 và 3. |
-| `grid-row` | `1 / 4`, `span 3` | Đặt vị trí và số hàng chiếm dụng. |
-| `grid-area` | `header` | Gán item vào vùng đã đặt tên. |
-| `justify-self` | `start`, `end`, `center`, `stretch` | Căn riêng item theo trục inline. |
-| `align-self` | `start`, `end`, `center`, `stretch` | Căn riêng item theo trục block. |
+#### a. Đặt vị trí bằng đường kẻ
+
+```css
+.featured {
+    grid-column: 1 / 3;
+    grid-row: 2 / 4;
+}
+```
+
+`grid-column: 1 / 3` chiếm hai cột giữa đường dọc 1 và 3. `grid-row: 2 / 4` chiếm hai hàng giữa đường ngang 2 và 4. Các số chỉ đường kẻ, không phải số ô. Lưới ba cột có bốn đường dọc.
 
 ```css
 .featured {
     grid-column: span 2;
-}
-
-.badge {
-    justify-self: end;
-    align-self: start;
+    grid-row: span 3;
 }
 ```
 
+`span` khai báo số track cần chiếm. Với ví dụ trên, item chiếm hai cột và ba hàng tại vị trí do cơ chế tự xếp xác định.
+
+#### b. Dùng `grid-area`
+
+```css
+.item {
+    grid-area: 1 / 1 / 3 / 4;
+}
+```
+
+Bốn giá trị lần lượt là `row-start`, `column-start`, `row-end`, `column-end`. Item chiếm từ đường hàng 1 đến 3 và đường cột 1 đến 4, tức hai hàng và ba cột.
+
+`grid-area: header` là cách gán vào vùng có tên trong `grid-template-areas` như ví dụ phía trên.
+
+#### c. Căn riêng một item
+
+```css
+.badge {
+    justify-self: end;
+    align-self: center;
+}
+```
+
+`justify-self` căn riêng theo chiều ngang, ghi đè `justify-items`. `align-self` căn riêng theo chiều dọc, ghi đè `align-items`. Ví dụ đặt item sát phải và giữa theo chiều dọc trong vùng của nó.
+
 ### 2.5. Viewport và Media Queries
 
-Đặt khai báo sau trong `<head>` để trang dùng chiều rộng viewport phù hợp với thiết bị di động.
+Đặt khai báo viewport trong `<head>` để trang dùng chiều rộng layout phù hợp với thiết bị di động.
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
 
-- `width=device-width` đặt chiều rộng layout viewport theo chiều rộng thiết bị tính bằng CSS pixel.
-- `initial-scale=1.0` đặt mức thu phóng ban đầu là 1.
+`width=device-width` dùng chiều rộng thiết bị tính bằng CSS pixel. `initial-scale=1.0` đặt mức thu phóng ban đầu là 1.
+
+Media query áp dụng CSS khi điều kiện về môi trường hiển thị được đáp ứng.
 
 ```css
-/* Áp dụng khi viewport rộng tối đa 768 CSS pixel */
-@media screen and (max-width: 768px) {
-    .toolbar {
-        flex-direction: column;
+@media (max-width: 768px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 ```
 
-**Breakpoint** là ngưỡng thay đổi bố cục. Các mốc như `576px`, `768px`, `992px`, `1200px` thường xuất hiện trong thiết kế và framework. Chọn breakpoint theo thời điểm nội dung cần đổi bố cục, vì kích thước các loại thiết bị có thể chồng lấn.
+Quy tắc trên áp dụng khi viewport rộng tối đa `768px`. Có thể viết điều kiện tương đương bằng cú pháp khoảng.
+
+```css
+@media (width <= 768px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (576px <= width < 992px) {
+    .page-title {
+        font-size: 2rem;
+    }
+}
+```
+
+Ví dụ thứ hai áp dụng từ `576px` đến dưới `992px`. Viết điều kiện có khoảng trắng như ví dụ để dễ đọc. Cú pháp kết hợp `(min-width: 576px) and (max-width: 991px)` cũng thường gặp, nhưng có biên trên khác với điều kiện `< 992px` khi viewport có chiều rộng phân số.
+
+**Breakpoint** là ngưỡng cần thay đổi bố cục. Các mốc tham khảo thường gặp gồm dưới `576px`, từ `576px`, `768px`, `992px` và `1200px`. Chọn điểm ngắt khi nội dung thực tế cần thay đổi, rồi kiểm tra cả độ rộng giữa các mốc.
 
 ## 3. Cách hoạt động
 
@@ -433,6 +571,41 @@ img {
 ```
 
 Ảnh thu nhỏ theo khối chứa, giữ tỷ lệ và không bị quy tắc này ép phóng to. Với `border-box`, width bao gồm content, padding và border. Margin nằm ngoài kích thước đó.
+
+### 3.5. Điều chỉnh nhiều thành phần bằng biến CSS
+
+Biến CSS khai báo với tiền tố `--`, được sử dụng qua hàm `var()`. Khi thay đổi biến trong media query, các khai báo dùng biến đó nhận giá trị mới.
+
+```css
+:root {
+    --title-size: 2rem;
+    --body-size: 1rem;
+    --section-gap: 1rem;
+}
+
+body {
+    font-size: var(--body-size);
+}
+
+.page-title {
+    font-size: var(--title-size);
+}
+
+.sections {
+    display: grid;
+    gap: var(--section-gap);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --title-size: 3rem;
+        --body-size: 1.125rem;
+        --section-gap: 2rem;
+    }
+}
+```
+
+Trên viewport từ `768px`, tiêu đề, cỡ chữ nội dung và khoảng cách cùng thay đổi. Dùng biến khi nhiều thành phần chia sẻ giá trị để dễ điều chỉnh nhất quán.
 
 ## 4. Ví dụ minh họa
 
@@ -696,6 +869,137 @@ Container ngoài đưa tên lớp và nhóm liên kết về hai phía. Containe
 
 Mỗi hàng trong `grid-template-areas` phải có cùng số ô. Một vùng được lặp tên phải tạo thành hình chữ nhật.
 
+### 5.5. Giữ footer ở cuối màn hình khi nội dung ngắn
+
+```html
+<div class="main-layout">
+    <header><h1>Trang lớp học</h1></header>
+    <main><p>Nội dung giới thiệu ngắn.</p></main>
+    <footer><p>Liên hệ web@example.com</p></footer>
+</div>
+```
+
+```css
+body {
+    margin: 0;
+}
+
+.main-layout {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.main-layout > header,
+.main-layout > main,
+.main-layout > footer {
+    padding: 1rem;
+}
+```
+
+Header và footer cao theo nội dung, main nhận không gian còn lại. `min-height` cho phép toàn trang tiếp tục dài ra khi nội dung tăng. `100vh` là giá trị dự phòng trước `100dvh`.
+
+### 5.6. Chồng chữ lên ảnh bằng Grid
+
+Chuẩn bị ảnh `img/banner.jpg` hoặc thay đường dẫn bằng ảnh trong bài làm.
+
+```html
+<div class="banner">
+    <img src="img/banner.jpg" alt="Không gian lớp học Web">
+    <h2 class="banner__title">Cùng học lập trình Web</h2>
+</div>
+```
+
+```css
+.banner {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.banner > * {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.banner > img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.banner__title {
+    z-index: 1;
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: rgb(0 0 0 / 70%);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+```
+
+Ảnh và tiêu đề chiếm cùng một ô. Tiêu đề được căn giữa trên ảnh, nền tối giúp chữ dễ đọc. `z-index` xác định lớp hiển thị của tiêu đề.
+
+### 5.7. Form một cột chuyển thành hai cột
+
+```html
+<form class="contact-form">
+    <div class="form-group">
+        <label for="full-name">Họ tên</label>
+        <input id="full-name" name="fullName" type="text" required>
+    </div>
+    <div class="form-group">
+        <label for="contact-email">Email</label>
+        <input id="contact-email" name="email" type="email" required>
+    </div>
+    <div class="form-group form-group--full">
+        <label for="contact-message">Lời nhắn</label>
+        <textarea id="contact-message" name="message" rows="4"></textarea>
+    </div>
+    <button class="contact-form__button" type="button">Gửi minh họa</button>
+</form>
+```
+
+```css
+.contact-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.form-group > input,
+.form-group > textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 0.5rem;
+    font: inherit;
+}
+
+.form-group--full,
+.contact-form__button {
+    grid-column: 1 / -1;
+}
+
+.contact-form__button {
+    justify-self: center;
+}
+
+@media (min-width: 768px) {
+    .contact-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+```
+
+Họ tên và email đứng cạnh nhau từ `768px`. Lời nhắn và nút chiếm toàn bộ cột nhờ `1 / -1`, từ đường đầu đến đường cuối của lưới tường minh. Nút chỉ minh họa bố cục và chưa xử lý gửi dữ liệu.
+
 ## 6. Lỗi thường gặp và lưu ý
 
 - Đặt thuộc tính container lên item hoặc ngược lại. Kiểm tra phần tử nào có `display: flex` hoặc `grid` trước khi căn chỉnh.
@@ -727,6 +1031,8 @@ Mỗi hàng trong `grid-template-areas` phải có cùng số ô. Một vùng đ
 6. Kiểm tra ở `375px`, `767px`, `768px`, `1024px` và các kích thước trung gian. Trang cần đọc được, ảnh giữ tỷ lệ và không cuộn ngang.
 
 ## Tài liệu tham khảo
+
+- [Grid và Responsive tuần 7 HIT16 Web Private 2025](https://nguyenlehoainam.github.io/HIT16-WEB-PRIVATE-2025/HIT16-WEB-PRIVATE-2025/week-7/README.html)
 
 - [Tài liệu Flexbox tuần 5 HIT16 Web Private 2025](https://nguyenlehoainam.github.io/HIT16-WEB-PRIVATE-2025/HIT16-WEB-PRIVATE-2025/week-5/README.html)
 
