@@ -14,13 +14,13 @@
 
 \- Để kích hoạt Flexbox, đặt `display: flex;` hoặc `display: inline-flex;` cho phần tử cha. Các hướng dưới đây xét theo cách viết thông thường từ trái sang phải, từ trên xuống dưới.
 
-#### • `display` — Kích hoạt Flexbox
+#### `display` — Kích hoạt Flexbox
 
 \- Kích hoạt môi trường Flexbox. Hai giá trị thường dùng là `flex` và `inline-flex`.
 
 ![Minh họa các giá trị của thuộc tính display](img/compare-display.png)
 
-#### • `flex-direction` — Hướng sắp xếp
+#### `flex-direction` — Hướng sắp xếp
 
 \- Xác định hướng của trục chính mà các phần tử con xếp theo.
 
@@ -31,7 +31,7 @@
 
 ![Minh họa các giá trị của thuộc tính flex-direction](img/compare-flex-direction.png)
 
-#### • `flex-wrap` — Xuống dòng
+#### `flex-wrap` — Xuống dòng
 
 \- Quy định các phần tử con có tạo dòng mới khi thiếu không gian hay không.
 
@@ -41,7 +41,7 @@
 
 ![Minh họa các giá trị của thuộc tính flex-wrap](img/compare-flex-wrap.png)
 
-#### • `justify-content` — Căn theo trục chính
+#### `justify-content` — Căn theo trục chính
 
 \- Căn chỉnh và phân bố các phần tử con theo trục chính. Với `row`, thuộc tính này căn theo chiều ngang. Với `column`, thuộc tính này căn theo chiều dọc.
 
@@ -56,7 +56,7 @@
 
 ![Minh họa các giá trị của thuộc tính justify-content](img/compare-justify-content.png)
 
-#### • `align-items` — Căn theo trục phụ
+#### `align-items` — Căn theo trục phụ
 
 \- Căn các phần tử con theo trục phụ trong từng dòng flex. Với `row`, thuộc tính này căn theo chiều dọc. Với `column`, thuộc tính này căn theo chiều ngang.
 
@@ -68,7 +68,7 @@
 
 ![Minh họa các giá trị của thuộc tính align-items](img/compare-align-items.png)
 
-#### • `gap`, `row-gap`, `column-gap` — Khoảng cách
+#### `gap`, `row-gap`, `column-gap` — Khoảng cách
 
 \- Tạo khoảng cách giữa các phần tử và các dòng flex.
 
@@ -87,25 +87,25 @@
 
 \- Các thuộc tính dưới đây áp dụng trực tiếp lên từng flex item.
 
-#### • `flex-grow` — Giãn rộng
+#### `flex-grow` — Giãn rộng
 
 \- Xác định hệ số nhận thêm không gian khi phần tử cha còn chỗ trống. Mặc định là `0`, phần tử không nhận thêm không gian dư. Item có grow bằng `2` nhận phần không gian dư gấp đôi item có grow bằng `1`, nếu các giới hạn kích thước cho phép.
 
 ![Minh họa các giá trị của thuộc tính flex-grow](img/compare-flex-grow.png)
 
-#### • `flex-shrink` — Co lại
+#### `flex-shrink` — Co lại
 
 \- Xác định hệ số co lại khi phần tử cha thiếu không gian. Mặc định là `1`. Mức co thực tế phụ thuộc cả hệ số này và kích thước cơ sở của phần tử. Giá trị `0` giữ phần tử khỏi co theo cơ chế shrink.
 
 ![Minh họa các giá trị của thuộc tính flex-shrink](img/compare-flex-shrink.png)
 
-#### • `flex-basis` — Kích thước cơ sở
+#### `flex-basis` — Kích thước cơ sở
 
 \- Thiết lập kích thước cơ sở theo trục chính trước khi phân chia không gian. Với `row`, kích thước này theo chiều ngang. Với `column`, kích thước này theo chiều dọc. Mặc định là `auto`.
 
 ![Minh họa các giá trị của thuộc tính flex-basis](img/compare-flex-basis.png)
 
-#### • `flex` — Viết gộp grow, shrink và basis
+#### `flex` — Viết gộp grow, shrink và basis
 
 \- Viết gộp ba thuộc tính theo thứ tự `flex-grow flex-shrink flex-basis`. Ví dụ `flex: 1 1 200px;` đặt basis `200px`, cho phép giãn và co với hệ số `1`.
 
@@ -113,13 +113,13 @@
 
 ![Minh họa các giá trị của thuộc tính flex](img/compare-flex.png)
 
-#### • `align-self` — Căn riêng từng item
+#### `align-self` — Căn riêng từng item
 
 \- Cho phép một phần tử căn riêng theo trục phụ, ghi đè cách căn từ `align-items` của cha. Các giá trị thường dùng gồm `auto`, `flex-start`, `flex-end`, `center`, `baseline` và `stretch`. Mặc định `auto` dùng cách căn của cha.
 
 ![Minh họa các giá trị của thuộc tính align-self](img/compare-align-self.png)
 
-#### • `order` — Thứ tự hiển thị
+#### `order` — Thứ tự hiển thị
 
 \- Thay đổi thứ tự hiển thị của phần tử con. Mặc định là `0`, số nhỏ hơn được xếp trước. Nếu cùng giá trị, các phần tử giữ thứ tự trong HTML. Khi sử dụng, cần giữ thứ tự nội dung HTML hợp lý cho việc đọc và di chuyển bằng bàn phím.
 
