@@ -6,6 +6,10 @@ Flexbox giúp sắp xếp phần tử theo hàng hoặc cột. Grid tổ chức 
 
 ### 1. Các khái niệm cơ bản
 
+![Sơ đồ Flexbox với flex container, flex items, trục chính và trục phụ](img/flex-box.png)
+
+[Nguồn ảnh Flexbox — HIT16 Web Private 2025](https://nguyenlehoainam.github.io/HIT16-WEB-PRIVATE-2025/HIT16-WEB-PRIVATE-2025/week-5/README.html)
+
 Flexbox giúp sắp xếp, căn chỉnh và phân chia không gian giữa các phần tử trong một khung chứa. Các ứng dụng thường gặp gồm thanh menu, nhóm nút, danh sách thẻ và bố cục nội dung kèm sidebar.
 
 **Flex Container** là phần tử cha được đặt `display: flex` hoặc `display: inline-flex`. **Flex Items** thường là các phần tử con trực tiếp của container.
@@ -388,6 +392,10 @@ Các item được căn giữa theo hai trục khi container có đủ không gi
 ## II. CSS Grid
 
 ### 1. Tổng quan và các khái niệm
+
+![Sơ đồ CSS Grid minh họa hàng, cột và các thành phần của lưới](img/grid-2.png)
+
+[Nguồn ảnh Grid — HIT16 Web Private 2025](https://nguyenlehoainam.github.io/HIT16-WEB-PRIVATE-2025/HIT16-WEB-PRIVATE-2025/week-7/README.html)
 
 Grid tổ chức bố cục theo hai chiều hàng và cột, phù hợp cho danh sách sản phẩm, thư viện ảnh hoặc trang có nhiều vùng nội dung.
 
